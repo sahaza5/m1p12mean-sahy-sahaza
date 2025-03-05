@@ -17,7 +17,7 @@ example:{
 
 +++++To user by id as a get request:http://localhost:3000/api/users/12344556 (user id here)
 
-+++++To login as admin or mechanicien as a post request:http://localhost:3000/api/admin/login/
++++++To login as admin or mechanicien as a post request:http://localhost:3000/api/responsable/login/
 In the body,write json username and password, for example
 {
 "username":"admin",
