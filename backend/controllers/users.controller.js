@@ -39,28 +39,4 @@ const getUserById = async (req, res) => {
   }
 };
 
-//ADMIN LOGIN
-const loginAdmin = async (req, res) => {
-  const { username, password } = req.body;
-  console.log(username, password);
-
-  if (!username || !password) {
-    return res
-      .status(httpStatus.BAD_REQUEST)
-      .send({ message: "Please provide credentials" });
-  }
-  try {
-    const userCredentials = await Users.findOne({ username, password });
-    if (!userCredentials) {
-      return res
-        .status(httpStatus.BAD_REQUEST)
-        .send({ message: "User not found" });
-    }
-
-    return res.status(httpStatus.OK).send({ user: userCredentials });
-  } catch (error) {
-    return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
-  }
-};
-
-module.exports = { getAllUsers, getUserById, loginAdmin };
+module.exports = { getAllUsers, getUserById };
