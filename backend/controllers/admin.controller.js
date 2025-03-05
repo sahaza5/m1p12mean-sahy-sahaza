@@ -3,12 +3,12 @@ const { Users } = require("../models/users.model");
 const jwt = require("jsonwebtoken");
 const httpStatus = require("http-status-codes");
 
-//ADMIN LOGIN
-const loginAdmin = async (req, res) => {
+//ADMIN && MECHANICIEN LOGIN
+const login = async (req, res) => {
   const { username, password } = req.body;
   console.log(username, password);
 
-  if (!username || !password) {
+  if (!username.trim() || !password) {
     return res
       .status(httpStatus.BAD_REQUEST)
       .send({ message: "Please provide credentials" });
@@ -36,4 +36,4 @@ const loginAdmin = async (req, res) => {
   }
 };
 
-module.exports = { loginAdmin };
+module.exports = { login };

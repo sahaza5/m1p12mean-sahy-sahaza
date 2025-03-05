@@ -39,4 +39,104 @@ const getUserById = async (req, res) => {
   }
 };
 
-module.exports = { getAllUsers, getUserById };
+//REGISTER CLIENT
+const registerClient = async (req, res) => {
+  const { username, password } = req.body;
+  if (!username.trim() || !password) {
+    return res
+      .status(httpStatus.BAD_REQUEST)
+      .send({ message: "Please provide credentials" });
+  }
+
+  try {
+    const registerUser = await Users.create({
+      username,
+      password,
+      role: "CLIENT",
+    });
+    return res.status(httpStatus.OK).json(registerUser);
+  } catch (error) {
+    if (error.message.includes("username")) {
+      return res.status(httpStatus.BAD_REQUEST).send({
+        message:
+          "The username is already taken. Please choose a different username.",
+      });
+    }
+
+    return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
+  }
+};
+
+//ADD MECHANICIEN
+const addMechanicien = async (req, res) => {
+  const { username } = req.body;
+  if (!username.trim()) {
+    return res
+      .status(httpStatus.BAD_REQUEST)
+      .send({ message: "Please provide credentials" });
+  }
+  try {
+    const registerUser = await Users.create({
+      username,
+      password: "123",
+      role: "MECHANICIEN",
+    });
+    return res.status(httpStatus.OK).json(registerUser);
+  } catch (error) {
+    if (error.message.includes("username")) {
+      return res.status(httpStatus.BAD_REQUEST).send({
+        message:
+          "The mechanicien's name is already taken. Please choose a different username.",
+      });
+    }
+
+    return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
+  }
+};
+
+//CLIENT LOGIN ONLY
+const clientLogin = async (req, res) => {
+  const { username, password } = req.body;
+  console.log(username, password);
+
+  if (!username.trim() || !password) {
+    return res
+      .status(httpStatus.BAD_REQUEST)
+      .send({ message: "Please provide credentials" });
+  }
+  try {
+    const userCredentials = await Users.findOne({ username, password });
+    if (!userCredentials) {
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .send({ message: "User not found" });
+    }
+
+    if (userCredentials.role === "CLIENT") {
+      const token = jwt.sign(
+        { id: userCredentials._id, username: userCredentials.username },
+        process.env.JWT_SECRET,
+        { expiresIn: "1d" }
+      );
+      console.log("User is ", userCredentials);
+      console.log("Token is ", token);
+
+      return res.status(httpStatus.OK).send({ user: userCredentials, token });
+    }
+
+    //IF THE USER IS NOT A CLIENT
+    return res
+      .status(httpStatus.UNAUTHORIZED)
+      .send({ message: "Unauthorized access" });
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
+  }
+};
+
+module.exports = {
+  getAllUsers,
+  getUserById,
+  registerClient,
+  addMechanicien,
+  clientLogin,
+};

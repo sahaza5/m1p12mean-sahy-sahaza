@@ -14,7 +14,7 @@ const serverPort = process.env.SERVER_PORT || 5000;
 const mongodbPort = process.env.MONGODB_PORT;
 
 app.use("/api/users/", userRoutes);
-app.use("/api/admin", adminRoute);
+app.use("/api/responsable", adminRoute);
 
 //STARTING THE SERVER
 const start = async () => {
