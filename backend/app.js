@@ -3,7 +3,9 @@ require("dotenv").config();
 const cors = require("cors");
 const connectDB = require("./dbConnect/dbConnect");
 const app = express();
-const routes = require("./routes/users.route");
+const userRoutes = require("./routes/users.route");
+const adminRoute = require("./routes/admin.route");
+
 app.use(express.json());
 app.use(cors());
 
@@ -11,7 +13,8 @@ app.use(cors());
 const serverPort = process.env.SERVER_PORT || 5000;
 const mongodbPort = process.env.MONGODB_PORT;
 
-app.use("/api/users/", routes);
+app.use("/api/users/", userRoutes);
+app.use("/api/admin", adminRoute);
 
 //STARTING THE SERVER
 const start = async () => {
