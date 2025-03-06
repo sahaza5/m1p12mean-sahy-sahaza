@@ -112,9 +112,14 @@ const clientLogin = async (req, res) => {
         .send({ message: "User not found" });
     }
 
+    //IF USER ROLE IS CLIENT THEN PROCEED
     if (userCredentials.role === "CLIENT") {
       const token = jwt.sign(
-        { id: userCredentials._id, username: userCredentials.username },
+        {
+          id: userCredentials._id,
+          username: userCredentials.username,
+          role: userCredentials.role,
+        },
         process.env.JWT_SECRET,
         { expiresIn: "1d" }
       );
