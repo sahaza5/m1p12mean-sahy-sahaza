@@ -30,7 +30,22 @@ const login = async (req, res) => {
     );
     console.log("Token is ", token);
 
-    return res.status(httpStatus.OK).send({ user: userCredentials, token });
+    if (userCredentials.role !== "CLIENT") {
+      const token = jwt.sign(
+        { id: userCredentials._id, username: userCredentials.username },
+        process.env.JWT_SECRET,
+        { expiresIn: "1d" }
+      );
+      console.log("User is ", userCredentials);
+      console.log("Token is ", token);
+
+      return res.status(httpStatus.OK).send({ user: userCredentials, token });
+    }
+
+    //IF THE USER IS A CLIENT
+    return res
+      .status(httpStatus.UNAUTHORIZED)
+      .send({ message: "Unauthorized access" });
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
   }
