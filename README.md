@@ -56,3 +56,14 @@ In the body,write json username and password, for example
 "username":"sa",
 "password":"123"
 }
+
++++++Authentication.js added
+It is used to authenticate an user to protect certain route
+It needs a token which has to be set and sent to the backend.
+It is in the headers and/or then authorization on postman or insomnia
+When an user logged in, i have sent a token as a response.
+When the front end or you want to test on postman/insomnia, we have to start the token with "Bearer ",for example:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3Yzg2OThiMTMxNWZhY2MzYWNjMjhlMCIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3NDEyNjc1MTAsImV4cCI6MTc0MTM1MzkxMH0.9RdEskD2gjpxUdpfHriCRbcZtUj4sJKfIkv4xs66rAg
+
++++++Authorization.js added
+It is used to check the user role if they are authorized to call some api.
+NOTE: BOTH AUTHENTICATION AND AUTHORIZATION NEED A TOKEN

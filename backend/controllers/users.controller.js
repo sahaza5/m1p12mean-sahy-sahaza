@@ -7,7 +7,7 @@ const httpStatus = require("http-status-codes");
 const getAllUsers = async (req, res) => {
   console.log("Get all Users ");
   try {
-    const users = await Users.find({});
+    const users = await Users.find({ _id: { $ne: req.user.id } });
     return res.status(httpStatus.OK).send(users);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
