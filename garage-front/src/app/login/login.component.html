@@ -1,4 +1,4 @@
-<div class="login-container">
+<!---<div class="login-container">
   <h2>Login</h2>
   <form (ngSubmit)="onSubmit()">
     <div>
@@ -17,4 +17,29 @@
       Don't have an account? <a routerLink="/register">Register</a>
     </p>
   </form>
+</div>
+-->
+
+<div class="login-container">
+  <div class="login-box">
+      <div class="logo"></div>
+      <h2>Connect to Garage-App</h2>
+
+      <form class="login-form" (ngSubmit)="onSubmit()">
+          <div class="input-group">
+              <input type="text" id="username" name="username" placeholder="username" [(ngModel)]="username" required>
+          </div>
+          <div class="input-group">
+              <input type="password" id="password" name="password" placeholder="Mot de passe" [(ngModel)]="password" required>
+          </div>
+          <button type="submit" class="login-button">Login</button>
+          <p class="error-message" *ngIf="loginError">
+            {{ loginError }}
+          </p>
+          <div class="or-divider">ou</div>
+          <button type="button" class="create-account-button" routerLink="/register">
+            Create a new account
+          </button>
+      </form>
+  </div>
 </div>

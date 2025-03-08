@@ -17,13 +17,6 @@ export class LoginComponent {
   constructor(private router: Router) {}
 
   onSubmit() {
-    // Basic example: Check for hardcoded credentials (Replace with real authentication)
-    if (this.username === 'user' && this.password === 'password') {
-      // Successful login
-      this.router.navigate(['/home']); // Navigate to home page
-    } else {
-      // Incorrect credentials
-      this.loginError = 'Invalid username or password.';
-    }
+
   }
 }

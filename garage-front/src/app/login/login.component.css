@@ -1,67 +1,113 @@
 .login-container {
-  text-align: center;
-  padding: 50px;
-  background-color: #f0f4f8; /* Light background */
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 400px; /* Adjusted width */
-  margin: 50px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f2f5; /* Light grey background */
 }
 
-h2 {
-  color: #333;
+.login-box {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 350px;
+  text-align: center;
+}
+
+.logo {
+  font-family: Arial, sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+  color: #1877f2; /* Facebook blue */
   margin-bottom: 20px;
 }
 
-div {
-  margin-bottom: 15px; /* Increased spacing */
+a {
+  text-decoration: none;
+
 }
 
-label {
-  display: block;
-  margin-bottom: 8px; /* Increased spacing */
-  font-weight: 500;
-  color: #666;
+h2 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
 }
 
-input {
-  padding: 12px; /* Increased padding */
-  border: 1px solid #ccc;
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: calc(100% - 22px);
+  padding: 10px;
+  border: 1px solid #ddd;
   border-radius: 5px;
-  width: 100%;
-  box-sizing: border-box;
+  font-size: 1em;
 }
 
-button {
-  background-color: #007bff; /* Blue button */
+.login-button {
+  background-color: #1877f2;
   color: white;
-  padding: 12px 20px;
+  padding: 12px;
   border: none;
   border-radius: 5px;
+  font-size: 1.1em;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
+  margin-bottom: 15px;
 }
 
-button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+.login-button:hover {
+  background-color: #166fe5;
 }
 
-.error-message {
-  color: red;
-  margin-top: 10px;
-}
-
-.register-link {
-  margin-top: 20px;
+.forgot-password a {
+  color: #1877f2;
+  text-decoration: none;
   font-size: 0.9em;
 }
 
-a {
-  color: #007bff;
-  text-decoration: none;
+.or-divider {
+  margin: 20px 0;
+  position: relative;
+  text-align: center;
 }
 
-a:hover {
-  text-decoration: underline;
+.or-divider:before,
+.or-divider:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background-color: #ddd;
+}
+
+.or-divider:before {
+  left: 0;
+}
+
+.or-divider:after {
+  right: 0;
+}
+
+.create-account-button {
+  background-color: #42b72a;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  cursor: pointer;
+  width: fit-content;
+  align-self: center;
+}
+
+.create-account-button:hover {
+  background-color: #36a420;
 }
