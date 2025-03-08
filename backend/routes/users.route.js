@@ -8,12 +8,32 @@ const {
   clientLogin,
 } = require("../controllers/users.controller");
 
+const { authentication } = require("../middleware/authentication");
+const {
+  authorizationResponsable,
+  authorizationAdmin,
+} = require("../middleware/authorization");
+
 const routes = express.Router();
 
-routes.route("/").get(getAllUsers);
-routes.route("/:id").get(getUserById);
+//----GET ALL USERS ROUTE------//
+//User must be authenticated(logged in) and have the privilege before getting all users
+routes.route("/").get(authentication, authorizationResponsable, getAllUsers);
+
+//----GET ONE USER ROUTE------//
+//User must be authenticated(logged in) and have the privilege before getting all users
+routes.route("/:id").get(authentication, authorizationResponsable, getUserById);
+
+//----REGISTER ROUTE----//
 routes.route("/register/client").post(registerClient);
-routes.route("/add/mechanicien").post(addMechanicien);
+
+//----ADD MECHANICIEN ROUTE----//
+//User must be authenticated(logged in) and be an admin before getting all users
+routes
+  .route("/add/mechanicien")
+  .post(authentication, authorizationAdmin, addMechanicien);
+
+//----CLIENT LOG IN ROUTE----//
 routes.route("/client/login").post(clientLogin);
 
 module.exports = routes;

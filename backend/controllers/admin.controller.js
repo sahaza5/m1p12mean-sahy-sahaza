@@ -24,15 +24,24 @@ const login = async (req, res) => {
     console.log("User is ", userCredentials);
 
     const token = jwt.sign(
-      { id: userCredentials._id, username: userCredentials.username },
+      {
+        id: userCredentials._id,
+        username: userCredentials.username,
+        role: userCredentials.role,
+      },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
     console.log("Token is ", token);
 
+    //IF USER IS NOT A CLIENT, A MECHANICIEN OR ADMIN THEN PROCEED
     if (userCredentials.role !== "CLIENT") {
       const token = jwt.sign(
-        { id: userCredentials._id, username: userCredentials.username },
+        {
+          id: userCredentials._id,
+          username: userCredentials.username,
+          role: userCredentials.role,
+        },
         process.env.JWT_SECRET,
         { expiresIn: "1d" }
       );
