@@ -5,6 +5,7 @@ const connectDB = require("./dbConnect/dbConnect");
 const app = express();
 const userRoutes = require("./routes/users.route");
 const adminRoute = require("./routes/admin.route");
+const apointmentRoute = require("./routes/apointments.route");
 
 app.use(express.json());
 app.use(cors());
@@ -15,6 +16,7 @@ const mongodbPort = process.env.MONGODB_PORT;
 
 app.use("/api/users/", userRoutes);
 app.use("/api/responsable", adminRoute);
+app.use("/api/apointments", apointmentRoute);
 
 //STARTING THE SERVER
 const start = async () => {

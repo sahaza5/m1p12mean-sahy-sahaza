@@ -17,11 +17,16 @@ const ApointmentSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
+      default: "PENDING",
       enum: ["PENDING", "PROGRESS", "DONE", "PAID"],
     },
     assignedTo: {
       type: String,
       required: false,
+    },
+    belongsTo: {
+      type: String,
+      required: true,
     },
     date: {
       type: Date,
@@ -29,10 +34,6 @@ const ApointmentSchema = new mongoose.Schema(
     },
     remarks: {
       type: [String],
-      required: false,
-    },
-    location: {
-      type: String,
       required: false,
     },
     image: {

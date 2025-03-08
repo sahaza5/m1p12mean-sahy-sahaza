@@ -67,3 +67,18 @@ When the front end or you want to test on postman/insomnia, we have to start the
 +++++Authorization.js added
 It is used to check the user role if they are authorized to call some api.
 NOTE: BOTH AUTHENTICATION AND AUTHORIZATION NEED A TOKEN
+
++++++Book apointment as a post request
+http://localhost:3000/api/apointments/bookApointment,
+body are title(required),description(not required), belongsTo(required), image(not required), in the body for example:{
+"title":"Test repair",
+"description":"This is my description"
+}, therefore needs a header to be passed for authentication
+
+++++Get all apointments specific for admin role only
+http://localhost:3000/api/apointments/admin
+It needs authentication and authorization, meaning must pass a header. Return array of apointment
+
+++++Get all apointments specific for mechanicien role or role only
+http://localhost:3000/api/apointments/mechanicien/?mechanicienname
+It needs authentication. Return array of apointment.
