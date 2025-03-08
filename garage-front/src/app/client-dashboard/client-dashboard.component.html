@@ -1,0 +1,44 @@
+<div class="client-dashboard-container">
+  <h2>Welcome, [Client Name]!</h2>
+
+  <div class="dashboard-section">
+    <h3>Your Vehicles</h3>
+    <ul *ngIf="vehicles && vehicles.length > 0; else noVehicles">
+      <li *ngFor="let vehicle of vehicles">
+        {{ vehicle.make }} {{ vehicle.model }} ({{ vehicle.licensePlate }})
+        <button (click)="viewVehicleDetails(vehicle)">View Details</button>
+      </li>
+    </ul>
+    <ng-template #noVehicles>
+      <p>You have no vehicles registered.</p>
+    </ng-template>
+    <button (click)="registerNewVehicle()">Register New Vehicle</button>
+  </div>
+
+  <div class="dashboard-section">
+    <h3>Scheduled Appointments</h3>
+    <ul *ngIf="appointments && appointments.length > 0; else noAppointments">
+      <li *ngFor="let appointment of appointments">
+        {{ appointment.date }} - {{ appointment.service }}
+        <button (click)="viewAppointmentDetails(appointment)">View Details</button>
+      </li>
+    </ul>
+    <ng-template #noAppointments>
+      <p>You have no scheduled appointments.</p>
+    </ng-template>
+    <button (click)="scheduleNewAppointment()">Schedule Appointment</button>
+  </div>
+
+  <div class="dashboard-section">
+    <h3>Service History</h3>
+    <ul *ngIf="serviceHistory && serviceHistory.length > 0; else noServiceHistory">
+      <li *ngFor="let service of serviceHistory">
+        {{ service.date }} - {{ service.description }}
+        <button (click)="viewServiceDetails(service)">View Details</button>
+      </li>
+    </ul>
+    <ng-template #noServiceHistory>
+      <p>No service history available.</p>
+    </ng-template>
+  </div>
+</div>
