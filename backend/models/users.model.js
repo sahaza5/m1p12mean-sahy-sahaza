@@ -20,6 +20,12 @@ const UserSchema = new mongoose.Schema(
       required: true,
       enum: ["CLIENT", "ADMIN", "MECHANICIEN"],
     },
+    contact: {
+      type: String,
+      required: false,
+      minlength: 7,
+      maxlength: 20,
+    },
   },
   { timestamps: true }
 );

@@ -18,7 +18,7 @@ const ApointmentSchema = new mongoose.Schema(
       type: String,
       required: true,
       default: "PENDING",
-      enum: ["PENDING", "PROGRESS", "DONE", "PAID"],
+      enum: ["PENDING", "APPROVED", "DONE"],
     },
     assignedTo: {
       type: String,

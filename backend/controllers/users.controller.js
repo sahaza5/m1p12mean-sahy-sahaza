@@ -69,7 +69,7 @@ const registerClient = async (req, res) => {
 
 //ADD MECHANICIEN
 const addMechanicien = async (req, res) => {
-  const { username } = req.body;
+  const { username, contact } = req.body;
   if (!username.trim()) {
     return res
       .status(httpStatus.BAD_REQUEST)
@@ -80,6 +80,7 @@ const addMechanicien = async (req, res) => {
       username,
       password: "123",
       role: "MECHANICIEN",
+      contact,
     });
     return res.status(httpStatus.OK).json(registerUser);
   } catch (error) {
