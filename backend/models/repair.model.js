@@ -15,6 +15,10 @@ const RepairSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    amount: {
+      type: Number,
+      required: false,
+    },
   },
   { timestamps: true }
 );
