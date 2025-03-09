@@ -46,7 +46,7 @@ const getAllApointmentsForResponsable = async (req, res) => {
 //-------TO BOOK AN APOINTMENT---------
 const bookApointment = async (req, res) => {
   console.log("Book an apointment");
-  const { title, description, image } = req.body;
+  const { title, description, car, image } = req.body;
   console.log(
     `Title:${title},description:${description},belongsTo:${req.user.username},image:${image}`
   );
@@ -56,6 +56,7 @@ const bookApointment = async (req, res) => {
       description,
       belongsTo: req.user.username,
       image,
+      car,
     });
     return res.status(httpStatus.CREATED).json(booking);
   } catch (error) {
@@ -63,8 +64,30 @@ const bookApointment = async (req, res) => {
   }
 };
 
+//GET AN APOINTMENT BY ID
+const getApointmentById = async (req, res) => {
+  const { id } = req.params;
+  console.log("Get apointment by id ", id);
+  const objId = mongoose.isValidObjectId(id);
+  if (!objId) {
+    return res.status(httpStatus.BAD_REQUEST).json({ message: "Invalid id" });
+  }
+  try {
+    const myApointment = await Apointments.findById({ _id: id });
+    if (!myApointment) {
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .json({ message: "Apointment not found" });
+    }
+    return res.status(httpStatus.OK).json(myApointment);
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getAllApointmentsForAdminRole,
   getAllApointmentsForResponsable,
+  getApointmentById,
   bookApointment,
 };

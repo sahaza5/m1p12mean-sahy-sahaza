@@ -24,6 +24,10 @@ const ApointmentSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    car: {
+      type: String,
+      required: true,
+    },
     belongsTo: {
       type: String,
       required: true,

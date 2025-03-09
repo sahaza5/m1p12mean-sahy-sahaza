@@ -8,6 +8,7 @@ const {
 const {
   getAllApointmentsForAdminRole,
   getAllApointmentsForResponsable,
+  getApointmentById,
   bookApointment,
 } = require("../controllers/apointment.controller");
 
@@ -19,12 +20,16 @@ routes.get(
   getAllApointmentsForAdminRole
 );
 
+//-------------GET ALL APOINTMENTS OF A MECHANICIEN--------//
 routes.get(
   "/mechanicien/:mechanicien",
   authentication,
   authorizationResponsable,
   getAllApointmentsForResponsable
 );
+
+//-----------GET AN APOINTMENT BY ID-----------//
+routes.get("/:id", authentication, getApointmentById);
 
 //-------------CLIENT BOOKING APOINTMENT--------//
 routes.post("/bookApointment", authentication, bookApointment);
