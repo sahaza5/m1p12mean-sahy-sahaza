@@ -9,6 +9,7 @@ const {
   getAllApointmentsForAdminRole,
   getAllApointmentsForResponsable,
   getApointmentById,
+  getAllApointmentForClient,
   bookApointment,
 } = require("../controllers/apointment.controller");
 
@@ -27,6 +28,9 @@ routes.get(
   authorizationResponsable,
   getAllApointmentsForResponsable
 );
+
+//-------------GET ALL APOINTMENTS FOR CLIENT-------//
+routes.get("/client/", authentication, getAllApointmentForClient);
 
 //-----------GET AN APOINTMENT BY ID-----------//
 routes.get("/:id", authentication, getApointmentById);

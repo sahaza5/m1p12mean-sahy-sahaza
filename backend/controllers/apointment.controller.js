@@ -43,27 +43,6 @@ const getAllApointmentsForResponsable = async (req, res) => {
   }
 };
 
-//-------TO BOOK AN APOINTMENT---------
-const bookApointment = async (req, res) => {
-  console.log("Book an apointment");
-  const { title, description, car, image } = req.body;
-  console.log(
-    `Title:${title},description:${description},belongsTo:${req.user.username},image:${image}`
-  );
-  try {
-    const booking = await Apointments.create({
-      title,
-      description,
-      belongsTo: req.user.username,
-      image,
-      car,
-    });
-    return res.status(httpStatus.CREATED).json(booking);
-  } catch (error) {
-    return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
-  }
-};
-
 //GET AN APOINTMENT BY ID
 const getApointmentById = async (req, res) => {
   const { id } = req.params;
@@ -85,9 +64,48 @@ const getApointmentById = async (req, res) => {
   }
 };
 
+//-------------GET ALL APOINTMENTS FOR CLIENT-------//
+const getAllApointmentForClient = async (req, res) => {
+  const clientName = req.user.username;
+
+  try {
+    const myApointment = await Apointments.find({ belongsTo: clientName });
+    if (!myApointment) {
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .json({ message: "Apointment not found" });
+    }
+    return res.status(httpStatus.OK).json(myApointment);
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+  }
+};
+
+//-------TO BOOK AN APOINTMENT---------
+const bookApointment = async (req, res) => {
+  console.log("Book an apointment");
+  const { title, description, car, image } = req.body;
+  console.log(
+    `Title:${title},description:${description},belongsTo:${req.user.username},image:${image}`
+  );
+  try {
+    const booking = await Apointments.create({
+      title,
+      description,
+      belongsTo: req.user.username,
+      image,
+      car,
+    });
+    return res.status(httpStatus.CREATED).json(booking);
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
+  }
+};
+
 module.exports = {
   getAllApointmentsForAdminRole,
   getAllApointmentsForResponsable,
   getApointmentById,
+  getAllApointmentForClient,
   bookApointment,
 };
