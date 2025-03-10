@@ -10,6 +10,7 @@ const {
   getAllApointmentsForResponsable,
   getApointmentById,
   getAllApointmentForClient,
+  updateApointment,
   bookApointment,
 } = require("../controllers/apointment.controller");
 
@@ -22,8 +23,8 @@ const {
 // );
 routes.get(
   "/admin",
-  // authentication,
-  // authorizationAdmin,
+  authentication,
+  authorizationAdmin,
   getAllApointmentsForAdminRole
 );
 
@@ -43,5 +44,8 @@ routes.get("/:id", authentication, getApointmentById);
 
 //-------------CLIENT BOOKING APOINTMENT--------//
 routes.post("/bookApointment", authentication, bookApointment);
+
+//------------SET THE APOINTMENT--------//
+routes.put("/setApointment/:id", updateApointment);
 
 module.exports = routes;

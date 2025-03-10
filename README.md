@@ -50,7 +50,7 @@ In the body,write json username and password, for example:
 
 I have set a brand new login for the client(see inside users.controller.js) for security purpose and logic is slightly different (aza rarahina fa mbol resahiko)
 
-+++++To login as a client as a post request:http://localhost:3000/api/client/login/
++++++To login as a client as a post request:http://localhost:3000/api/users/client/login/
 In the body,write json username and password, for example
 {
 "username":"sa",

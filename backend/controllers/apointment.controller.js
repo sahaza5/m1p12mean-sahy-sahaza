@@ -108,10 +108,34 @@ const bookApointment = async (req, res) => {
   }
 };
 
+//------UPDATE/SET APOINTMENT-------
+const updateApointment = async (req, res) => {
+  console.log("Update the apointment");
+  const { date, assignedTo } = req.body;
+  const { id } = req.params;
+  const validId = mongoose.isValidObjectId(assignedTo);
+  if (!validId) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid ID" });
+  }
+  try {
+    const updatedApointment = await Apointments.findOneAndUpdate(
+      { _id: id },
+      { $set: { status: "APPROVED", assignedTo, date: new Date(date) } },
+      { new: true }
+    );
+    return res.status(httpStatus.OK).send(updatedApointment);
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
+  }
+};
+
+//67cf2e9f5879087651b841ea
+
 module.exports = {
   getAllApointmentsForAdminRole,
   getAllApointmentsForResponsable,
   getApointmentById,
   getAllApointmentForClient,
   bookApointment,
+  updateApointment,
 };
