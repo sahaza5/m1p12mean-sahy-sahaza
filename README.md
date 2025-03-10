@@ -82,3 +82,6 @@ It needs authentication and authorization, meaning must pass a header. Return ar
 ++++Get all apointments specific for mechanicien role or role only
 http://localhost:3000/api/apointments/mechanicien/?id
 It needs authentication. Return array of apointment.
+
+++++Register a car
+http://localhost:3000/api/vehicule/register, body field are name, model,licensePlate
