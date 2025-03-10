@@ -6,11 +6,14 @@ const { Users } = require("../models/users.model");
 
 //---------------GET ALL APOINTMENTS SPECIFIC FOR ADMIN-------//
 const getAllApointmentsForAdminRole = async (req, res) => {
-  console.log("Get all apointments for admin: ", req.user);
+  // console.log("Get all apointments for admin: ", req.user);
   //   const { mechanicien, belongsTo } = req.params;
   try {
     //IN CASE IT WANTS ALL APOINTMENTS
-    const apointments = await Apointments.find({});
+    const apointments = await Apointments.find({})
+      .populate("assignedTo")
+      .populate("car")
+      .populate("belongsTo");
     console.log(apointments);
     return res.status(httpStatus.OK).send(apointments);
   } catch (error) {
@@ -84,17 +87,14 @@ const getAllApointmentForClient = async (req, res) => {
 //-------TO BOOK AN APOINTMENT---------
 const bookApointment = async (req, res) => {
   console.log("Book an apointment");
-  const { title, description, car, image, service } = req.body;
+  const { description, car } = req.body;
   console.log(
     `Title:${title},description:${description},belongsTo:${req.user.username},image:${image}`
   );
   try {
     const booking = await Apointments.create({
-      title,
       description,
-      belongsTo: req.user.username,
-      image,
-      service,
+      belongsTo: req.user.id,
       car,
     });
     return res.status(httpStatus.CREATED).json(booking);

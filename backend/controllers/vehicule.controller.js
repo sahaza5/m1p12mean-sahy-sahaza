@@ -2,13 +2,17 @@ const { default: mongoose } = require("mongoose");
 const { Vehicules } = require("../models/vehicule.model");
 const httpStatus = require("http-status-codes");
 
-const getAllVehicules = async (req, res) => {
-  console.log("Get all vehicules");
+const getAllVehiculesForClient = async (req, res) => {
+  console.log("Get all vehicules for Client");
   try {
-    const vehicules = await Vehicules.find({}).populate("customer");
+    const vehicules = await Vehicules.find({
+      // customer: req.params.id,
+      customer: req.user.id,
+    }).populate("customer");
+    // console.log(vehicules);
     return res.status(httpStatus.OK).send(vehicules);
   } catch (error) {
-    return res.stats(httpStatus.BAD_REQUEST).json({ message: error.message });
+    return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
   }
 };
 
@@ -43,4 +47,4 @@ const registerVehicule = async (req, res) => {
   }
 };
 
-module.exports = { getAllVehicules, registerVehicule };
+module.exports = { getAllVehiculesForClient, registerVehicule };

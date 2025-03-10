@@ -14,10 +14,16 @@ const {
 } = require("../controllers/apointment.controller");
 
 //-------------GET ALL APOINTMENTS SPECIFIC FOR ADMIN--------//
+// routes.get(
+//   "/admin",
+//   authentication,
+//   authorizationAdmin,
+//   getAllApointmentsForAdminRole
+// );
 routes.get(
   "/admin",
-  authentication,
-  authorizationAdmin,
+  // authentication,
+  // authorizationAdmin,
   getAllApointmentsForAdminRole
 );
 
