@@ -57,6 +57,12 @@ In the body,write json username and password, for example
 "password":"123"
 }
 
++++++To set password a post request:http://localhost:3000/api/client/setPassword/
+In the body,write json username and password, for example
+{
+"password":"123"
+}. User should be authenticated, so a header should be passed on.
+
 +++++Authentication.js added
 It is used to authenticate an user to protect certain route
 It needs a token which has to be set and sent to the backend.

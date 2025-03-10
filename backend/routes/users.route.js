@@ -6,6 +6,7 @@ const {
   registerClient,
   addMechanicien,
   clientLogin,
+  setPassword,
 } = require("../controllers/users.controller");
 
 const { authentication } = require("../middleware/authentication");
@@ -35,5 +36,8 @@ routes
 
 //----CLIENT LOG IN ROUTE----//
 routes.route("/client/login").post(clientLogin);
+
+//----SET PASSWORD  ROUTE----//
+routes.route("/client/setPassword").post(setPassword);
 
 module.exports = routes;
