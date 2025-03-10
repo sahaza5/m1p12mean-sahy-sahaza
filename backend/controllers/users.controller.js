@@ -54,7 +54,16 @@ const registerClient = async (req, res) => {
       password,
       role: "CLIENT",
     });
-    return res.status(httpStatus.OK).json(registerUser);
+    const token = jwt.sign(
+      {
+        id: registerUser._id,
+        username: registerUser.username,
+        role: registerUser.role,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+    return res.status(httpStatus.OK).json({ registerUser, token });
   } catch (error) {
     if (error.message.includes("username")) {
       return res.status(httpStatus.BAD_REQUEST).send({

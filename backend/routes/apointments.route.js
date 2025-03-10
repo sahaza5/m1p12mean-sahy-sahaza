@@ -46,6 +46,11 @@ routes.get("/:id", authentication, getApointmentById);
 routes.post("/bookApointment", authentication, bookApointment);
 
 //------------SET THE APOINTMENT--------//
-routes.put("/setApointment/:id", updateApointment);
+routes.put(
+  "/setApointment/:id",
+  authentication,
+  authorizationAdmin,
+  updateApointment
+);
 
 module.exports = routes;
