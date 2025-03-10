@@ -55,7 +55,10 @@ const getApointmentById = async (req, res) => {
     return res.status(httpStatus.BAD_REQUEST).json({ message: "Invalid id" });
   }
   try {
-    const myApointment = await Apointments.findById({ _id: id });
+    const myApointment = await Apointments.findById({ _id: id })
+      .populate("car")
+      .populate("assignedTo")
+      .populate("belongsTo");
     if (!myApointment) {
       return res
         .status(httpStatus.BAD_REQUEST)
@@ -72,7 +75,9 @@ const getAllApointmentForClient = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const myApointment = await Apointments.find({ belongsTo: id });
+    const myApointment = await Apointments.find({ belongsTo: id }).populate(
+      "car"
+    );
     if (!myApointment) {
       return res
         .status(httpStatus.BAD_REQUEST)
@@ -88,9 +93,9 @@ const getAllApointmentForClient = async (req, res) => {
 const bookApointment = async (req, res) => {
   console.log("Book an apointment");
   const { description, car } = req.body;
-  console.log(
-    `Title:${title},description:${description},belongsTo:${req.user.username},image:${image}`
-  );
+  // console.log(
+  //   `Title:${title},description:${description},belongsTo:${req.user.username},image:${image}`
+  // );
   try {
     const booking = await Apointments.create({
       description,
