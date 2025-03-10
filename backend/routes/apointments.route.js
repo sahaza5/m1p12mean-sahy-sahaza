@@ -23,14 +23,14 @@ routes.get(
 
 //-------------GET ALL APOINTMENTS OF A MECHANICIEN--------//
 routes.get(
-  "/mechanicien/:mechanicien",
+  "/mechanicien/:id",
   authentication,
   authorizationResponsable,
   getAllApointmentsForResponsable
 );
 
 //-------------GET ALL APOINTMENTS FOR CLIENT-------//
-routes.get("/client/", authentication, getAllApointmentForClient);
+routes.get("/client/:id", authentication, getAllApointmentForClient);
 
 //-----------GET AN APOINTMENT BY ID-----------//
 routes.get("/:id", authentication, getApointmentById);

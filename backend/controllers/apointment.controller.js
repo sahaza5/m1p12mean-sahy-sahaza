@@ -21,14 +21,14 @@ const getAllApointmentsForAdminRole = async (req, res) => {
 
 //---------------GET ALL APOINTMENTS SPECIFIC FOR RESPONSABLE(MOSTLY FOR MECHANICIEN)-------//
 const getAllApointmentsForResponsable = async (req, res) => {
-  const { mechanicien } = req.params;
+  const { id } = req.params;
   console.log(
     "Get all apointments for responsable(mostly for mechanicien): ",
     req.user
   );
-  if (req.user.username === mechanicien || req.user.role === "ADMIN") {
+  if (req.user.role === "MECHANICIEN" || req.user.role === "ADMIN") {
     try {
-      const apointments = await Apointments.find({ assignedTo: mechanicien });
+      const apointments = await Apointments.find({ assignedTo: id });
       console.log(apointments);
       return res.status(httpStatus.OK).send(apointments);
     } catch (error) {
@@ -66,10 +66,10 @@ const getApointmentById = async (req, res) => {
 
 //-------------GET ALL APOINTMENTS FOR CLIENT-------//
 const getAllApointmentForClient = async (req, res) => {
-  const clientName = req.user.username;
+  const { id } = req.params;
 
   try {
-    const myApointment = await Apointments.find({ belongsTo: clientName });
+    const myApointment = await Apointments.find({ belongsTo: id });
     if (!myApointment) {
       return res
         .status(httpStatus.BAD_REQUEST)
@@ -84,7 +84,7 @@ const getAllApointmentForClient = async (req, res) => {
 //-------TO BOOK AN APOINTMENT---------
 const bookApointment = async (req, res) => {
   console.log("Book an apointment");
-  const { title, description, car, image } = req.body;
+  const { title, description, car, image, service } = req.body;
   console.log(
     `Title:${title},description:${description},belongsTo:${req.user.username},image:${image}`
   );
@@ -94,6 +94,7 @@ const bookApointment = async (req, res) => {
       description,
       belongsTo: req.user.username,
       image,
+      service,
       car,
     });
     return res.status(httpStatus.CREATED).json(booking);

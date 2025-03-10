@@ -80,5 +80,5 @@ http://localhost:3000/api/apointments/admin
 It needs authentication and authorization, meaning must pass a header. Return array of apointment
 
 ++++Get all apointments specific for mechanicien role or role only
-http://localhost:3000/api/apointments/mechanicien/?mechanicienname
+http://localhost:3000/api/apointments/mechanicien/?id
 It needs authentication. Return array of apointment.

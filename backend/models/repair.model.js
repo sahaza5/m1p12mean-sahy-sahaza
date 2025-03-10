@@ -11,10 +11,10 @@ const RepairSchema = new mongoose.Schema(
       enum: ["REPAIRING", "DONE"],
       default: "REPAIRING",
     },
-    assignedTo: {
-      type: String,
-      required: true,
-    },
+    // assignedTo: {
+    //   type: String,
+    //   required: true,
+    // },
     amount: {
       type: Number,
       required: false,
