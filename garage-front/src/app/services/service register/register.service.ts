@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { environment } from '../../environment/environment';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ import { environment } from '../../environment/environment';
 
 export class RegisterService {
 
-  private apiUrl = `${environment.apiUrlUsers}/register/client`; // Replace with your backend API URL
+  private apiUrl = `${environment.apiUrl}/users/register/client`; // Replace with your backend API URL
 
   constructor(private http: HttpClient) {}
 
