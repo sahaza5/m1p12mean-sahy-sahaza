@@ -1,9 +1,10 @@
-
+import { RegisterService } from './../../services/register.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-register-component',
@@ -17,24 +18,40 @@ export class RegisterComponentComponent implements OnInit {
 
   registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
-    this.registerForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required]
-    }, { validators: this.passwordMatchValidator });
+  constructor(
+    private fb: FormBuilder,
+    private registerService: RegisterService, // Inject RegisterService
+    private router: Router // Inject Router
+  ) {
+    this.registerForm = this.fb.group(
+      {
+        username: ['', Validators.required],
+        password: ['', Validators.required],
+        confirmPassword: ['', Validators.required],
+      },
+      { validators: this.passwordMatchValidator }
+    );
   }
 
-  ngOnInit(): void {
-    console.log('RegisterComponentComponent ngOnInit');
-  }
+  ngOnInit(): void {}
 
   onSubmit(): void {
     if (this.registerForm.valid) {
-      console.log('Form data:', this.registerForm.value);
-      // Here you would typically send the data to your backend API
+      const userData = this.registerForm.value;
 
-
+      this.registerService.register(userData).subscribe(
+        (response) => {
+          // Handle successful registration
+          console.log('Registration successful', response);
+          // Redirect to login page after successful registration
+          this.router.navigate(['/login']);
+        },
+        (error) => {
+          // Handle registration error
+          console.error('Registration failed', error);
+          // You might want to display an error message to the user
+        }
+      );
     } else {
       console.log('Form is invalid.');
     }
@@ -53,4 +70,6 @@ export class RegisterComponentComponent implements OnInit {
       return { passwordMismatch: true };
     }
   }
+
+
 }
