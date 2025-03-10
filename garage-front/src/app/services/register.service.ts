@@ -1,27 +1,10 @@
-//import { RegisterService } from './register.service';
-// import { Injectable } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
-// import { Observable } from 'rxjs';
 
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class RegisterService {
-
-//   private apiUrl = 'http://localhost:3000/api/users/register/client'; // backend API URL
-
-//   constructor(private http: HttpClient) { }
-
-//   register(userData: any): Observable<any> {
-//     return this.http.post<any>(`${this.apiUrl}/register`, userData);
-//   }
-
-// }
 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -30,12 +13,12 @@ import { catchError } from 'rxjs/operators';
 
 export class RegisterService {
 
-  private apiUrl = 'http://localhost:3000/api/users/register/client'; // Replace with your backend API URL
+  private apiUrl = `${environment.apiUrlUsers}/register/client`; // Replace with your backend API URL
 
   constructor(private http: HttpClient) {}
 
   register(userData: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register`, userData)
+    return this.http.post<any>(`${this.apiUrl}`, userData)
       .pipe(
         catchError(this.handleError)
       );
