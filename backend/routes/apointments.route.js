@@ -10,10 +10,17 @@ const {
   getAllApointmentsForResponsable,
   getApointmentById,
   getAllApointmentForClient,
+  updateApointment,
   bookApointment,
 } = require("../controllers/apointment.controller");
 
 //-------------GET ALL APOINTMENTS SPECIFIC FOR ADMIN--------//
+// routes.get(
+//   "/admin",
+//   authentication,
+//   authorizationAdmin,
+//   getAllApointmentsForAdminRole
+// );
 routes.get(
   "/admin",
   authentication,
@@ -23,19 +30,22 @@ routes.get(
 
 //-------------GET ALL APOINTMENTS OF A MECHANICIEN--------//
 routes.get(
-  "/mechanicien/:mechanicien",
+  "/mechanicien/:id",
   authentication,
   authorizationResponsable,
   getAllApointmentsForResponsable
 );
 
 //-------------GET ALL APOINTMENTS FOR CLIENT-------//
-routes.get("/client/", authentication, getAllApointmentForClient);
+routes.get("/client/:id", authentication, getAllApointmentForClient);
 
 //-----------GET AN APOINTMENT BY ID-----------//
 routes.get("/:id", authentication, getApointmentById);
 
 //-------------CLIENT BOOKING APOINTMENT--------//
 routes.post("/bookApointment", authentication, bookApointment);
+
+//------------SET THE APOINTMENT--------//
+routes.put("/setApointment/:id", updateApointment);
 
 module.exports = routes;

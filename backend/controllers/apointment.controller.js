@@ -6,11 +6,14 @@ const { Users } = require("../models/users.model");
 
 //---------------GET ALL APOINTMENTS SPECIFIC FOR ADMIN-------//
 const getAllApointmentsForAdminRole = async (req, res) => {
-  console.log("Get all apointments for admin: ", req.user);
+  // console.log("Get all apointments for admin: ", req.user);
   //   const { mechanicien, belongsTo } = req.params;
   try {
     //IN CASE IT WANTS ALL APOINTMENTS
-    const apointments = await Apointments.find({});
+    const apointments = await Apointments.find({})
+      .populate("assignedTo")
+      .populate("car")
+      .populate("belongsTo");
     console.log(apointments);
     return res.status(httpStatus.OK).send(apointments);
   } catch (error) {
@@ -21,14 +24,14 @@ const getAllApointmentsForAdminRole = async (req, res) => {
 
 //---------------GET ALL APOINTMENTS SPECIFIC FOR RESPONSABLE(MOSTLY FOR MECHANICIEN)-------//
 const getAllApointmentsForResponsable = async (req, res) => {
-  const { mechanicien } = req.params;
+  const { id } = req.params;
   console.log(
     "Get all apointments for responsable(mostly for mechanicien): ",
     req.user
   );
-  if (req.user.username === mechanicien || req.user.role === "ADMIN") {
+  if (req.user.role === "MECHANICIEN" || req.user.role === "ADMIN") {
     try {
-      const apointments = await Apointments.find({ assignedTo: mechanicien });
+      const apointments = await Apointments.find({ assignedTo: id });
       console.log(apointments);
       return res.status(httpStatus.OK).send(apointments);
     } catch (error) {
@@ -52,7 +55,10 @@ const getApointmentById = async (req, res) => {
     return res.status(httpStatus.BAD_REQUEST).json({ message: "Invalid id" });
   }
   try {
-    const myApointment = await Apointments.findById({ _id: id });
+    const myApointment = await Apointments.findById({ _id: id })
+      .populate("car")
+      .populate("assignedTo")
+      .populate("belongsTo");
     if (!myApointment) {
       return res
         .status(httpStatus.BAD_REQUEST)
@@ -66,10 +72,12 @@ const getApointmentById = async (req, res) => {
 
 //-------------GET ALL APOINTMENTS FOR CLIENT-------//
 const getAllApointmentForClient = async (req, res) => {
-  const clientName = req.user.username;
+  const { id } = req.params;
 
   try {
-    const myApointment = await Apointments.find({ belongsTo: clientName });
+    const myApointment = await Apointments.find({ belongsTo: id }).populate(
+      "car"
+    );
     if (!myApointment) {
       return res
         .status(httpStatus.BAD_REQUEST)
@@ -84,16 +92,14 @@ const getAllApointmentForClient = async (req, res) => {
 //-------TO BOOK AN APOINTMENT---------
 const bookApointment = async (req, res) => {
   console.log("Book an apointment");
-  const { title, description, car, image } = req.body;
-  console.log(
-    `Title:${title},description:${description},belongsTo:${req.user.username},image:${image}`
-  );
+  const { description, car } = req.body;
+  // console.log(
+  //   `Title:${title},description:${description},belongsTo:${req.user.username},image:${image}`
+  // );
   try {
     const booking = await Apointments.create({
-      title,
       description,
-      belongsTo: req.user.username,
-      image,
+      belongsTo: req.user.id,
       car,
     });
     return res.status(httpStatus.CREATED).json(booking);
@@ -102,10 +108,34 @@ const bookApointment = async (req, res) => {
   }
 };
 
+//------UPDATE/SET APOINTMENT-------
+const updateApointment = async (req, res) => {
+  console.log("Update the apointment");
+  const { date, assignedTo } = req.body;
+  const { id } = req.params;
+  const validId = mongoose.isValidObjectId(assignedTo);
+  if (!validId) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid ID" });
+  }
+  try {
+    const updatedApointment = await Apointments.findOneAndUpdate(
+      { _id: id },
+      { $set: { status: "APPROVED", assignedTo, date: new Date(date) } },
+      { new: true }
+    );
+    return res.status(httpStatus.OK).send(updatedApointment);
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
+  }
+};
+
+//67cf2e9f5879087651b841ea
+
 module.exports = {
   getAllApointmentsForAdminRole,
   getAllApointmentsForResponsable,
   getApointmentById,
   getAllApointmentForClient,
   bookApointment,
+  updateApointment,
 };

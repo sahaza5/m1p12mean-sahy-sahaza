@@ -50,12 +50,18 @@ In the body,write json username and password, for example:
 
 I have set a brand new login for the client(see inside users.controller.js) for security purpose and logic is slightly different (aza rarahina fa mbol resahiko)
 
-+++++To login as a client as a post request:http://localhost:3000/api/client/login/
++++++To login as a client as a post request:http://localhost:3000/api/users/client/login/
 In the body,write json username and password, for example
 {
 "username":"sa",
 "password":"123"
 }
+
++++++To set password a post request:http://localhost:3000/api/client/setPassword/
+In the body,write json username and password, for example
+{
+"password":"123"
+}. User should be authenticated, so a header should be passed on.
 
 +++++Authentication.js added
 It is used to authenticate an user to protect certain route
@@ -70,15 +76,21 @@ NOTE: BOTH AUTHENTICATION AND AUTHORIZATION NEED A TOKEN
 
 +++++Book apointment as a post request
 http://localhost:3000/api/apointments/bookApointment,
-body are title(required),description(not required), belongsTo(required), image(not required), in the body for example:{
-"title":"Test repair",
-"description":"This is my description"
-}, therefore needs a header to be passed for authentication
+body are description(required),car(id from front) in the body for example:{
+"description":"This is my description","car":"objId1234"
+}, therefore needs a header to be passed for authentication(the req.user.id will be used to get the id)
 
 ++++Get all apointments specific for admin role only
 http://localhost:3000/api/apointments/admin
 It needs authentication and authorization, meaning must pass a header. Return array of apointment
 
+++++Get all apointments specific for client role
+http://localhost:3000/api/apointments/client/:id
+It needs authentication, meaning must pass a header. Return array of apointment
+
 ++++Get all apointments specific for mechanicien role or role only
-http://localhost:3000/api/apointments/mechanicien/?mechanicienname
+http://localhost:3000/api/apointments/mechanicien/?id
 It needs authentication. Return array of apointment.
+
+++++Register a car
+http://localhost:3000/api/vehicule/register, body field are name, model,licensePlate

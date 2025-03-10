@@ -2,15 +2,16 @@ const mongoose = require("mongoose");
 
 const ApointmentSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: true,
-      minlength: 3,
-      maxlength: 20,
-    },
+    // title: {
+    //   type: String,
+    //   required: true,
+    //   minlength: 3,
+    //   maxlength: 20,
+    // },
     description: {
       type: String,
       required: false,
+      required: true,
       minlength: 3,
       maxlength: 100,
     },
@@ -18,11 +19,13 @@ const ApointmentSchema = new mongoose.Schema(
       type: String,
       required: true,
       default: "PENDING",
-      enum: ["PENDING", "APPROVED", "DONE"],
+      // enum: ["PENDING", "APPROVED", "DONE"],
+      enum: ["PENDING", "APPROVED"],
     },
     assignedTo: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: false,
+      ref: "Users",
     },
     car: {
       type: mongoose.Schema.Types.ObjectId,
@@ -30,21 +33,22 @@ const ApointmentSchema = new mongoose.Schema(
       required: true,
     },
     belongsTo: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "Users",
     },
     date: {
       type: Date,
       required: false,
     },
-    remarks: {
-      type: [String],
-      required: false,
-    },
-    image: {
-      type: String,
-      required: false,
-    },
+    // remarks: {
+    //   type: String,
+    //   required: false,
+    // },
+    // image: {
+    //   type: String,
+    //   required: false,
+    // },
   },
   { timestamps: true }
 );

@@ -7,7 +7,7 @@ const httpStatus = require("http-status-codes");
 const getAllUsers = async (req, res) => {
   console.log("Get all Users ");
   try {
-    const users = await Users.find({ _id: { $ne: req.user.id } });
+    const users = await Users.find({ role: "MECHANICIEN" });
     return res.status(httpStatus.OK).send(users);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
@@ -139,10 +139,31 @@ const clientLogin = async (req, res) => {
   }
 };
 
+const setPassword = async (req, res) => {
+  const { password } = req.body;
+  if (!password.trim()) {
+    return res
+      .status(httpStatus.BAD_REQUEST)
+      .send({ message: "Please new password" });
+  }
+  try {
+    const newPassword = await Users.findOneAndUpdate(
+      { _id: req.user.id },
+      { $set: { password } },
+      { new: true }
+    );
+
+    return res.status(httpStatus.OK).json(newPassword);
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUserById,
   registerClient,
   addMechanicien,
   clientLogin,
+  setPassword,
 };

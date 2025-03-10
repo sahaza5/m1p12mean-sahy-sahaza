@@ -1,13 +1,16 @@
 const express = require("express");
 const routes = express.Router();
 const {
-  getAllVehicules,
+  getAllVehiculesForClient,
   registerVehicule,
 } = require("../controllers/vehicule.controller");
 
 const { authentication } = require("../middleware/authentication");
 
-routes.get("/", authentication, getAllVehicules);
+//-----------GET ALL VEHICULES FOR CLIENT
+// routes.get("/", authentication, getAllVehicules);
+routes.get("/:id", authentication, getAllVehiculesForClient);
+
 routes.post("/register", authentication, registerVehicule);
 
 module.exports = routes;
