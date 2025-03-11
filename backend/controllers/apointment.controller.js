@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 const httpStatus = require("http-status-codes");
 
 const { Apointments } = require("../models/apointment.model");
-const { Users } = require("../models/users.model");
+// const { Users } = require("../models/users.model");
+const { Repairs } = require("../models/repair.model");
 
 //---------------GET ALL APOINTMENTS SPECIFIC FOR ADMIN-------//
 const getAllApointmentsForAdminRole = async (req, res) => {
@@ -102,6 +103,8 @@ const bookApointment = async (req, res) => {
       belongsTo: req.user.id,
       car,
     });
+
+    // const newRepair = await Repairs.create({ apointment: booking._id });
     return res.status(httpStatus.CREATED).json(booking);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
@@ -113,7 +116,8 @@ const updateApointment = async (req, res) => {
   console.log("Update the apointment");
   const { date, assignedTo } = req.body;
   const { id } = req.params;
-  const validId = mongoose.isValidObjectId(assignedTo);
+  console.log(id);
+  const validId = mongoose.isValidObjectId(id);
   if (!validId) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid ID" });
   }
@@ -123,7 +127,37 @@ const updateApointment = async (req, res) => {
       { $set: { status: "APPROVED", assignedTo, date: new Date(date) } },
       { new: true }
     );
-    return res.status(httpStatus.OK).send(updatedApointment);
+    console.log(updatedApointment);
+    if (updateApointment) {
+      const insertNew = await Repairs.create({
+        apointment: updatedApointment._id,
+        status: "REPAIRING",
+      });
+      console.log("Insert new is ", insertNew);
+
+      // const [update, insert] = await Promise.all([updateApointment, insertNew]);
+      return res.status(200).send({ updateApointment, insertNew });
+    } else {
+      return res.status(httpStatus.BAD_REQUEST).send("Something went wrong");
+    }
+
+    // try {
+    //   console.log(updatedApointment._id, updatedApointment.status);
+    //   const insertRepair = new Repairs.create({
+    //     apointment: id,
+    //     status: "REPAIRING",
+    //   });
+    //   // const newInsert = (await insertRepair).save();
+    //   console.log("New insert is ", insertRepair);
+    //   return res.status(200).json(updatedApointment, insertRepair);
+    // } catch (error) {
+    //   return res
+    //     .status(httpStatus.BAD_REQUEST)
+    //     .send({ message: "Bad request" });
+    // }
+
+    // return res.status(httpStatus.OK).send(updatedApointment);
+    // return res.status(httpStatus.OK).send(updatedApointment, newInsert);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
   }

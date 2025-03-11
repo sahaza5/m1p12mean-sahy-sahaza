@@ -94,3 +94,8 @@ It needs authentication. Return array of apointment.
 
 ++++Register a car
 http://localhost:3000/api/vehicule/register, body field are name, model,licensePlate
+
+++++Approve and set apointment (APPROVED and REPAIRING) as a put request
+http://localhost:3000/api/apointments/setApointment/67cfa17b6ea35689db1eb56a(apointment id), the body contain both the date and assigned to(mechanicien)
+
+++++Get all repaired car as get request http://localhost:3000/api/repair

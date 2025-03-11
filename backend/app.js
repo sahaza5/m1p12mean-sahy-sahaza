@@ -7,6 +7,7 @@ const userRoutes = require("./routes/users.route");
 const adminRoute = require("./routes/admin.route");
 const apointmentRoute = require("./routes/apointments.route");
 const vehiculeRoute = require("./routes/car.route");
+const repairRoute = require("./routes/repair.route");
 
 app.use(express.json());
 app.use(cors());
@@ -19,6 +20,7 @@ app.use("/api/users/", userRoutes);
 app.use("/api/responsable", adminRoute);
 app.use("/api/apointments", apointmentRoute);
 app.use("/api/vehicule", vehiculeRoute);
+app.use("/api/repair", repairRoute);
 
 //STARTING THE SERVER
 const start = async () => {

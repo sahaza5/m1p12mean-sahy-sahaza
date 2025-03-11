@@ -5,11 +5,17 @@ const RepairSchema = new mongoose.Schema(
     apointment: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Apointments",
+      required: "true",
+      // type: String,
     },
     status: {
       type: String,
+      required: true,
       enum: ["REPAIRING", "DONE"],
-      default: "REPAIRING",
+      // required: true,
+      // type: String,
+      // enum: ["REPAIRING", "DONE"],
+      // default: "REPAIRING",
     },
     // assignedTo: {
     //   type: String,
@@ -23,4 +29,6 @@ const RepairSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Repair", RepairSchema);
+const Repairs = mongoose.model("Repairs", RepairSchema);
+
+module.exports = { Repairs };
