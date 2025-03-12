@@ -1,0 +1,51 @@
+
+<app-navbar-client></app-navbar-client>
+
+<div style="min-height: 100vh;">
+  <div class="row h-100">
+      <div class="col-md-3 h-100">
+          <app-sidebar-client></app-sidebar-client>
+      </div>
+      <div class="col-md-9">
+        <div class="container mt-4">
+          <h2>Your Vehicle Management</h2>
+
+          <form (ngSubmit)="addClientVehicle()" #clientForm="ngForm">
+            <div class="mb-3">
+              <label for="vehicle" class="form-label">Vehicle</label>
+              <input type="text" class="form-control" id="vehicle" name="vehicle" [(ngModel)]="newClientVehicle.vehicle" required>
+            </div>
+            <div class="mb-3">
+              <label for="license" class="form-label">License</label>
+              <input type="text" class="form-control" id="license" name="license" [(ngModel)]="newClientVehicle.license" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Vehicle</button>
+          </form>
+        </div>
+
+        <table class="table mt-4">
+          <thead>
+            <tr>
+              <th>Client Name</th>
+              <th>Vehicle</th>
+              <th>License</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let clientVehicle of clientVehicles">
+              <td>{{ clientVehicle.clientName }}</td>
+              <td>{{ clientVehicle.vehicle }}</td>
+              <td>{{ clientVehicle.license }}</td>
+              <td>
+                <button class="btn btn-sm btn-info me-1" (click)="editClientVehicle(clientVehicle)">Update</button>
+                <button class="btn btn-sm btn-danger" (click)="deleteClientVehicle(clientVehicle)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+  </div>
+</div>
+

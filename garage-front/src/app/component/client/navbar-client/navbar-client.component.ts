@@ -1,0 +1,27 @@
+import { LoginService } from './../../../services/login/login.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
+
+@Component({
+  selector: 'app-navbar-client',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './navbar-client.component.html',
+  styleUrl: './navbar-client.component.css'
+})
+export class NavbarClientComponent implements OnInit {
+  clientName: string | null = null;
+
+  constructor(private router: Router, private LoginService: LoginService) { }
+
+  ngOnInit() {
+    this.clientName = localStorage.getItem('clientName'); // Get client name from localStorage
+  }
+
+  logout() {
+    this.LoginService.logout(); // Use LoginService to handle logout
+    this.router.navigate(['/login']); // Navigate to login page
+}
+}
