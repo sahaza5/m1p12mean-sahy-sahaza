@@ -38,6 +38,6 @@ routes
 routes.route("/client/login").post(clientLogin);
 
 //----SET PASSWORD  ROUTE----//
-routes.route("/client/setPassword").post(setPassword);
+routes.route("/client/setPassword").patch(setPassword);
 
 module.exports = routes;
