@@ -46,7 +46,7 @@ routes.get("/:id", authentication, getApointmentById);
 routes.post("/bookApointment", authentication, bookApointment);
 
 //------------SET THE APOINTMENT--------//
-routes.put(
+routes.patch(
   "/setApointment/:id",
   authentication,
   authorizationAdmin,

@@ -16,6 +16,44 @@ const getAllVehiculesForClient = async (req, res) => {
   }
 };
 
+const getVehiculeById = async (req, res) => {
+  console.log("Get vehicule by id ");
+  try {
+    const vehicules = await Vehicules.find({
+      // customer: req.params.id,
+      _id: req.user.id,
+    }).populate("customer");
+    // console.log(vehicules);
+    return res.status(httpStatus.OK).send(vehicules);
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+  }
+};
+
+const updateVehicule = async (req, res) => {
+  console.log("Update vehicule by id");
+  const { id } = req.params;
+  const { name, model, licensePlate } = req.body;
+  try {
+    const updatedVehicule = await Vehicules.findByIdAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          name: name && name,
+          model: model && model,
+          licensePlate: licensePlate && licensePlate,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+    return res.status(httpStatus.OK).json(updatedVehicule);
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+  }
+};
+
 const registerVehicule = async (req, res) => {
   console.log("Register vehicule");
   const { name, model, licensePlate } = req.body;
@@ -47,4 +85,9 @@ const registerVehicule = async (req, res) => {
   }
 };
 
-module.exports = { getAllVehiculesForClient, registerVehicule };
+module.exports = {
+  getAllVehiculesForClient,
+  registerVehicule,
+  getVehiculeById,
+  updateVehicule,
+};

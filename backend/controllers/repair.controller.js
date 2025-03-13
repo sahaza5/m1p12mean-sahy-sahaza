@@ -25,11 +25,20 @@ const getRepairById = async (req, res) => {
 const getAllRepair = async (req, res) => {
   console.log("Get all repair");
   try {
+    // const repairs = await Repairs.find().populate({
+    //   path: "apointment",
+    //   populate: {
+    //     path: "car",
+    //   },
+    // });
     const repairs = await Repairs.find().populate({
       path: "apointment",
-      populate: {
-        path: "car",
-      },
+      populate: [
+        {
+          path: "car",
+        },
+        { path: "belongsTo", select: "username" },
+      ],
     });
     return res.status(httpStatus.OK).json(repairs);
   } catch (error) {
