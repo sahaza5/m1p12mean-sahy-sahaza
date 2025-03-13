@@ -1,6 +1,9 @@
-import { NgModule } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 
 
 
@@ -9,8 +12,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 
   ],
   imports: [
+    BrowserModule,
     CommonModule,
     ReactiveFormsModule
-  ]
+  ],
+
 })
 export class AppModuleModule { }
