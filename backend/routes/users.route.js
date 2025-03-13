@@ -7,6 +7,7 @@ const {
   addMechanicien,
   clientLogin,
   setPassword,
+  deleteMechanicien,
 } = require("../controllers/users.controller");
 
 const { authentication } = require("../middleware/authentication");
@@ -34,6 +35,10 @@ routes
   .route("/add/mechanicien")
   .post(authentication, authorizationAdmin, addMechanicien);
 
+//-----DELETE/LAY DOWN A MECHANICIEN ROUTE-----//
+routes
+  .route("/delete/mechanicien/:id")
+  .patch(authentication, authorizationAdmin, deleteMechanicien);
 //----CLIENT LOG IN ROUTE----//
 routes.route("/client/login").post(clientLogin);
 

@@ -111,10 +111,54 @@ const bookApointment = async (req, res) => {
   }
 };
 
+//-----------CANCEL APOINTMENT-------//
+const cancelApointment = async (req, res) => {
+  const { id } = req.params;
+  console.log("Cancel apointment:", id);
+  const objId = mongoose.isValidObjectId(id);
+  if (!objId) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
+  }
+  try {
+    const findApointment = await Apointments.findById({ _id: id });
+    if (!findApointment) {
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .send({ message: "Apointment not found" });
+    }
+    if (findApointment.status !== "DONE") {
+      try {
+        const canceled = await Apointments.findByIdAndDelete({ _id: id });
+        if (!canceled) {
+          return res
+            .status(httpStatus.BAD_REQUEST)
+            .send({ message: "Canceled failed" });
+        }
+        try {
+          const cancelRepair = await Repairs.findByIdAndDelete({
+            apointment: id,
+          });
+          return res.status(httpStatus.OK).send(canceled, cancelRepair);
+        } catch (error) {
+          return res
+            .status(httpStatus.BAD_REQUEST)
+            .send({ message: "Deleting in repair failed " });
+        }
+      } catch (error) {
+        return res
+          .status(httpStatus.BAD_REQUEST)
+          .send({ message: error.message });
+      }
+    }
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
+  }
+};
+
 //------UPDATE/SET APOINTMENT-------
 const updateApointment = async (req, res) => {
   console.log("Update the apointment");
-  const { date, assignedTo } = req.body;
+  const { date, assignedTo, status } = req.body;
   const { id } = req.params;
   console.log(id);
   const validId = mongoose.isValidObjectId(id);
@@ -124,19 +168,29 @@ const updateApointment = async (req, res) => {
   try {
     const updatedApointment = await Apointments.findOneAndUpdate(
       { _id: id },
-      { $set: { status: "APPROVED", assignedTo, date: new Date(date) } },
+      { $set: { status: status, assignedTo, date: new Date(date) } },
       { new: true }
     );
     console.log(updatedApointment);
     if (updateApointment) {
-      const insertNew = await Repairs.create({
-        apointment: updatedApointment._id,
-        status: "REPAIRING",
-      });
-      console.log("Insert new is ", insertNew);
+      if (updateApointment.status !== "DONE") {
+        const insertNew = await Repairs.create({
+          apointment: updatedApointment._id,
+          // status: "REPAIRING",
+        });
+        console.log("Insert new is ", insertNew);
 
-      // const [update, insert] = await Promise.all([updateApointment, insertNew]);
-      return res.status(200).send({ updateApointment, insertNew });
+        // const [update, insert] = await Promise.all([updateApointment, insertNew]);
+        return res.status(200).send({ updateApointment, insertNew });
+      } else {
+        const doneRepair = await Repairs.findByIdAndUpdate(
+          {
+            apointment: updatedApointment._id,
+          },
+          { $set: { status: "DONE" } }
+        );
+        return res.status(200).send({ updateApointment, doneRepair });
+      }
     } else {
       return res.status(httpStatus.BAD_REQUEST).send("Something went wrong");
     }
@@ -171,5 +225,6 @@ module.exports = {
   getApointmentById,
   getAllApointmentForClient,
   bookApointment,
+  cancelApointment,
   updateApointment,
 };

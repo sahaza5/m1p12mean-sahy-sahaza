@@ -10,6 +10,7 @@ const {
   getAllApointmentsForResponsable,
   getApointmentById,
   getAllApointmentForClient,
+  cancelApointment,
   updateApointment,
   bookApointment,
 } = require("../controllers/apointment.controller");
@@ -52,5 +53,8 @@ routes.patch(
   authorizationAdmin,
   updateApointment
 );
+
+//---------CANCEL APOINTMENT------//
+routes.delete("/cancelApointment/:id", authentication, cancelApointment);
 
 module.exports = routes;

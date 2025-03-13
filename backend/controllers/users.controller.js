@@ -2,6 +2,7 @@ const { default: mongoose } = require("mongoose");
 const { Users } = require("../models/users.model");
 const jwt = require("jsonwebtoken");
 const httpStatus = require("http-status-codes");
+const { Apointments } = require("../models/apointment.model");
 
 //GET ALL USERS
 const getAllUsers = async (req, res) => {
@@ -104,6 +105,41 @@ const addMechanicien = async (req, res) => {
   }
 };
 
+//DELETE OR DISABLE MECHANICIEN
+const deleteMechanicien = async (req, res) => {
+  const { id } = req.params;
+  console.log("Delete mechanicien:", id);
+  const objId = mongoose.isValidObjectId(id);
+  if (!objId) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid ID" });
+  }
+  try {
+    const deletedMechanicien = await Users.findOneAndUpdate(
+      { _id: id },
+      { $set: { status: "DISABLE" } },
+      { new: true }
+    );
+    if (!deletedMechanicien) {
+      return res
+        .status(httpStatus.BAD_REQUEST)
+        .send({ message: "User not found" });
+    }
+    const deleteApointment = await Apointments.findOneAndUpdate(
+      { assignedTo: id },
+      { $set: { assignedTo: null } },
+      { new: true }
+    );
+    if (!deleteApointment) {
+      return res.status(httpStatus.BAD_REQUEST).send({
+        message: "Something went wrong while updating the apointment",
+      });
+    }
+    return res.status(httpStatus.OK).json(deletedMechanicien);
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
+  }
+};
+
 //CLIENT LOGIN ONLY
 const clientLogin = async (req, res) => {
   const { username, password } = req.body;
@@ -175,4 +211,5 @@ module.exports = {
   addMechanicien,
   clientLogin,
   setPassword,
+  deleteMechanicien,
 };

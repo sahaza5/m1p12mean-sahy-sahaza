@@ -15,6 +15,11 @@ const UserSchema = new mongoose.Schema(
       minlength: 3,
       maxlength: 20,
     },
+    status: {
+      type: String,
+      enum: ["ENABLE", "DISABLE"],
+      default: "ENABLE",
+    },
     role: {
       type: String,
       required: true,

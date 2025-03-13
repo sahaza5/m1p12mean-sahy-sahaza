@@ -47,4 +47,29 @@ const getAllRepair = async (req, res) => {
   //   return res.status(httpStatus.OK).json("test");
 };
 
-module.exports = { getRepairById, getAllRepair };
+//-----UPDATE REPAIR------//
+const updateRepair = async (req, res) => {
+  const { id } = req.params;
+  const { service } = req.body;
+
+  console.log("Done repair:", id);
+  console.log("The service is:", service);
+
+  const objId = mongoose.isValidObjectId(id);
+  if (!objId) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
+  }
+
+  try {
+    const updatedRepair = await Repairs.findByIdAndUpdate(
+      { _id: id },
+      { $set: { service, status: "REPAIRING" } },
+      { new: true }
+    );
+    return res.status(httpStatus.OK).send({ updatedRepair });
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
+  }
+};
+
+module.exports = { getRepairById, getAllRepair, updateRepair };

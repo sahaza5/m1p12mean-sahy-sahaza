@@ -10,7 +10,6 @@ const ApointmentSchema = new mongoose.Schema(
     // },
     description: {
       type: String,
-      required: false,
       required: true,
       minlength: 3,
       maxlength: 100,
@@ -20,7 +19,7 @@ const ApointmentSchema = new mongoose.Schema(
       required: true,
       default: "PENDING",
       // enum: ["PENDING", "APPROVED", "DONE"],
-      enum: ["PENDING", "APPROVED"],
+      enum: ["PENDING", "APPROVED", "DONE"],
     },
     assignedTo: {
       type: mongoose.Schema.Types.ObjectId,

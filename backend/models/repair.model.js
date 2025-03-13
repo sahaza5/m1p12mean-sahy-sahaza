@@ -11,11 +11,8 @@ const RepairSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: ["REPAIRING", "DONE"],
-      // required: true,
-      // type: String,
-      // enum: ["REPAIRING", "DONE"],
-      // default: "REPAIRING",
+      enum: ["CHECKING", "REPAIRING", "DONE", "PAID"],
+      default: "CHECKING",
     },
     // assignedTo: {
     //   type: String,
@@ -23,6 +20,10 @@ const RepairSchema = new mongoose.Schema(
     // },
     amount: {
       type: Number,
+      required: false,
+    },
+    service: {
+      type: String,
       required: false,
     },
   },
