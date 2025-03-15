@@ -50,6 +50,8 @@ In the body,write json username and password, for example:
 
 I have set a brand new login for the client(see inside users.controller.js) for security purpose and logic is slightly different (aza rarahina fa mbol resahiko)
 
+++++Delete a mechanicien as a PATCH request http://localhost:3000/api/users/delete/mechanicien
+
 +++++To login as a client as a POST request:http://localhost:3000/api/users/client/login/
 In the body,write json username and password, for example
 {
@@ -95,6 +97,8 @@ It needs authentication. Return array of apointment.
 ++++Approve and set apointment (APPROVED and REPAIRING) as a PATCH request
 http://localhost:3000/api/apointments/setApointment/67cfa17b6ea35689db1eb56a(apointment id), the body contain both the date and assigned to(mechanicien)
 
+++++Cancel apointment as a DELETE request http://localhost:3000/api/apointments/cancelApointment/67cfa17b6ea35689db1eb56a(apointment id),
+
 ++++Register a car as POST request
 http://localhost:3000/api/vehicule/register, body field are name, model,licensePlate
 
@@ -109,3 +113,5 @@ http://localhost:3000/api/vehicule/1234552(vehicule id)
 ++++Get all repaired car as GET request http://localhost:3000/api/repair
 
 ++++Get repair car by id as a GET request, http://localhost:3000/api/repair/67cfa47c0ce6474ce81672f0
+
+++++Repairing a car by id as a PATCH request, http://localhost:3000/api/repair/update/67cfa47c0ce6474ce81672f0

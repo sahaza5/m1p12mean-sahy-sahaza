@@ -1,12 +1,12 @@
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Import CommonModule
 import { Router } from '@angular/router'; // Import Router
 import { SidebarClientComponent } from '../sidebar-client/sidebar-client.component';
 import { NavbarClientComponent } from '../navbar-client/navbar-client.component';
-import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import * as bootstrap from 'bootstrap'; // Import bootstrap for modal
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
+import { LoginService } from '../../../services/login/login.service';
 
 interface ClientVehicle {
   clientName: string;
@@ -17,27 +17,47 @@ interface ClientVehicle {
 @Component({
   selector: 'app-client-dashboard',
   standalone: true,
-  imports: [CommonModule, SidebarClientComponent, NavbarClientComponent, ReactiveFormsModule, FormsModule], // Add CommonModule
+  imports: [
+    CommonModule,
+    SidebarClientComponent,
+    NavbarClientComponent,
+    ReactiveFormsModule,
+    FormsModule,
+  ], // Add CommonModule
   templateUrl: './client-dashboard.component.html',
-  styleUrls: ['./client-dashboard.component.css']
+  styleUrls: ['./client-dashboard.component.css'],
 })
 export class ClientDashboardComponent implements OnInit {
-
   clientVehicles: ClientVehicle[] = [];
-  newClientVehicle: ClientVehicle = { clientName: '', vehicle: '', license: '' };
-  editedClientVehicle: ClientVehicle = { clientName: '', vehicle: '', license: '' };
+  newClientVehicle: ClientVehicle = {
+    clientName: '',
+    vehicle: '',
+    license: '',
+  };
+  editedClientVehicle: ClientVehicle = {
+    clientName: '',
+    vehicle: '',
+    license: '',
+  };
   private editModal: bootstrap.Modal | undefined;
 
+  currentUser: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private LoginService: LoginService,
+  ) {}
 
   ngOnInit() {
-     // Initialize the modal
-     const modalElement = document.getElementById('editModal');
-     if (modalElement) {
-       this.editModal = new bootstrap.Modal(modalElement);
-     }
-   }
+    // Initialize the modal
+    const modalElement = document.getElementById('editModal');
+    this.LoginService.currentUser.subscribe((user) => {
+      this.currentUser = user;
+    });
+    if (modalElement) {
+      this.editModal = new bootstrap.Modal(modalElement);
+    }
+  }
 
   addClientVehicle() {
     this.clientVehicles.push({ ...this.newClientVehicle });
@@ -45,7 +65,11 @@ export class ClientDashboardComponent implements OnInit {
   }
 
   deleteClientVehicle(clientVehicle: ClientVehicle) {
-    this.clientVehicles = this.clientVehicles.filter(cv => cv !== clientVehicle);
+    if (this.currentUser.role === 'ADMIN') {
+      this.clientVehicles = this.clientVehicles.filter(
+        (cv) => cv !== clientVehicle,
+      );
+    }
   }
 
   editClientVehicle(clientVehicle: ClientVehicle) {
@@ -54,11 +78,12 @@ export class ClientDashboardComponent implements OnInit {
   }
 
   updateClientVehicle() {
-    const index = this.clientVehicles.findIndex(cv => cv.license === this.editedClientVehicle.license);
+    const index = this.clientVehicles.findIndex(
+      (cv) => cv.license === this.editedClientVehicle.license,
+    );
     if (index !== -1) {
       this.clientVehicles[index] = { ...this.editedClientVehicle };
     }
     this.editModal?.hide();
   }
-
 }

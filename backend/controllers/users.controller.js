@@ -15,6 +15,11 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+//GET USER DATA
+const getUserData = async (req, res) => {
+  return res.status(httpStatus.OK).send(req.user);
+};
+
 //GET USER BY ID
 const getUserById = async (req, res) => {
   const { id } = req.params;
@@ -212,4 +217,5 @@ module.exports = {
   clientLogin,
   setPassword,
   deleteMechanicien,
+  getUserData,
 };
