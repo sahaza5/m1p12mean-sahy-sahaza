@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { environment } from '../../../environment/environment';
-import { catchError } from 'rxjs/operators';
+
 import { Router } from '@angular/router';
-import { tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
+import { of } from 'rxjs'; // If you're using 'of' for error handling
+import { response } from 'express';
 
 @Injectable({
   providedIn: 'root',
@@ -44,6 +46,10 @@ export class LoginService {
   //       }),catchError(this.handleError))
   //   );
   // }
+
+  getUsername(): Observable<string | null> {
+    return this.currentUserSubject.asObservable();
+  }
   login(credentials: any) {
     return this.http.post<any>(`${this.apiUrl}`, credentials).pipe(
       tap((response: any) => {
@@ -51,11 +57,10 @@ export class LoginService {
           // Store the token in localStorage
           localStorage.setItem('token', `Bearer ${response.token}`);
 
-          // Store the user info (e.g., username, user object) in localStorage
-          localStorage.setItem('currentUser', JSON.stringify(response.user)); // Assuming 'response.user' contains the user info
-
           // You could update your BehaviorSubject if you want to immediately update the current user in the app
           this.currentUserSubject.next(response.user);
+
+          console.log('The response is', response.user);
 
           // Navigate to client dashboard
           this.router.navigate(['/client-dashboard']);
@@ -65,8 +70,41 @@ export class LoginService {
     );
   }
 
-  isAuthenticated(): boolean {
-    return !!localStorage.getItem('token');
+  verifyToken(): Observable<any> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return new Observable((observer) => observer.error('Token not found'));
+    }
+    console.log('Verify token:', token);
+    const headers = new HttpHeaders().set('Authorization', `${token}`);
+    return this.http
+      .get<any>(`${environment.apiUrl}/users/userData`, { headers })
+      .pipe(
+        tap((response) => {
+          console.log('User data received:', response);
+          this.currentUserSubject.next(response);
+        }),
+        catchError((error) => {
+          return new Observable((observer) => observer.error('Invalid token'));
+        }),
+      );
+  }
+
+  isAuthenticated(): any {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem('token');
+
+    console.log('IsAuthenticated token:', token);
+
+    // If no token is found, return false immediately
+    if (!token) {
+      return false;
+    }
+    if (this.verifyToken()) {
+      console.log('Yes');
+
+      return true;
+    }
   }
 
   private handleError(error: any) {

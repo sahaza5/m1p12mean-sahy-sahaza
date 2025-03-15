@@ -8,6 +8,7 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { LoginService } from './login/login.service';
+import { catchError, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -18,15 +19,23 @@ export class AuthService implements CanActivate {
     private router: Router,
   ) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ): boolean {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any {
     if (this.loginService.isAuthenticated()) {
-      return true;
+      console.log('Can activate');
+      return this.loginService.verifyToken().pipe(
+        map(() => true),
+        catchError(() => {
+          this.router.navigate(['/login']);
+          return [false];
+        }),
+      );
+      // return true;
+    } else {
+      this.router.navigate(['/login']);
+      return false;
     }
 
-    this.router.navigate(['/login']);
-    return false;
+    // this.router.navigate(['/login']);
+    // return false;
   }
 }

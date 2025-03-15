@@ -55,8 +55,9 @@ const updateVehicule = async (req, res) => {
 };
 
 const registerVehicule = async (req, res) => {
-  console.log("Register vehicule");
+  console.log("Register vehicule", req.user);
   const { name, model, licensePlate } = req.body;
+
   // const objId = mongoose.isValidObjectId(customer);
   // if (!objId) {
   //   return res
@@ -79,14 +80,25 @@ const registerVehicule = async (req, res) => {
     //     const populatedVehicle = await Vehicle.findById(newVehicle._id).populate('customer');
     return res.status(httpStatus.OK).json(newRegister);
   } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
+  }
+};
+
+const deleteVehicule = async (req, res) => {
+  const { id, repairStatus } = req.params;
+
+  if (repairStatus !== "NOT YET REPAIRED" && repairStatus !== "REPAIRED") {
     return res
       .status(httpStatus.BAD_REQUEST)
-      .message({ message: error.message });
+      .json({ message: "Cannot delete this vehicule" });
   }
+  const deletedVehicule = await Vehicules.findOneAndDelete({ _id: id });
+  return res.status(httpStatus.OK).json(deletedVehicule);
 };
 
 module.exports = {
   getAllVehiculesForClient,
+  deleteVehicule,
   registerVehicule,
   getVehiculeById,
   updateVehicule,

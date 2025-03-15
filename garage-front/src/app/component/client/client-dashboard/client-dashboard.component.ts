@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import * as bootstrap from 'bootstrap'; // Import bootstrap for modal
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
 import { LoginService } from '../../../services/login/login.service';
+import { ClientDashboardService } from '../../../services/clientDashboard/client-dashboard.service';
 
 interface ClientVehicle {
   clientName: string;
@@ -28,7 +29,11 @@ interface ClientVehicle {
   styleUrls: ['./client-dashboard.component.css'],
 })
 export class ClientDashboardComponent implements OnInit {
-  clientVehicles: ClientVehicle[] = [];
+  // clientVehicles: ClientVehicle[] = [];
+  clientVehicles: any[] = [];
+  isLoading = true;
+  error: String | null = null;
+
   newClientVehicle: ClientVehicle = {
     clientName: '',
     vehicle: '',
@@ -45,6 +50,7 @@ export class ClientDashboardComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
+    private clientDasboardVehicle: ClientDashboardService,
     private LoginService: LoginService,
   ) {}
 
@@ -57,6 +63,24 @@ export class ClientDashboardComponent implements OnInit {
     if (modalElement) {
       this.editModal = new bootstrap.Modal(modalElement);
     }
+
+    this.loadClientVehicle(this.currentUser);
+  }
+
+  loadClientVehicle(currentUser: any) {
+    console.log('The current user is:', currentUser);
+    console.log('Fetching vehicles...');
+    this.clientDasboardVehicle.getClientVehicules(this.currentUser).subscribe(
+      (data: any) => {
+        console.log('Vehicule data are:', data);
+        this.clientVehicles = data;
+        this.isLoading = false;
+      },
+      (error: any) => {
+        this.error = 'Error fetching vehicule';
+        this.isLoading = false;
+      },
+    );
   }
 
   addClientVehicle() {
@@ -65,11 +89,11 @@ export class ClientDashboardComponent implements OnInit {
   }
 
   deleteClientVehicle(clientVehicle: ClientVehicle) {
-    if (this.currentUser.role === 'ADMIN') {
-      this.clientVehicles = this.clientVehicles.filter(
-        (cv) => cv !== clientVehicle,
-      );
-    }
+    // if (this.currentUser.role === 'ADMIN') {
+    this.clientVehicles = this.clientVehicles.filter(
+      (cv) => cv !== clientVehicle,
+    );
+    // }
   }
 
   editClientVehicle(clientVehicle: ClientVehicle) {

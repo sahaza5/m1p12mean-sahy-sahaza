@@ -4,6 +4,7 @@ const {
   getAllVehiculesForClient,
   updateVehicule,
   registerVehicule,
+  deleteVehicule,
   getVehiculeById,
 } = require("../controllers/vehicule.controller");
 
@@ -21,5 +22,8 @@ routes.patch("/:id", authentication, updateVehicule);
 
 //----------GET VEHICULE BY ID------//
 routes.get("/vehicule/:id", authentication, getVehiculeById);
+
+//--------DELETE VEHICULE BY ID------//
+routes.delete("/vehicule/:id", authentication, deleteVehicule);
 
 module.exports = routes;
