@@ -70,7 +70,7 @@ const registerVehicule = async (req, res) => {
   // }
   try {
     const newRegister = await Vehicules.create({
-      customer: req.user.id,
+      customer: req.user._id,
       name,
       model,
       licensePlate,
@@ -79,9 +79,10 @@ const registerVehicule = async (req, res) => {
     //     const populatedVehicle = await Vehicle.findById(newVehicle._id).populate('customer');
     return res.status(httpStatus.OK).json(newRegister);
   } catch (error) {
-    return res
-      .status(httpStatus.BAD_REQUEST)
-      .message({ message: error.message });
+    console.log(error.message)
+    // return res
+    //   .status(httpStatus.BAD_REQUEST)
+    //   .message({ message: error.message });
   }
 };
 
