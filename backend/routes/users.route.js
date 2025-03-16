@@ -8,6 +8,7 @@ const {
   clientLogin,
   setPassword,
   deleteMechanicien,
+  getUserData,
 } = require("../controllers/users.controller");
 
 const { authentication } = require("../middleware/authentication");
@@ -21,6 +22,9 @@ const routes = express.Router();
 //----GET ALL USERS ROUTE------//
 //User must be authenticated(logged in) and have the privilege before getting all users
 routes.route("/").get(authentication, authorizationResponsable, getAllUsers);
+
+//----GET USER DATA-----//
+routes.route("/userdata").get(authentication, getUserData);
 
 //----GET ONE USER ROUTE------//
 //User must be authenticated(logged in) and have the privilege before getting all users

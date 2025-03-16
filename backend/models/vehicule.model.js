@@ -3,8 +3,13 @@ const mongoose = require("mongoose");
 const VehiculeSchema = new mongoose.Schema(
   {
     customer: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
-    name: { type: String },
-    model: { type: String },
+    name: { type: String, required: true },
+    model: { type: String, required: true },
+    repairStatus: {
+      type: String,
+      enum: ["NOT YET REPAIRED", "WAITING APOINTMENT", "REPAIRING", "REPAIRED"],
+      default: "NOT YET REPAIRED",
+    },
     licensePlate: { type: String, unique: true, required: true },
   },
   { timestamps: true }

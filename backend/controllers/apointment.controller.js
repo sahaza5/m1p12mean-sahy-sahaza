@@ -4,6 +4,7 @@ const httpStatus = require("http-status-codes");
 const { Apointments } = require("../models/apointment.model");
 // const { Users } = require("../models/users.model");
 const { Repairs } = require("../models/repair.model");
+const { Vehicules } = require("../models/vehicule.model");
 
 //---------------GET ALL APOINTMENTS SPECIFIC FOR ADMIN-------//
 const getAllApointmentsForAdminRole = async (req, res) => {
@@ -103,6 +104,12 @@ const bookApointment = async (req, res) => {
       belongsTo: req.user.id,
       car,
     });
+
+    const updateVehicule = await Vehicules.findOneAndUpdate(
+      { _id: car },
+      { $set: { repairStatus: "WAITING APOINTMENT" } },
+      { new: true }
+    );
 
     // const newRepair = await Repairs.create({ apointment: booking._id });
     return res.status(httpStatus.CREATED).json(booking);

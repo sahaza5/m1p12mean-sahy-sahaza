@@ -8,9 +8,10 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [RouterModule, CommonModule],
   templateUrl: './sidebar-client.component.html',
-  styleUrl: './sidebar-client.component.css'
+  styleUrl: './sidebar-client.component.css',
 })
-export class SidebarClientComponent implements OnInit{
+export class SidebarClientComponent implements OnInit {
+  currentUser: any;
 
   activeRoute: string = 'your-car'; // Default active route
 
@@ -44,6 +45,4 @@ export class SidebarClientComponent implements OnInit{
         this.activeRoute = ''; // Or a default if needed
     }
   }
-
-
 }

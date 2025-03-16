@@ -1,66 +1,102 @@
-
 <app-navbar-client></app-navbar-client>
 
-<div style="min-height: 100vh;">
+<div style="min-height: 100vh">
   <div class="row h-100">
-      <div class="col-md-3 h-100">
-          <app-sidebar-client></app-sidebar-client>
-      </div>
-      <div class="col-md-9">
-        <div class="container mt-4">
-
-          <div class="d-flex align-items-center justify-content-between">
-            <div>
-              <h2>Vehicle Management</h2>
-            </div>
-            <div class="d-flex align-items-center">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-primary me-2" type="submit">
-                  <i class="bi bi-search"></i>
-              </button>
-            </div>
+    <div class="col-md-3 h-100">
+      <app-sidebar-client></app-sidebar-client>
+    </div>
+    <div class="col-md-9">
+      <div class="container mt-4">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <h2>Vehicle Management</h2>
           </div>
-
-          <form (ngSubmit)="addClientVehicle()" #clientForm="ngForm">
-            <div class="mb-3">
-              <label for="vehicle" class="form-label">name Vehicle</label>
-              <input type="text" class="form-control" id="vehicle" name="vehicle" [(ngModel)]="newClientVehicle.vehicle" required>
-            </div>
-            <div class="mb-3">
-              <label for="vehicle" class="form-label">model</label>
-              <input type="text" class="form-control" id="vehicle" name="vehicle" [(ngModel)]="newClientVehicle.vehicle" required>
-            </div>
-            <div class="mb-3">
-              <label for="license" class="form-label">Licenseplate</label>
-              <input type="text" class="form-control" id="license" name="license" [(ngModel)]="newClientVehicle.license" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Vehicle</button>
-          </form>
+          <div class="d-flex align-items-center">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-primary me-2" type="submit">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
         </div>
 
-        <table class="table mt-4">
-          <thead>
-            <tr>
-              <th>Client Name</th>
-              <th>Vehicle</th>
-              <th>License</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let clientVehicle of clientVehicles">
-              <td>{{ clientVehicle.clientName }}</td>
-              <td>{{ clientVehicle.vehicle }}</td>
-              <td>{{ clientVehicle.license }}</td>
-              <td>
-                <button class="btn btn-sm btn-info me-1" (click)="editClientVehicle(clientVehicle)">Update</button>
-                <button class="btn btn-sm btn-danger" (click)="deleteClientVehicle(clientVehicle)">Delete</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
+        <form (ngSubmit)="addClientVehicle()" #clientForm="ngForm">
+          <div class="mb-3">
+            <label for="vehicle" class="form-label">Vehicle</label>
+            <input
+              type="text"
+              class="form-control"
+              id="vehicle"
+              name="vehicle"
+              [(ngModel)]="newClientVehicle.vehicle"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="license" class="form-label">Licenseplate</label>
+            <input
+              type="text"
+              class="form-control"
+              id="license"
+              name="license"
+              [(ngModel)]="newClientVehicle.license"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Add Vehicle</button>
+        </form>
       </div>
+
+      <table class="table mt-4">
+        <thead>
+          <tr>
+            <th>Vehicule Name</th>
+            <th>Model</th>
+            <th>License</th>
+            <th>Repair Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let clientVehicle of clientVehicles">
+            <td>{{ clientVehicle.name }}</td>
+            <td>{{ clientVehicle.model }}</td>
+            <td>{{ clientVehicle.licensePlate }}</td>
+            <td>{{ clientVehicle.repairStatus }}</td>
+            <td>
+              <button
+                class="btn btn-sm btn-success me-1"
+                (click)="editClientVehicle(clientVehicle)"
+              >
+                Update
+              </button>
+              <button
+                [disabled]="
+                  clientVehicle.repairStatus !== 'NOT YET REPAIRED' &&
+                  clientVehicle.repairStatus !== 'REPAIRED'
+                "
+                [ngClass]="{
+                  'btn-danger':
+                    clientVehicle.repairStatus === 'NOT YET REPAIRED' ||
+                    clientVehicle.repairStatus === 'REPAIRED',
+                  'btn-secondary':
+                    clientVehicle.repairStatus !== 'NOT YET REPAIRED' &&
+                    clientVehicle.repairStatus !== 'REPAIRED',
+                }"
+                class="btn btn-sm me-1"
+                (click)="deleteClientVehicle(clientVehicle)"
+              >
+                Delete
+              </button>
+              <button class="btn btn-sm btn-info">View</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
-
