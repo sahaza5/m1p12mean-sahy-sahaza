@@ -23,7 +23,11 @@
 
           <form (ngSubmit)="addClientVehicle()" #clientForm="ngForm">
             <div class="mb-3">
-              <label for="vehicle" class="form-label">Vehicle</label>
+              <label for="vehicle" class="form-label">name Vehicle</label>
+              <input type="text" class="form-control" id="vehicle" name="vehicle" [(ngModel)]="newClientVehicle.vehicle" required>
+            </div>
+            <div class="mb-3">
+              <label for="vehicle" class="form-label">model</label>
               <input type="text" class="form-control" id="vehicle" name="vehicle" [(ngModel)]="newClientVehicle.vehicle" required>
             </div>
             <div class="mb-3">

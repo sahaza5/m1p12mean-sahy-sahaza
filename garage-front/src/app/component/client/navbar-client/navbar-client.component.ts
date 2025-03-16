@@ -1,4 +1,4 @@
-import { LoginService } from './../../../services/login/login.service';
+import { LoginService } from '../../../services/services-client/login/login.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -23,5 +23,5 @@ export class NavbarClientComponent implements OnInit {
   logout() {
     this.LoginService.logout(); // Use LoginService to handle logout
     this.router.navigate(['/login']); // Navigate to login page
-}
+  }
 }

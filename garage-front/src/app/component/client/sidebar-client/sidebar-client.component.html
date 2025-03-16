@@ -7,14 +7,14 @@
   <hr>
 
   <ul class="nav nav-pills flex-column mb-auto">
-      <li class="nav-item" (click)="setActive('your-car')" >
+      <li class="nav-item"  >
           <a routerLink="/client-dashboard" href="#" class="nav-link " [ngClass]="{'active': activeRoute === 'your-car'}"   aria-current="page">
             <i class="bi bi-car-front-fill me-2"></i>
             Your Car
           </a>
       </li>
 
-      <li class="nav-item" (click)="setActive('appointment')">
+      <li class="nav-item" >
           <a routerLink="/appointment" href="#" class="nav-link" [ngClass]="{'active': activeRoute === 'appointment'}" aria-current="page">
             <i class="bi bi-calendar-fill me-2"></i>
             Appointment

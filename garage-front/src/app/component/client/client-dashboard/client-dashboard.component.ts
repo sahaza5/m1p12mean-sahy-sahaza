@@ -1,3 +1,4 @@
+import { routes } from './../../../app.routes';
 
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Import CommonModule
@@ -29,9 +30,12 @@ export class ClientDashboardComponent implements OnInit {
   private editModal: bootstrap.Modal | undefined;
 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit() {
+    // if(!localStorage.getItem('token')){
+    //   this.router.navigate(['/']);
+    // }
      // Initialize the modal
      const modalElement = document.getElementById('editModal');
      if (modalElement) {
@@ -40,8 +44,9 @@ export class ClientDashboardComponent implements OnInit {
    }
 
   addClientVehicle() {
-    this.clientVehicles.push({ ...this.newClientVehicle });
-    this.newClientVehicle = { clientName: '', vehicle: '', license: '' }; // Reset form
+    // this.clientVehicles.push({ ...this.newClientVehicle });
+    // this.newClientVehicle = { clientName: '', vehicle: '', license: '' }; // Reset form
+
   }
 
   deleteClientVehicle(clientVehicle: ClientVehicle) {

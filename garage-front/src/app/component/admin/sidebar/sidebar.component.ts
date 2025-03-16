@@ -1,26 +1,25 @@
 import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
-import { RouterModule, Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators'
 import { CommonModule } from '@angular/common';
+import { RouterModule, Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-sidebar-client',
-  standalone: true,
+  selector: 'app-sidebar',
   imports: [RouterModule, CommonModule],
-  templateUrl: './sidebar-client.component.html',
-  styleUrl: './sidebar-client.component.css'
+  templateUrl: './sidebar.component.html',
+  styleUrl: './sidebar.component.css'
 })
-export class SidebarClientComponent implements OnInit{
+export class SidebarComponent implements OnInit{
 
-  activeRoute: string = 'your-car'; // Default active route
+  activeRoute: string = 'mechanic-list'; // Default active route
 
   constructor(private router: Router, private activatedRoute:ActivatedRoute) { }
 
-  clientName: string | null = null;
+  adminName: string | null = null;
 
   ngOnInit(): void {
 
-    this.clientName = localStorage.getItem('clientName'); // Get client name from localStorage
+    this.adminName = localStorage.getItem('clientName'); // Get client name from localStorage
 
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -30,20 +29,20 @@ export class SidebarClientComponent implements OnInit{
 
   }
 
-
   updateActiveRoute(): void {
     let currentRoute = this.router.url;
 
-    if (currentRoute.includes('/client-dashboard')) {
-        this.activeRoute = 'your-car';
+    if (currentRoute.includes('/admin-dashboard')) {
+        this.activeRoute = 'mechanic-list';
     } else if (currentRoute.includes('/appointment')) {
         this.activeRoute = 'appointment';
+    } else if (currentRoute.includes('/repair')) {
+      this.activeRoute = 'repair';
     } else if (currentRoute.includes('/payement')) {
         this.activeRoute = 'payement';
     } else {
         this.activeRoute = ''; // Or a default if needed
     }
   }
-
 
 }

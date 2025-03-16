@@ -1,26 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-
+import { CommonModule } from '@angular/common'
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, CommonModule],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  selector: 'app-service-populaire',
+  imports: [ReactiveFormsModule, CommonModule],
+  templateUrl: './service-populaire.component.html',
+  styleUrl: './service-populaire.component.css'
 })
-export class HomeComponent implements OnInit{
-
-  ngOnInit(): void {
-
-  }
+export class ServicePopulaireComponent {
 
   title = 'Your Trusted Partner for Car Care';
   mission = 'We provide expert auto repair and maintenance services to keep your vehicle running smoothly. Our experienced mechanics are dedicated to delivering quality workmanship and exceptional customer service.';
   teamSize = 'Our experienced mechanics are dedicated to delivering quality workmanship and exceptional customer service.';
+
   popularServices = [
+
     {
       name: 'Oil Change',
       description: 'Quick and efficient oil change services.',
@@ -38,7 +33,4 @@ export class HomeComponent implements OnInit{
     },
 
   ];
-
 }
-
-

@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
-import { RegisterService } from '../../../services/service register/register.service';
+import { RegisterService } from '../../../services/services-client/service register/register.service';
 
 
 @Component({
