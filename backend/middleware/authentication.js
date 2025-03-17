@@ -10,7 +10,7 @@ const authentication = async (req, res, next) => {
   console.log("Token with bearer is:", token);
 
   if (!token || !token.startsWith("Bearer")) {
-    res.status(httpStatus.BAD_REQUEST).send({ message: "Wrong token" });
+    return res.status(httpStatus.BAD_REQUEST).send({ message: "Wrong token" });
   }
 
   const splitedToken = token.split(" ");
@@ -34,7 +34,9 @@ const authentication = async (req, res, next) => {
     req.user = { id, username, role };
     next();
   } catch (error) {
-    res.status(httpStatus.FORBIDDEN).send({ message: "Forbidden access" });
+    return res
+      .status(httpStatus.FORBIDDEN)
+      .send({ message: "Forbidden access" });
   }
 };
 

@@ -24,6 +24,6 @@ routes.patch("/:id", authentication, updateVehicule);
 routes.get("/vehicule/:id", authentication, getVehiculeById);
 
 //--------DELETE VEHICULE BY ID------//
-routes.delete("/vehicule/:id", authentication, deleteVehicule);
+routes.delete("/:id", authentication, deleteVehicule);
 
 module.exports = routes;

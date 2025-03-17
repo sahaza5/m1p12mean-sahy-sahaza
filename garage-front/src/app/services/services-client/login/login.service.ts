@@ -26,7 +26,6 @@ export class LoginService {
   //   );
   //   this.currentUser = this.currentUserSubject.asObservable();
   // }
-
   // login(credentials: any) {
   //   return (
   //     this.http
@@ -40,12 +39,10 @@ export class LoginService {
   //       // });
   //       .pipe((response)=>{
   //         if(response && response.token){
-
   //         }
   //       }),catchError(this.handleError))
   //   );
   // }
-
   // getUsername(): Observable<string | null> {
   //   return this.currentUserSubject.asObservable();
   // }
@@ -55,12 +52,9 @@ export class LoginService {
   //       if (response && response.token) {
   //         // Store the token in localStorage
   //         localStorage.setItem('token', `Bearer ${response.token}`);
-
   //         // You could update your BehaviorSubject if you want to immediately update the current user in the app
   //         this.currentUserSubject.next(response.user);
-
   //         console.log('The response is', response.user);
-
   //         // Navigate to client dashboard
   //         this.router.navigate(['/client-dashboard']);
   //       }
@@ -68,7 +62,6 @@ export class LoginService {
   //     catchError(this.handleError),
   //   );
   // }
-
   // verifyToken(): Observable<any> {
   //   const token = localStorage.getItem('token');
   //   if (!token) {
@@ -88,38 +81,30 @@ export class LoginService {
   //       }),
   //     );
   // }
-
   // isAuthenticated(): any {
   //   // Retrieve the token from localStorage
   //   const token = localStorage.getItem('token');
-
   //   console.log('IsAuthenticated token:', token);
-
   //   // If no token is found, return false immediately
   //   if (!token) {
   //     return false;
   //   }
   //   if (this.verifyToken()) {
   //     console.log('Yes');
-
   //     return true;
   //   }
   // }
-
   // private handleError(error: any) {
   //   // You can customize error handling here
   //   console.error('Login Service Error:', error);
   //   let errorMessage = 'An error occurred. Please try again later.';
-
   //   if (error.error && error.error.message) {
   //     errorMessage = error.error.message;
   //   } else if (error.status) {
   //     errorMessage = `Error: ${error.status} - ${error.statusText}`;
   //   }
-
   //   return throwError(() => new Error(errorMessage));
   // }
-
   // logout() {
   //   localStorage.removeItem('token'); // Example: Remove JWT from localStorage
   //   sessionStorage.removeItem('user');

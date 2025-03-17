@@ -129,15 +129,25 @@ const deleteMechanicien = async (req, res) => {
         .status(httpStatus.BAD_REQUEST)
         .send({ message: "User not found" });
     }
-    const deleteApointment = await Apointments.findOneAndUpdate(
-      { assignedTo: id },
-      { $set: { assignedTo: null } },
-      { new: true }
-    );
-    if (!deleteApointment) {
-      return res.status(httpStatus.BAD_REQUEST).send({
-        message: "Something went wrong while updating the apointment",
-      });
+    const apointmentOfThisOne = await Apointments.find({
+      assignedTo: id,
+      status: { $ne: "DONE" },
+    });
+
+    console.log("Apointment:", apointmentOfThisOne);
+
+    if (apointmentOfThisOne.length) {
+      const deleteApointment = await Apointments.findOneAndUpdate(
+        { assignedTo: id },
+        { $set: { assignedTo: null } },
+        { new: true }
+      );
+      if (!deleteApointment) {
+        return res.status(httpStatus.BAD_REQUEST).send({
+          message: "Something went wrong while updating the apointment",
+        });
+      }
+      return res.status(httpStatus.OK).json(deletedMechanicien);
     }
     return res.status(httpStatus.OK).json(deletedMechanicien);
   } catch (error) {

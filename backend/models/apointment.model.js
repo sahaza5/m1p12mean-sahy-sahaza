@@ -19,7 +19,7 @@ const ApointmentSchema = new mongoose.Schema(
       required: true,
       default: "PENDING",
       // enum: ["PENDING", "APPROVED", "DONE"],
-      enum: ["PENDING", "APPROVED", "DONE"],
+      enum: ["PENDING", "APPROVED", "DONE", "CANCELED"],
     },
     assignedTo: {
       type: mongoose.Schema.Types.ObjectId,
@@ -30,6 +30,9 @@ const ApointmentSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Vehicules",
       required: true,
+    },
+    carName: {
+      type: String,
     },
     belongsTo: {
       type: mongoose.Schema.Types.ObjectId,

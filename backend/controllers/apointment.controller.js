@@ -94,7 +94,7 @@ const getAllApointmentForClient = async (req, res) => {
 //-------TO BOOK AN APOINTMENT---------
 const bookApointment = async (req, res) => {
   console.log("Book an apointment");
-  const { description, car } = req.body;
+  const { description, car, carName } = req.body;
   // console.log(
   //   `Title:${title},description:${description},belongsTo:${req.user.username},image:${image}`
   // );
@@ -103,6 +103,7 @@ const bookApointment = async (req, res) => {
       description,
       belongsTo: req.user.id,
       car,
+      carName,
     });
 
     const updateVehicule = await Vehicules.findOneAndUpdate(
@@ -127,35 +128,37 @@ const cancelApointment = async (req, res) => {
     return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
   }
   try {
-    const findApointment = await Apointments.findById({ _id: id });
+    const findApointment = await Apointments.findById({ _id: id }).populate(
+      "car"
+    );
+    const findRepair = await Repairs.findById({ apointment: id });
     if (!findApointment) {
       return res
         .status(httpStatus.BAD_REQUEST)
         .send({ message: "Apointment not found" });
     }
-    if (findApointment.status !== "DONE") {
-      try {
-        const canceled = await Apointments.findByIdAndDelete({ _id: id });
-        if (!canceled) {
-          return res
-            .status(httpStatus.BAD_REQUEST)
-            .send({ message: "Canceled failed" });
-        }
+    if (
+      findApointment.status !== "DONE" &&
+      findApointment.status !== "CANCELED"
+    ) {
+      if (findRepair.status !== "DONE" && findRepair.status !== "REPAIRING")
         try {
-          const cancelRepair = await Repairs.findByIdAndDelete({
-            apointment: id,
-          });
-          return res.status(httpStatus.OK).send(canceled, cancelRepair);
+          const canceled = await Apointments.findOneAndUpdate(
+            { _id: id },
+            { $set: { status: "CANCELED" } },
+            { new: true }
+          );
+          if (!canceled) {
+            return res
+              .status(httpStatus.BAD_REQUEST)
+              .send({ message: "Canceled failed" });
+          }
+          return res.status(httpStatus.OK).send(canceled);
         } catch (error) {
           return res
             .status(httpStatus.BAD_REQUEST)
-            .send({ message: "Deleting in repair failed " });
+            .send({ message: error.message });
         }
-      } catch (error) {
-        return res
-          .status(httpStatus.BAD_REQUEST)
-          .send({ message: error.message });
-      }
     }
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
@@ -175,21 +178,34 @@ const updateApointment = async (req, res) => {
   try {
     const updatedApointment = await Apointments.findOneAndUpdate(
       { _id: id },
-      { $set: { status: status, assignedTo, date: new Date(date) } },
+      {
+        $set: {
+          status: status && status,
+          assignedTo: assignedTo && assignedTo,
+          date: new Date(date),
+        },
+      },
       { new: true }
     );
+
+    const findCar = await Vehicules.findById({ _id: updatedApointment.car });
     console.log(updatedApointment);
     if (updateApointment) {
-      if (updateApointment.status !== "DONE") {
+      if (
+        updateApointment.status !== "DONE"
+        // &&
+        // updateApointment.status !== "CANCELED"
+      ) {
         const insertNew = await Repairs.create({
           apointment: updatedApointment._id,
+          car: findCar.name,
           // status: "REPAIRING",
         });
         console.log("Insert new is ", insertNew);
 
         // const [update, insert] = await Promise.all([updateApointment, insertNew]);
         return res.status(200).send({ updateApointment, insertNew });
-      } else {
+      } else if (updateApointment.status === "DONE") {
         const doneRepair = await Repairs.findByIdAndUpdate(
           {
             apointment: updatedApointment._id,

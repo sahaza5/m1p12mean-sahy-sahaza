@@ -31,7 +31,7 @@ const getVehiculeById = async (req, res) => {
 };
 
 const updateVehicule = async (req, res) => {
-  console.log("Update vehicule by id");
+  console.log("Update vehicule by id", req.params);
   const { id } = req.params;
   const { name, model, licensePlate } = req.body;
   try {
@@ -57,20 +57,9 @@ const updateVehicule = async (req, res) => {
 const registerVehicule = async (req, res) => {
   console.log("Register vehicule");
   const { name, model, licensePlate } = req.body;
-  // const objId = mongoose.isValidObjectId(customer);
-  // if (!objId) {
-  //   return res
-  //     .status(httpStatus.BAD_REQUEST)
-  //     .send({ message: "Invalid user ID" });
-  // }
-  // if (customer !== req.user.id) {
-  //   return res
-  //     .status(httpStatus.FORBIDDEN)
-  //     .send({ message: "Forbidden access" });
-  // }
   try {
     const newRegister = await Vehicules.create({
-      customer: req.user._id,
+      customer: req.user.id,
       name,
       model,
       licensePlate,
@@ -79,15 +68,27 @@ const registerVehicule = async (req, res) => {
     //     const populatedVehicle = await Vehicle.findById(newVehicle._id).populate('customer');
     return res.status(httpStatus.OK).json(newRegister);
   } catch (error) {
-    console.log(error.message)
-    // return res
-    //   .status(httpStatus.BAD_REQUEST)
-    //   .message({ message: error.message });
+    console.log(error.message);
+    return res
+      .status(httpStatus.BAD_REQUEST)
+      .message({ message: error.message });
+  }
+};
+
+const deleteVehicule = async (req, res) => {
+  console.log("Delete a vehicule:", req.params.id);
+  const { id } = req.params;
+  try {
+    const deletedVehicule = await Vehicules.findByIdAndDelete({ _id: id });
+    return res.status(httpStatus.OK).json(deletedVehicule);
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
   }
 };
 
 module.exports = {
   getAllVehiculesForClient,
+  deleteVehicule,
   registerVehicule,
   getVehiculeById,
   updateVehicule,

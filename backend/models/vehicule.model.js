@@ -7,8 +7,14 @@ const VehiculeSchema = new mongoose.Schema(
     model: { type: String, required: true },
     repairStatus: {
       type: String,
-      enum: ["NOT YET REPAIRED", "WAITING APOINTMENT", "REPAIRING", "REPAIRED"],
-      default: "NOT YET REPAIRED",
+      enum: [
+        "",
+        "WAITING APOINTMENT",
+        "REPAIRING",
+        "REPAIRED",
+        "CANCELED APOINTMENT",
+      ],
+      default: "",
     },
     licensePlate: { type: String, unique: true, required: true },
   },

@@ -11,9 +11,16 @@ const PaymentSchema = new mongoose.Schema(
       enum: ["UNPAID", "PAID"],
       default: "UNPAID",
     },
+    car: {
+      type: String,
+    },
     amount: {
       type: Number,
       required: true,
+    },
+    by: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Users",
     },
   },
   { timestamps: true }
