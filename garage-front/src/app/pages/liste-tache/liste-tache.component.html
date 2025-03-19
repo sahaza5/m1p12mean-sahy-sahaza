@@ -19,30 +19,25 @@
                             </thead>
                             <tbody>
                                 <tr style="vertical-align: middle;">
-                                    <td>
-                                        <div class="ticket-card cursor-pointer position-relative" *ngFor="let tache of tachesCreer">
-                                            <p><strong>{{tache.titre}}</strong></p>
-                                            <p class="text-muted">{{tache.description}}</p>
+                                    <th >
+                                      <div class="ticket-card cursor-pointer position-relative">
+                                        <div class="position-absolute" style="top: 10px; right: 10px;">
+                                          <button class="btn btn-link text-dark" type="button" (click)="toggleDropdown()">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                          </button>
+                                          <ul class="dropdown-menu" [class.show]="isDropdownOpen">
+                                            <li><a class="dropdown-item" href="#">En attente</a></li>
+                                            <li><a class="dropdown-item" href="#">En cours</a></li>
+                                            <li><a class="dropdown-item" href="#">Términer</a></li>
+                                          </ul>
                                         </div>
-                                    </td>
-                                    <td>
-                                        <div class="ticket-card cursor-pointer" *ngFor="let tache of tachesAttente">
-                                            <p><strong>{{tache.titre}}</strong></p>
-                                            <p class="text-muted">{{tache.description}}</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="ticket-card cursor-pointer" *ngFor="let tache of tachesEnCours">
-                                            <p><strong>{{tache.titre}}</strong></p>
-                                            <p class="text-muted">{{tache.description}}</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="ticket-card cursor-pointer" *ngFor="let tache of tachesTerminer">
-                                            <p><strong>{{tache.titre}}</strong></p>
-                                            <p class="text-muted">{{tache.description}}</p>
-                                        </div>
-                                    </td>
+                                        <p><strong>TITRE</strong></p>
+                                        <p class="text-muted">À tout moment, vous pouvez retirer votre consentement ou vous opposer au traitement des données fondé...</p>
+                                      </div>
+                                    </th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>

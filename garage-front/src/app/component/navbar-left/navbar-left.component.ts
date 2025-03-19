@@ -50,11 +50,5 @@ export class NavbarLeftComponent {
   //     });
   //   }
   // }
-  isSidebarOpen = false;
 
-  toggleMenu() {
-      alert("Menu toggle clicked !");
-      // this.isSidebarOpen = !this.isSidebarOpen;
-      // Ajoute ici la logique pour ouvrir/fermer le menu
-  }
 }
