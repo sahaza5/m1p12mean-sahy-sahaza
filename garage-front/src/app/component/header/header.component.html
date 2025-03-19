@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="#page-top"><img src="../../../assets/images/navbar-logo.svg" alt="..." /></a>
+        <a class="navbar-brand" href="#page-top">GARAGE</a>
         <button class="navbar-toggler" type="button" (click)="toggleNavbar()" >
             Menu
             <i class="bi bi-list ms-1"></i>
@@ -10,9 +10,9 @@
                 <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
                 <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                <li class="nav-item"><a class="nav-link btn btn-primary btn-sm py-2 px-3" href="/login">Connexion</a></li>
-                <li class="nav-item"><a class="nav-link btn btn-primary btn-sm py-2 px-3 ms-2" href="/register">Inscription</a></li>
+
+                <!-- <li class="nav-item"><a class="nav-link btn btn-primary btn-sm py-2 px-3" href="/login">Connexion</a></li>
+                <li class="nav-item"><a class="nav-link btn btn-primary btn-sm py-2 px-3 ms-2" href="/register">Inscription</a></li> -->
             </ul>
         </div>
     </div>
@@ -22,7 +22,51 @@
     <div class="container">
         <div class="masthead-subheading">Welcome To Our Garage!</div>
         <div class="masthead-heading text-uppercase">Votre Garage de Confiance</div>
-        <a class="btn btn-primary btn-xl text-uppercase" href="#services">Tell Me More</a>
+        <!-- Button to trigger modal -->
+        <a class="btn btn-primary btn-xl text-uppercase rounded-pill shadow-lg px-5 py-3"
+           style="background: linear-gradient(to right, #4e73df, #224abe); border: none; transition: transform 0.3s ease-in-out;"
+           onmouseover="this.style.transform='scale(1.05)'"
+           onmouseout="this.style.transform='scale(1)'"
+           data-bs-toggle="modal"
+           data-bs-target="#loginModal">
+           Accéder à votre espace
+        </a>
+
+        <!-- Login Modal -->
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="main">
+                        <input type="checkbox" id="chk" aria-hidden="true">
+                            <div class="signup">
+                                <form>
+                                    <label for="chk" aria-hidden="true">LOGIN</label>
+                                    <input type="email" name="email" placeholder="Email" required="">
+                                    <input type="password" name="pswd" placeholder="Password" required="">
+                                    <button>SE CONNECTER</button>
+                                </form>
+                            </div>
+
+                            <div class="login">
+                                <form>
+                                    <label for="chk" aria-hidden="true">INSCRIPTION</label>
+                                    <input type="text" name="txt" placeholder="Pseudo" required="">
+                                    <input type="email" name="email" placeholder="Email" required="">
+                                    <select name="userType" class="form-select" required="">
+                                        <option value="" disabled selected>Type d'utilisateur</option>
+                                        <option value="client">Client</option>
+                                        <option value="employee">Employé</option>
+                                        <option value="admin">Administrateur</option>
+                                    </select>
+                                    <input type="password" name="pswd" placeholder="Password" required="">
+                                    <button>ENREGISTRER</button>
+                                </form>
+
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </header>
 

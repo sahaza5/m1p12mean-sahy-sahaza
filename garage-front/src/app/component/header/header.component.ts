@@ -11,6 +11,10 @@ import * as bootstrap from 'bootstrap';
 })
 export class HeaderComponent {
 
+  constructor() {}
+
+
+
   toggleNavbar() {
     const navbarCollapse = document.querySelector('#navbarResponsive');
     if (navbarCollapse) {

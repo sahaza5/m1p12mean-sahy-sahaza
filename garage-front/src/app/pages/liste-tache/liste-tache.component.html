@@ -1,0 +1,67 @@
+<div class='dashboard'>
+    <app-navbar-left></app-navbar-left>
+    <div class='dashboard-app'>
+        <div class='dashboard-content'>
+            <div class='container'>
+                <div class='card mt-1'>
+                    <div class='card-header'>
+                        <h1>Liste des taches</h1>
+                    </div>
+                    <div class='card-body'>
+                        <table class="table table-bordered">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th style="width: 25%;" scope="col">Créer</th>
+                                    <th style="width: 25%;" scope="col">En attente</th>
+                                    <th style="width: 25%;" scope="col">En cours</th>
+                                    <th style="width: 25%;" scope="col">Términer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="vertical-align: middle;">
+                                    <th >
+                                      <div class="ticket-card cursor-pointer">
+                                        <p><strong>TITRE</strong></p>
+                                        <p class="text-muted">À tout moment, vous pouvez retirer votre consentement ou vous opposer au traitement des données fondé...</p>
+                                      </div>
+                                      <div class="ticket-card cursor-pointer">
+                                        <p><strong>TITRE</strong></p>
+                                        <p class="text-muted cursor-pointer">À tout moment, vous pouvez retirer votre consentement ou vous opposer au traitement des données fondé...</p>
+                                      </div>
+                                      <div class="ticket-card cursor-pointer">
+                                        <p><strong>TITRE</strong></p>
+                                        <p class="text-muted">À tout moment, vous pouvez retirer votre consentement ou vous opposer au traitement des données fondé...</p>
+                                      </div>
+                                    </th>
+                                    <td>05 Janvier 2025</td>
+                                    <td>Jean Baptiste</td>
+                                    <td>Jean Baptiste</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span>Affichage de {{ getStartIndex() + 1 }} - {{ getEndIndex() }} sur {{ items.length }}</span>
+                            <nav>
+                              <ul class="pagination">
+                                <li class="page-item" [class.disabled]="currentPage === 1">
+                                  <a class="page-link" (click)="previousPage()" aria-label="Précédent">
+                                    <span aria-hidden="true">&laquo;</span>
+                                  </a>
+                                </li>
+                                <li *ngFor="let page of totalPages; let i = index" class="page-item" [class.active]="currentPage === i + 1">
+                                  <a class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</a>
+                                </li>
+                                <li class="page-item" [class.disabled]="currentPage === totalPages.length">
+                                  <a class="page-link" (click)="nextPage()" aria-label="Suivant">
+                                    <span aria-hidden="true">&raquo;</span>
+                                  </a>
+                                </li>
+                              </ul>
+                            </nav>
+                          </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

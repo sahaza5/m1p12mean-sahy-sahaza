@@ -1,0 +1,171 @@
+<div class='dashboard'>
+    <app-navbar-left></app-navbar-left>
+    <div class='dashboard-app'>
+        <div class='dashboard-content'>
+            <div class='container'>
+                <div class='card mt-1'>
+                    <div class='card-header'>
+                        <h1>Liste des rendez-vous</h1>
+                    </div>
+                    <div class='card-body'>
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Vehicule</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Mecanicien</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="vertical-align: middle;">
+                                    <th scope="row">GALLOPER</th>
+                                    <td>05 Janvier 2025</td>
+                                    <td>Jean Baptiste</td>
+                                    <td style="width: 120px;text-align: center;"><span style="width: 100%;" class="badge bg-success p-2">En cours</span></td>
+                                    <td style="width: 100px;text-align: center;">
+                                        <button class="btn btn-warning btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modifierRendezVous">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr style="vertical-align: middle;">
+                                    <th scope="row">GALLOPER</th>
+                                    <td>05 Janvier 2025</td>
+                                    <td>Jean Baptiste</td>
+                                    <td style="width: 120px;text-align: center;"><span style="width: 100%;" class="badge bg-success p-2">En cours</span></td>
+                                    <td style="width: 100px;text-align: center;">
+                                        <button class="btn btn-warning btn-sm me-2">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr style="vertical-align: middle;">
+                                    <th scope="row">GALLOPER</th>
+                                    <td>05 Janvier 2025</td>
+                                    <td>Jean Baptiste</td>
+                                    <td style="width: 120px;text-align: center;"><span style="width: 100%;" class="badge bg-success p-2">En cours</span></td>
+                                    <td style="width: 100px;text-align: center;">
+                                        <button class="btn btn-warning btn-sm me-2">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr style="vertical-align: middle;">
+                                    <th scope="row">GALLOPER</th>
+                                    <td>05 Janvier 2025</td>
+                                    <td>Jean Baptiste</td>
+                                    <td style="width: 120px;text-align: center;"><span style="width: 100%;" class="badge bg-success p-2">En cours</span></td>
+                                    <td style="width: 100px;text-align: center;">
+                                        <button class="btn btn-warning btn-sm me-2">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr style="vertical-align: middle;">
+                                    <th scope="row">GALLOPER</th>
+                                    <td>05 Janvier 2025</td>
+                                    <td>Jean Baptiste</td>
+                                    <td style="width: 120px;text-align: center;"><span style="width: 100%;" class="badge bg-success p-2">En cours</span></td>
+                                    <td style="width: 100px;text-align: center;">
+                                        <button class="btn btn-warning btn-sm me-2">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span>Affichage de {{ getStartIndex() + 1 }} - {{ getEndIndex() }} sur {{ items.length }}</span>
+                            <nav>
+                              <ul class="pagination">
+                                <li class="page-item" [class.disabled]="currentPage === 1">
+                                  <a class="page-link" (click)="previousPage()" aria-label="Précédent">
+                                    <span aria-hidden="true">&laquo;</span>
+                                  </a>
+                                </li>
+                                <li *ngFor="let page of totalPages; let i = index" class="page-item" [class.active]="currentPage === i + 1">
+                                  <a class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</a>
+                                </li>
+                                <li class="page-item" [class.disabled]="currentPage === totalPages.length">
+                                  <a class="page-link" (click)="nextPage()" aria-label="Suivant">
+                                    <span aria-hidden="true">&raquo;</span>
+                                  </a>
+                                </li>
+                              </ul>
+                            </nav>
+                          </div> -->
+                          <div class="d-flex justify-content-between align-items-center mt-3">
+                            <!-- <span>Affichage de 5 - 5 sur 5</span> -->
+                            <nav>
+                              <ul class="pagination cursor-pointer">
+                                <li class="page-item">
+                                  <a class="page-link" aria-label="Précédent">
+                                    <span aria-hidden="true">&laquo;</span>
+                                  </a>
+                                </li>
+                                <li class="page-item">
+                                  <a class="page-link">1</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link">2</a>
+                                </li>
+                                <li class="page-item">
+                                  <a class="page-link" aria-label="Suivant">
+                                    <span aria-hidden="true">&raquo;</span>
+                                  </a>
+                                </li>
+                              </ul>
+                            </nav>
+                          </div>
+                          <div class="modal fade" id="modifierRendezVous" tabindex="-1" aria-labelledby="modifierRendezVous" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="container p-4">
+                                        <div class='text-muted mb-1'>
+                                            <h1>Modifier rendez-vous</h1>
+                                        </div>
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                  <div class="form-group">
+                                                    <label for="first">Date de réparation</label>
+                                                    <input type="date" class="form-control" placeholder="" id="first">
+                                                  </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                      <label for="first">Description du problème</label>
+                                                      <textarea type="text" class="form-control" placeholder="" id="first" rows="3"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                      
+                                          <button type="submit" class="btn btn-primary mt-2">Enregistrer</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

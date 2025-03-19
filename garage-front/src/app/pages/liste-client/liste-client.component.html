@@ -1,0 +1,71 @@
+<div class='dashboard'>
+    <app-navbar-left></app-navbar-left>
+    <div class='dashboard-app'>
+      <div class='dashboard-content'>
+        <div class='container'>
+          <div class='card mt-1'>
+            <div class='card-header'>
+              <h1>Liste des clients</h1>
+            </div>
+            <div class='card-body'>
+              <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Nom</th>
+                      <th scope="col">Adresse</th>
+                      <th scope="col">Contact</th>
+                      <th scope="col">Vehicule</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr style="vertical-align: middle;">
+                    <th scope="row">Rakoto</th>
+                    <td>Andoram</td>
+                    <td>0342056214</td><td style="width: 200px;text-align: center;">
+                        <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#voirVehicule">
+                            <i class="fas fa-car"></i> Voir véhicule
+                        </button>
+                    </td>
+                  </tr>
+                  <tr style="vertical-align: middle;">
+                    <th scope="row">Rakoto</th>
+                    <td>Andoram</td>
+                    <td>0342056214</td><td style="width: 200px;text-align: center;">
+                        <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#voirVehicule">
+                            <i class="fas fa-car"></i> Voir véhicule
+                        </button>
+                    </td>
+                  </tr>
+                        
+                </tbody>
+              </table>
+            
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <!-- <span>Affichage de 5 - 5 sur 5</span> -->
+                <nav>
+                  <ul class="pagination cursor-pointer">
+                    <li class="page-item">
+                      <a class="page-link" aria-label="Précédent">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link">2</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" aria-label="Suivant">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

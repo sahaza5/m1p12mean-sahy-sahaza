@@ -20,13 +20,13 @@ export class NavbarClientComponent implements OnInit {
 
   ngOnInit() {
     // this.currentUser = localStorage.getItem('clientName'); // Get client name from localStorage
-    this.LoginService.currentUser.subscribe((user) => {
-      this.currentUser = user;
-    });
+    // this.LoginService.currentUser.subscribe((user) => {
+    //   this.currentUser = user;
+    // });
   }
 
   logout() {
-    this.LoginService.logout(); // Use LoginService to handle logout
-    this.router.navigate(['/login']); // Navigate to login page
+    // this.LoginService.logout(); // Use LoginService to handle logout
+    // this.router.navigate(['/login']); // Navigate to login page
   }
 }

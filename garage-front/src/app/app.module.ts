@@ -14,7 +14,8 @@ import { BrowserModule } from '@angular/platform-browser';
   imports: [
     BrowserModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
 
 })
