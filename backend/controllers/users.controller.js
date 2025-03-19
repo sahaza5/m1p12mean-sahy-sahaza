@@ -73,7 +73,7 @@ const register = async (req, res) => {
     );
     return res.status(httpStatus.OK).json({ user: { ...registerUser }, token });
   } catch (error) {
-    if (error.message.includes("username")) {
+    if (error.message.includes("email")) {
       return res.status(httpStatus.BAD_REQUEST).send({
         message:
           "The username is already taken. Please choose a different username.",
