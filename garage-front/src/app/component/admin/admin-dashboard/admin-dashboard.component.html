@@ -1,0 +1,67 @@
+
+<app-navbar></app-navbar>
+
+<div style="min-height: 100vh;">
+  <div class="row h-100">
+    <div class="col-md-3 h-100">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="col-md-9">
+      <div class="container mt-4">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <h2>Mechanic List</h2>
+          </div>
+          <div class="d-flex align-items-center">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-primary me-2" type="submit">
+                <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </div>
+
+        <form (ngSubmit)="addCMechanic()" #MechanicForm="ngForm">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" [(ngModel)]="newMechanic.mechanicName" required>
+          </div>
+          <div class="mb-3">
+            <label for="address" class="form-label">Adress</label>
+            <input type="text" class="form-control" id="address" name="address" [(ngModel)]="newMechanic.address" required>
+          </div>
+          <div class="mb-3">
+            <label for="contact" class="form-label">Contact</label>
+            <input type="text" class="form-control" id="contact" name="contact" [(ngModel)]="newMechanic.contact" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Mechanic</button>
+        </form>
+      </div>
+
+      <table class="table mt-4">
+        <thead>
+          <tr>
+            <th>Mechanic Name</th>
+            <th>Address</th>
+            <th>Contact</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mechanic of mechanics">
+            <td>
+              {{ mechanic.mechanicName }}
+
+            </td>
+            <td>{{ mechanic.address }}</td>
+            <td>{{ mechanic.contact }}</td>
+            <td>
+              <button class="btn btn-sm btn-info me-1" (click)="editedMechanic(mechanic)" *ngIf="editedMechanicData?.id !== mechanic.id">Update</button>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>

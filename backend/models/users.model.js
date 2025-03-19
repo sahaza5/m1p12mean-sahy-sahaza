@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
       minlength: 3,
       maxlength: 20,
+      unique: true,
     },
     password: {
       type: String,
@@ -14,10 +15,21 @@ const UserSchema = new mongoose.Schema(
       minlength: 3,
       maxlength: 20,
     },
+    status: {
+      type: String,
+      enum: ["ENABLE", "DISABLE"],
+      default: "ENABLE",
+    },
     role: {
       type: String,
       required: true,
       enum: ["CLIENT", "ADMIN", "MECHANICIEN"],
+    },
+    contact: {
+      type: String,
+      required: false,
+      minlength: 7,
+      maxlength: 20,
     },
   },
   { timestamps: true }
