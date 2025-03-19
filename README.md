@@ -27,6 +27,12 @@ In the body,write json email,pswd,userType,txt, for example
 
 -Test the API on postman or insomnia by using the following port
 
+++++Get all mechanicien of a client id as a GET request
+http://localhost:3000/api/users/
+
+++++Get a single user of a client id as a GET request
+http://localhost:3000/api/users/1231(id:user Id)
+
 ++++Register a car as POST request
 http://localhost:3000/api/vehicule/register/werqwe(id:user id), body field are name, description,image. NB: CREATE A FOLDER CALLED images IN YOUR BACKEND FIRST!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

@@ -5,10 +5,10 @@ const httpStatus = require("http-status-codes");
 const { Apointments } = require("../models/apointment.model");
 
 //GET ALL USERS
-const getAllUsers = async (req, res) => {
+const getAllMechanicien = async (req, res) => {
   console.log("Get all Users ");
   try {
-    const users = await Users.find({ role: "MECHANICIEN" });
+    const users = await Users.find({ userType: "EMPLOYEE" });
     return res.status(httpStatus.OK).send(users);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
@@ -71,12 +71,11 @@ const register = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
-    return res.status(httpStatus.OK).json({ user: { ...registerUser }, token });
+    return res.status(httpStatus.OK).json({ user: registerUser, token });
   } catch (error) {
     if (error.message.includes("email")) {
       return res.status(httpStatus.BAD_REQUEST).send({
-        message:
-          "The username is already taken. Please choose a different username.",
+        message: "The email is already taken. Please choose a different email.",
       });
     }
 
@@ -222,7 +221,8 @@ const setPassword = async (req, res) => {
 };
 
 module.exports = {
-  getAllUsers,
+  // getAllUsers,
+  getAllMechanicien,
   getUserById,
   register,
   addMechanicien,

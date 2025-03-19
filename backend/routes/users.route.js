@@ -5,6 +5,7 @@ const {
   getUserById,
   register,
   addMechanicien,
+  getAllMechanicien,
   // clientLogin,
   login,
   setPassword,
@@ -22,7 +23,11 @@ const routes = express.Router();
 
 //----GET ALL USERS ROUTE------//
 //User must be authenticated(logged in) and have the privilege before getting all users
-routes.route("/").get(authentication, authorizationResponsable, getAllUsers);
+// routes
+//   .route("/")
+//   .get(authentication, authorizationResponsable, getAllMechanicien);
+
+routes.route("/").get(getAllMechanicien);
 
 //----GET USER DATA-----//
 routes.route("/userdata").get(authentication, getUserData);
