@@ -35,3 +35,6 @@ http://localhost:3000/api/vehicule/1234552(id:userID)
 
 ++++Get vehicule by id as a GET request
 http://localhost:3000/api/vehicule/1234552(id: vehicule id)
+
+++++Update a vehicule by id as a PATCH request
+http://localhost:3000/api/vehicule/1234552(id: vehicule id), the body can be {name?,description?,image?}
