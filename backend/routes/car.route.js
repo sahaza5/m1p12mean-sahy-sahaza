@@ -13,7 +13,8 @@ const { authentication } = require("../middleware/authentication");
 
 //-----------GET ALL VEHICULES FOR CLIENT
 // routes.get("/", authentication, getAllVehicules);
-routes.get("/:id", authentication, getAllVehiculesForClient);
+// routes.get("/:id", authentication, getAllVehiculesForClient);
+routes.get("/:id", getAllVehiculesForClient);
 
 //-----------REGISTER A VEHICULE-------//
 // routes.post("/register", authentication, registerVehicule);
@@ -28,7 +29,8 @@ routes.post(
 routes.patch("/:id", authentication, updateVehicule);
 
 //----------GET VEHICULE BY ID------//
-routes.get("/vehicule/:id", authentication, getVehiculeById);
+// routes.get("/vehicule/:id", authentication, getVehiculeById);
+routes.get("/vehicule/:id", getVehiculeById);
 
 //--------DELETE VEHICULE BY ID------//
 routes.delete("/:id", authentication, deleteVehicule);

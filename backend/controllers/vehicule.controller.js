@@ -22,7 +22,7 @@ const getAllVehiculesForClient = async (req, res) => {
   try {
     const vehicules = await Vehicules.find({
       // customer: req.params.id,
-      customer: req.user.id,
+      customer: req.params.id,
     }).populate("customer");
     // console.log(vehicules);
     return res.status(httpStatus.OK).send(vehicules);
@@ -30,15 +30,19 @@ const getAllVehiculesForClient = async (req, res) => {
     return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
   }
 };
-
+//67db2bb77d0f43c267e0857c
 const getVehiculeById = async (req, res) => {
   console.log("Get vehicule by id ");
   try {
+    // const vehicules = await Vehicules.find({
+    //   // customer: req.params.id,
+    //   _id: req.user.id,
+    // }).populate("customer");
+    // console.log(vehicules);
     const vehicules = await Vehicules.find({
       // customer: req.params.id,
-      _id: req.user.id,
-    }).populate("customer");
-    // console.log(vehicules);
+      _id: req.params.id,
+    });
     return res.status(httpStatus.OK).send(vehicules);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
