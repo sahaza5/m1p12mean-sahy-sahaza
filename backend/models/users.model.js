@@ -2,34 +2,32 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
   {
-    username: {
+    txt: {
       type: String,
       required: true,
       minlength: 3,
       maxlength: 20,
-      unique: true,
     },
-    password: {
+    pswd: {
       type: String,
       required: true,
       minlength: 3,
       maxlength: 20,
+    },
+    email: {
+      type: String,
+      required: true,
     },
     status: {
       type: String,
       enum: ["ENABLE", "DISABLE"],
       default: "ENABLE",
     },
-    role: {
+    userType: {
       type: String,
       required: true,
-      enum: ["CLIENT", "ADMIN", "MECHANICIEN"],
-    },
-    contact: {
-      type: String,
-      required: false,
-      minlength: 7,
-      maxlength: 20,
+      // enum: ["CLIENT", "ADMIN", "MECHANICIEN"],
+      enum: ["CLIENT", "EMPLOYEE"],
     },
   },
   { timestamps: true }

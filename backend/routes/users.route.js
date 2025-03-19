@@ -3,9 +3,10 @@ const express = require("express");
 const {
   getAllUsers,
   getUserById,
-  registerClient,
+  register,
   addMechanicien,
-  clientLogin,
+  // clientLogin,
+  login,
   setPassword,
   deleteMechanicien,
   getUserData,
@@ -31,7 +32,8 @@ routes.route("/userdata").get(authentication, getUserData);
 routes.route("/:id").get(authentication, authorizationResponsable, getUserById);
 
 //----REGISTER ROUTE----//
-routes.route("/register/client").post(registerClient);
+// routes.route("/register/client").post(registerClient);
+routes.route("/register").post(register);
 
 //----ADD MECHANICIEN ROUTE----//
 //User must be authenticated(logged in) and be an admin before getting all users
@@ -43,8 +45,8 @@ routes
 routes
   .route("/delete/mechanicien/:id")
   .patch(authentication, authorizationAdmin, deleteMechanicien);
-//----CLIENT LOG IN ROUTE----//
-routes.route("/client/login").post(clientLogin);
+//----LOG IN ROUTE----//
+routes.route("/login").post(login);
 
 //----SET PASSWORD  ROUTE----//
 routes.route("/client/setPassword").patch(setPassword);

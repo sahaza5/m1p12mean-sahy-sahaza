@@ -46,9 +46,9 @@ const getUserById = async (req, res) => {
 };
 
 //REGISTER CLIENT
-const registerClient = async (req, res) => {
-  const { username, password } = req.body;
-  if (!username.trim() || !password) {
+const register = async (req, res) => {
+  const { txt, pswd, email, userType } = req.body;
+  if (!txt.trim() || !pswd || !email || !userType) {
     return res
       .status(httpStatus.BAD_REQUEST)
       .send({ message: "Please provide credentials" });
@@ -56,20 +56,22 @@ const registerClient = async (req, res) => {
 
   try {
     const registerUser = await Users.create({
-      username,
-      password,
-      role: "CLIENT",
+      txt,
+      pswd,
+      userType: userType.toUpperCase(),
+      email,
     });
     const token = jwt.sign(
       {
         id: registerUser._id,
-        username: registerUser.username,
-        role: registerUser.role,
+        txt: registerUser.txt,
+        userType: registerUser.userType,
+        email: registerUser.email,
       },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
-    return res.status(httpStatus.OK).json({ registerUser, token });
+    return res.status(httpStatus.OK).json({ user: { ...registerUser }, token });
   } catch (error) {
     if (error.message.includes("username")) {
       return res.status(httpStatus.BAD_REQUEST).send({
@@ -155,18 +157,18 @@ const deleteMechanicien = async (req, res) => {
   }
 };
 
-//CLIENT LOGIN ONLY
-const clientLogin = async (req, res) => {
-  const { username, password } = req.body;
-  console.log(username, password);
+//LOGIN ONLY
+const login = async (req, res) => {
+  const { email, pswd } = req.body;
+  console.log(email, pswd);
 
-  if (!username.trim() || !password) {
+  if (!email.trim() || !pswd) {
     return res
       .status(httpStatus.BAD_REQUEST)
       .send({ message: "Please provide credentials" });
   }
   try {
-    const userCredentials = await Users.findOne({ username, password });
+    const userCredentials = await Users.findOne({ email, pswd });
     if (!userCredentials) {
       return res
         .status(httpStatus.BAD_REQUEST)
@@ -174,26 +176,26 @@ const clientLogin = async (req, res) => {
     }
 
     //IF USER ROLE IS CLIENT THEN PROCEED
-    if (userCredentials.role === "CLIENT") {
-      const token = jwt.sign(
-        {
-          id: userCredentials._id,
-          username: userCredentials.username,
-          role: userCredentials.role,
-        },
-        process.env.JWT_SECRET,
-        { expiresIn: "1d" }
-      );
-      console.log("User is ", userCredentials);
-      console.log("Token is ", token);
+    // if (userCredentials.role === "CLIENT") {
+    const token = jwt.sign(
+      {
+        id: userCredentials._id,
+        username: userCredentials.username,
+        role: userCredentials.role,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+    console.log("User is ", userCredentials);
+    console.log("Token is ", token);
 
-      return res.status(httpStatus.OK).send({ user: userCredentials, token });
-    }
+    return res.status(httpStatus.OK).send({ user: userCredentials, token });
+    // }
 
     //IF THE USER IS NOT A CLIENT
-    return res
-      .status(httpStatus.UNAUTHORIZED)
-      .send({ message: "Unauthorized access" });
+    // return res
+    //   .status(httpStatus.UNAUTHORIZED)
+    //   .send({ message: "Unauthorized access" });
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
   }
@@ -222,9 +224,10 @@ const setPassword = async (req, res) => {
 module.exports = {
   getAllUsers,
   getUserById,
-  registerClient,
+  register,
   addMechanicien,
-  clientLogin,
+  login,
+  // clientLogin,
   setPassword,
   deleteMechanicien,
   getUserData,
