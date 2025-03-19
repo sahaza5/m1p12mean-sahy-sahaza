@@ -8,5 +8,9 @@ import { NavbarLeftComponent } from '../../component/navbar-left/navbar-left.com
   styleUrl: './liste-tache.component.css'
 })
 export class ListeTacheComponent {
+  isDropdownOpen = false;
 
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
 }
