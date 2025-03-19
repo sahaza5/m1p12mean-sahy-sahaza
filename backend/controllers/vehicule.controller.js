@@ -15,8 +15,18 @@ const myStorage = multer.diskStorage({
   },
 });
 
-let upload = multer({ storage: myStorage });
+const fileFilter = (req, file, cb) => {
+  const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png"];
+  if (allowedFileTypes.includes(file.mimeType)) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
 
+let upload = multer({ storage: myStorage, fileFilter: fileFilter });
+
+//---------------------------------------//
 const getAllVehiculesForClient = async (req, res) => {
   console.log("Get all vehicules for Client");
   try {
@@ -42,7 +52,7 @@ const getVehiculeById = async (req, res) => {
     const vehicules = await Vehicules.find({
       // customer: req.params.id,
       _id: req.params.id,
-    });
+    }).populate("customer");
     return res.status(httpStatus.OK).send(vehicules);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
@@ -52,15 +62,15 @@ const getVehiculeById = async (req, res) => {
 const updateVehicule = async (req, res) => {
   console.log("Update vehicule by id", req.params);
   const { id } = req.params;
-  const { name, model, licensePlate } = req.body;
+  const { name, description } = req.body;
   try {
     const updatedVehicule = await Vehicules.findByIdAndUpdate(
       { _id: id },
       {
         $set: {
           name: name && name,
-          model: model && model,
-          licensePlate: licensePlate && licensePlate,
+          description: description && description,
+          image: req.file?.filename && req.file?.filename,
         },
       },
       {
