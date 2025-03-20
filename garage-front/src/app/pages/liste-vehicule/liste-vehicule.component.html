@@ -1,138 +1,243 @@
-
-<div class='dashboard'>
-    <app-navbar-left></app-navbar-left>
-    <div class='dashboard-app'>
-        <div class='dashboard-content'>
-            <div class='container'>
-                <div class='card mt-1'>
-                    <div class='card-header'>
-                        <h1>Liste des vehicule</h1>
-                    </div>
-                    <div class='card-body'>
-                        <!-- <div class="dd_heading">
+<div class="dashboard">
+  <app-navbar-left></app-navbar-left>
+  <div class="dashboard-app">
+    <div class="dashboard-content">
+      <div class="container">
+        <div class="card mt-1">
+          <div class="card-header">
+            <h1>Liste des vehicule</h1>
+          </div>
+          <div class="card-body">
+            <!-- <div class="dd_heading">
                             <h1 class="text-center">Liste des vehicules</h1> -->
-                          <!-- <h3 class="text-center">Designed by : <strong>Dhruval Desai</strong></h3> -->
-                          <!-- </div> -->
-                          <main class="page-content">
-                            <div class="d_card" style="background-image: url('../../../assets/images/galloper.jpg');background-size: 100%;background-repeat: no-repeat;">
-                              <div class="content">
-                                <h2 class="heading">GALLOPER II</h2>
-                                <p class="data-content">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-                                <div class="d-flex gap-2 mt-3">
-                                    <button data-bs-toggle="modal" data-bs-target="#modifierVehicule" class="btn btn-primary text-uppercase">modifier</button>
-                                    <button data-bs-toggle="modal" data-bs-target="#reparerVehicule" class="btn btn-success text-uppercase">réparer</button>
-                                  </div>
-                              </div>
-                            </div>
-                            <div class="d_card" data-bs-toggle="modal" data-bs-target="#ajouterVehicule" style="background-image: url('../../../assets/images/add-voiture.jpg');background-size: 100%;background-repeat: no-repeat;">
-                                <div class="content">
-                                  <h2 class="heading">AJOUTER UNE NOUVEL VOITURE</h2>
-                                  <!-- <p class="data-content">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p> -->
-                                </div>
-                            </div>
-                            <div class="modal fade" id="ajouterVehicule" tabindex="-1" aria-labelledby="ajouterVehicule" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="container p-4">
-                                            <div class='text-muted mb-1'>
-                                                <h1>Nouvel vehicule</h1>
-                                            </div>
-                                            <form>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                      <div class="form-group">
-                                                        <label for="first">Nom du vehicule</label>
-                                                        <input type="text" class="form-control" placeholder="" id="first">
-                                                      </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                          <label for="first">Description</label>
-                                                          <textarea type="text" class="form-control" placeholder="" id="first" rows="3"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                          <label for="first">Image du vehicule</label>
-                                                          <input type="file" class="form-control" placeholder="" id="first">
-                                                        </div>
-                                                      </div>
-                                                </div>
-                                          
-                                              <button type="submit" class="btn btn-primary mt-2">Enregistrer</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal fade" id="modifierVehicule" tabindex="-1" aria-labelledby="modifierVehicule" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="container p-4">
-                                            <div class='text-muted mb-1'>
-                                                <h1>Modifier vehicule</h1>
-                                            </div>
-                                            <form>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                      <div class="form-group">
-                                                        <label for="first">Nom du vehicule</label>
-                                                        <input type="text" class="form-control" placeholder="" id="first">
-                                                      </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                          <label for="first">Description</label>
-                                                          <textarea type="text" class="form-control" placeholder="" id="first" rows="3"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                          <label for="first">Image du vehicule</label>
-                                                          <input type="file" class="form-control" placeholder="" id="first">
-                                                        </div>
-                                                      </div>
-                                                </div>
-                                          
-                                              <button type="submit" class="btn btn-primary mt-2">Enregistrer</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal fade" id="reparerVehicule" tabindex="-1" aria-labelledby="reparerVehicule" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="container p-4">
-                                            <div class='text-muted mb-1'>
-                                                <h1>Réparer vehicule</h1>
-                                            </div>
-                                            <form>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                      <div class="form-group">
-                                                        <label for="first">Date de réparation</label>
-                                                        <input type="date" class="form-control" placeholder="" id="first">
-                                                      </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="form-group">
-                                                          <label for="first">Description du problème</label>
-                                                          <textarea type="text" class="form-control" placeholder="" id="first" rows="3"></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                          
-                                              <button type="submit" class="btn btn-primary mt-2">Réparer</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                          </main>
-                    </div>
+            <!-- <h3 class="text-center">Designed by : <strong>Dhruval Desai</strong></h3> -->
+            <!-- </div> -->
+            <main class="page-content">
+              <div
+                class="d_card"
+                style="
+                  background-image: url(&quot;../../../assets/images/galloper.jpg&quot;);
+                  background-size: 100%;
+                  background-repeat: no-repeat;
+                "
+              >
+                <!-- <div
+                class="d_card"
+                style="
+                  background-image: url(http://localhost:3000/vehicle/cb655e8f-2052-4993-83e5-62c6777171a4-1742421797210.jpg);
+                  background-size: 100%;
+                  background-repeat: no-repeat;
+                "
+              > -->
+                <div class="content">
+                  <h2 class="heading">GALLOPER II</h2>
+                  <p class="data-content">
+                    Lorem Ipsum is simply dummy text of the printing and
+                    typesetting industry.
+                  </p>
+                  <div class="d-flex gap-2 mt-3">
+                    <button
+                      data-bs-toggle="modal"
+                      data-bs-target="#modifierVehicule"
+                      class="btn btn-primary text-uppercase"
+                    >
+                      modifier
+                    </button>
+                    <button
+                      data-bs-toggle="modal"
+                      data-bs-target="#reparerVehicule"
+                      class="btn btn-success text-uppercase"
+                    >
+                      réparer
+                    </button>
+                  </div>
                 </div>
-            </div>
+              </div>
+              <div
+                class="d_card"
+                data-bs-toggle="modal"
+                data-bs-target="#ajouterVehicule"
+                style="
+                  background-image: url(&quot;../../../assets/images/add-voiture.jpg&quot;);
+                  background-size: 100%;
+                  background-repeat: no-repeat;
+                "
+              >
+                <div class="content">
+                  <h2 class="heading">AJOUTER UNE NOUVEL VOITURE</h2>
+                  <!-- <p class="data-content">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p> -->
+                </div>
+              </div>
+              <div
+                class="modal fade"
+                id="ajouterVehicule"
+                tabindex="-1"
+                aria-labelledby="ajouterVehicule"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="container p-4">
+                      <div class="text-muted mb-1">
+                        <h1>Nouvel vehicule</h1>
+                      </div>
+                      <form>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="first">Nom du vehicule</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                placeholder=""
+                                id="first"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="first">Description</label>
+                              <textarea
+                                type="text"
+                                class="form-control"
+                                placeholder=""
+                                id="first"
+                                rows="3"
+                              ></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="first">Image du vehicule</label>
+                              <input
+                                type="file"
+                                class="form-control"
+                                placeholder=""
+                                id="first"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mt-2">
+                          Enregistrer
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="modal fade"
+                id="modifierVehicule"
+                tabindex="-1"
+                aria-labelledby="modifierVehicule"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="container p-4">
+                      <div class="text-muted mb-1">
+                        <h1>Modifier vehicule</h1>
+                      </div>
+                      <form>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="first">Nom du vehicule</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                placeholder=""
+                                id="first"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="first">Description</label>
+                              <textarea
+                                type="text"
+                                class="form-control"
+                                placeholder=""
+                                id="first"
+                                rows="3"
+                              ></textarea>
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="first">Image du vehicule</label>
+                              <input
+                                type="file"
+                                class="form-control"
+                                placeholder=""
+                                id="first"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mt-2">
+                          Enregistrer
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="modal fade"
+                id="reparerVehicule"
+                tabindex="-1"
+                aria-labelledby="reparerVehicule"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="container p-4">
+                      <div class="text-muted mb-1">
+                        <h1>Réparer vehicule</h1>
+                      </div>
+                      <form>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="first">Date de réparation</label>
+                              <input
+                                type="date"
+                                class="form-control"
+                                placeholder=""
+                                id="first"
+                              />
+                            </div>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="first">Description du problème</label>
+                              <textarea
+                                type="text"
+                                class="form-control"
+                                placeholder=""
+                                id="first"
+                                rows="3"
+                              ></textarea>
+                            </div>
+                          </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mt-2">
+                          Réparer
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </main>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

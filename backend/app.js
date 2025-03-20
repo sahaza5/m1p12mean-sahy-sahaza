@@ -12,6 +12,7 @@ const paymentRoute = require("./routes/payment.route");
 
 app.use(express.json());
 app.use(cors());
+app.use("/vehicle/", express.static("images"));
 
 //PORT FROM .env FILE
 const serverPort = process.env.SERVER_PORT || 5000;

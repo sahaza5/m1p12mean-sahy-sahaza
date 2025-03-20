@@ -84,6 +84,7 @@ const updateRepair = async (req, res) => {
     const updatedRepair = await Repairs.findByIdAndUpdate(
       { _id: id },
       { $set: { service, status: "REPAIRING" } },
+
       { new: true }
     );
     return res.status(httpStatus.OK).send({ updatedRepair });
