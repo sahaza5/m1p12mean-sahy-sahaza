@@ -31,9 +31,9 @@ const ApointmentSchema = new mongoose.Schema(
       ref: "Vehicules",
       required: true,
     },
-    carName: {
-      type: String,
-    },
+    // carName: {
+    //   type: String,
+    // },
     belongsTo: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

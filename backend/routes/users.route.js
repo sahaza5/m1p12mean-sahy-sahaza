@@ -8,8 +8,10 @@ const {
   getAllMechanicien,
   // clientLogin,
   login,
-  setPassword,
+  // setPassword,
+  setProfile,
   deleteMechanicien,
+  getAllClient,
   getUserData,
 } = require("../controllers/users.controller");
 
@@ -28,6 +30,9 @@ const routes = express.Router();
 //   .get(authentication, authorizationResponsable, getAllMechanicien);
 
 routes.route("/").get(getAllMechanicien);
+
+//-------GET ALL CLIENTS
+routes.route("/client").get(getAllClient);
 
 //----GET USER DATA-----//
 routes.route("/userdata").get(authentication, getUserData);
@@ -54,6 +59,7 @@ routes
 routes.route("/login").post(login);
 
 //----SET PASSWORD  ROUTE----//
-routes.route("/client/setPassword").patch(setPassword);
+// routes.route("/client/setPassword").patch(setPassword);
+routes.route("/setProfile").patch(setProfile);
 
 module.exports = routes;

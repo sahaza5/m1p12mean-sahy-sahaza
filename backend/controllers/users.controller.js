@@ -4,11 +4,22 @@ const jwt = require("jsonwebtoken");
 const httpStatus = require("http-status-codes");
 const { Apointments } = require("../models/apointment.model");
 
-//GET ALL USERS
+//GET ALL MECHANICIEN
 const getAllMechanicien = async (req, res) => {
-  console.log("Get all Users ");
+  console.log("Get all mechanicien ");
   try {
     const users = await Users.find({ userType: "EMPLOYEE" });
+    return res.status(httpStatus.OK).send(users);
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
+  }
+};
+
+//GET ALL CLIENT
+const getAllClient = async (req, res) => {
+  console.log("Get all clients ");
+  try {
+    const users = await Users.find({ userType: "CLIENT" });
     return res.status(httpStatus.OK).send(users);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
@@ -200,21 +211,51 @@ const login = async (req, res) => {
   }
 };
 
-const setPassword = async (req, res) => {
-  const { password } = req.body;
-  if (!password.trim()) {
-    return res
-      .status(httpStatus.BAD_REQUEST)
-      .send({ message: "Please new password" });
-  }
+// const setPassword = async (req, res) => {
+//   const { password } = req.body;
+//   if (!password.trim()) {
+//     return res
+//       .status(httpStatus.BAD_REQUEST)
+//       .send({ message: "Please new password" });
+//   }
+//   try {
+//     const newPassword = await Users.findOneAndUpdate(
+//       { _id: req.user.id },
+//       { $set: { password } },
+//       { new: true }
+//     );
+
+//     return res.status(httpStatus.OK).json(newPassword);
+//   } catch (error) {
+//     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
+//   }
+// };
+
+const setProfile = async (req, res) => {
+  const { pswd, name, surname, txt, email, phone } = req.body;
+  const { id } = req.params;
+  // if (!password.trim()) {
+  //   return res
+  //     .status(httpStatus.BAD_REQUEST)
+  //     .send({ message: "Please new password" });
+  // }
   try {
-    const newPassword = await Users.findOneAndUpdate(
-      { _id: req.user.id },
-      { $set: { password } },
+    const newProfile = await Users.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          pswd: pswd && pswd,
+          name: name && name,
+          surname: surname && surname,
+          txt: txt && txt,
+          email: email && email,
+          phone: phone && phone,
+        },
+      },
       { new: true }
     );
 
-    return res.status(httpStatus.OK).json(newPassword);
+    return res.status(httpStatus.OK).json(newProfile);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
   }
@@ -228,7 +269,9 @@ module.exports = {
   addMechanicien,
   login,
   // clientLogin,
-  setPassword,
+  // setPassword,
+  setProfile,
   deleteMechanicien,
+  getAllClient,
   getUserData,
 };

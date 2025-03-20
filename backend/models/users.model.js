@@ -8,6 +8,15 @@ const UserSchema = new mongoose.Schema(
       minlength: 3,
       maxlength: 20,
     },
+    // address: {
+    //   type: String,
+    //   minlength: 3,
+    //   maxlength: 20,
+    // },
+    phone: {
+      type: String,
+      length: 12,
+    },
     pswd: {
       type: String,
       required: true,
@@ -19,6 +28,12 @@ const UserSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    name: {
+      type: String,
+    },
+    surname: {
+      type: String,
+    },
     status: {
       type: String,
       enum: ["ENABLE", "DISABLE"],
@@ -28,7 +43,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       // enum: ["CLIENT", "ADMIN", "MECHANICIEN"],
-      enum: ["CLIENT", "EMPLOYEE"],
+      enum: ["CLIENT", "EMPLOYEE", "ADMIN"],
     },
   },
   { timestamps: true }

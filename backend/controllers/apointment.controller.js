@@ -10,6 +10,7 @@ const { Vehicules } = require("../models/vehicule.model");
 const getAllApointmentsForAdminRole = async (req, res) => {
   // console.log("Get all apointments for admin: ", req.user);
   //   const { mechanicien, belongsTo } = req.params;
+
   try {
     //IN CASE IT WANTS ALL APOINTMENTS
     const apointments = await Apointments.find({})
@@ -27,25 +28,35 @@ const getAllApointmentsForAdminRole = async (req, res) => {
 //---------------GET ALL APOINTMENTS SPECIFIC FOR RESPONSABLE(MOSTLY FOR MECHANICIEN)-------//
 const getAllApointmentsForResponsable = async (req, res) => {
   const { id } = req.params;
-  console.log(
-    "Get all apointments for responsable(mostly for mechanicien): ",
-    req.user
-  );
-  if (req.user.role === "MECHANICIEN" || req.user.role === "ADMIN") {
-    try {
-      const apointments = await Apointments.find({ assignedTo: id });
-      console.log(apointments);
-      return res.status(httpStatus.OK).send(apointments);
-    } catch (error) {
-      res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
-    }
+  console.log("id is:", id);
+  // console.log(
+  //   "Get all apointments for responsable(mostly for mechanicien): ",
+  //   req.user
+  // );
+  // if (req.user.role === "MECHANICIEN" || req.user.role === "ADMIN") {
+  // if (
+  //   userType.toUpperCase() === "EMPLOYEE" ||
+  //   userType.toUpperCase() === "ADMIN"
+  // ) {
+  // const ied = new mongoose.Types.ObjectId(id);
+  // console.log(ied);
+  try {
+    const apointments = await Apointments.find({ assignedTo: id })
+      .populate("belongsTo", "-pswd")
+      .populate("car")
+      .populate("assignedTo", "-pswd");
+    console.log(apointments);
+    return res.status(httpStatus.OK).send(apointments);
+  } catch (error) {
+    res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
   }
+  // }
   //--------IN CASE HE IS TRYING TO GET FOR ANOTHER MECHANICIEN
-  else {
-    return res
-      .status(httpStatus.UNAUTHORIZED)
-      .send({ message: "Unauthorized access" });
-  }
+  // else {
+  //   return res
+  //     .status(httpStatus.UNAUTHORIZED)
+  //     .send({ message: "Unauthorized access" });
+  // }
 };
 
 //GET AN APOINTMENT BY ID
@@ -59,8 +70,8 @@ const getApointmentById = async (req, res) => {
   try {
     const myApointment = await Apointments.findById({ _id: id })
       .populate("car")
-      .populate("assignedTo")
-      .populate("belongsTo");
+      .populate("assignedTo", "-pswd")
+      .populate("belongsTo", "-pswd");
     if (!myApointment) {
       return res
         .status(httpStatus.BAD_REQUEST)
@@ -77,9 +88,9 @@ const getAllApointmentForClient = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const myApointment = await Apointments.find({ belongsTo: id }).populate(
-      "car"
-    );
+    const myApointment = await Apointments.find({ belongsTo: id })
+      .populate("car")
+      .populate("assignedTo", "-pswd");
     if (!myApointment) {
       return res
         .status(httpStatus.BAD_REQUEST)
@@ -93,24 +104,29 @@ const getAllApointmentForClient = async (req, res) => {
 
 //-------TO BOOK AN APOINTMENT---------
 const bookApointment = async (req, res) => {
-  console.log("Book an apointment");
-  const { description, car, carName } = req.body;
-  // console.log(
-  //   `Title:${title},description:${description},belongsTo:${req.user.username},image:${image}`
-  // );
+  const { userId, vehicleId } = req.params;
+  console.log("Book an apointment for car:");
+  const { description, date } = req.body;
+  if (
+    !mongoose.isValidObjectId(userId) ||
+    !mongoose.isValidObjectId(vehicleId)
+  ) {
+    return res.status(httpStatus.BAD_REQUEST).json({ message: "Invalid id" });
+  }
   try {
     const booking = await Apointments.create({
       description,
-      belongsTo: req.user.id,
-      car,
-      carName,
+      date: new Date(date),
+      belongsTo: userId,
+      car: vehicleId,
+      // carName: vehicleName,
     });
 
-    const updateVehicule = await Vehicules.findOneAndUpdate(
-      { _id: car },
-      { $set: { repairStatus: "WAITING APOINTMENT" } },
-      { new: true }
-    );
+    // const updateVehicule = await Vehicules.findOneAndUpdate(
+    //   { _id: car },
+    //   { $set: { repairStatus: "WAITING APOINTMENT" } },
+    //   { new: true }
+    // );
 
     // const newRepair = await Repairs.create({ apointment: booking._id });
     return res.status(httpStatus.CREATED).json(booking);
