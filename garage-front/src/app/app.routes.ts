@@ -7,6 +7,7 @@ import { ListeRendezVousComponent } from './pages/liste-rendez-vous/liste-rendez
 import { ListeMecanicienComponent } from './pages/liste-mecanicien/liste-mecanicien.component';
 import { ListeClientComponent } from './pages/liste-client/liste-client.component';
 import { ListeTacheComponent } from './pages/liste-tache/liste-tache.component';
+import { ViewProfilComponent } from './pages/view-profil/view-profil.component';
 
 export const routes: Routes = [
     { path: '', component: AcceuilComponent },
@@ -16,5 +17,6 @@ export const routes: Routes = [
     { path: 'liste-rendez-vous', component: ListeRendezVousComponent },
     { path: 'liste-mecanicien', component: ListeMecanicienComponent},
     { path: 'liste-tache', component: ListeTacheComponent},
+    { path: 'voir-profil', component: ViewProfilComponent}
 ];
 
