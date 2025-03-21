@@ -8,9 +8,11 @@ const {
   getAllMechanicien,
   // clientLogin,
   login,
+  disableMechanicien,
   // setPassword,
   setProfile,
-  deleteMechanicien,
+  // deleteMechanicien,
+  reactivateAccount,
   getAllClient,
   getUserData,
 } = require("../controllers/users.controller");
@@ -35,7 +37,8 @@ routes.route("/").get(getAllMechanicien);
 routes.route("/client").get(getAllClient);
 
 //----GET USER DATA-----//
-routes.route("/userdata").get(authentication, getUserData);
+// routes.route("/userdata/:id").get(authentication, getUserData);
+routes.route("/userdata/").get(authentication, getUserData);
 
 //----GET ONE USER ROUTE------//
 //User must be authenticated(logged in) and have the privilege before getting all users
@@ -54,14 +57,19 @@ routes
   .post(authentication, authorizationAdmin, addMechanicien);
 
 //-----DELETE/LAY DOWN A MECHANICIEN ROUTE-----//
-routes
-  .route("/delete/mechanicien/:id")
-  .patch(authentication, authorizationAdmin, deleteMechanicien);
+// routes
+//   .route("/delete/mechanicien/:id")
+//   .patch(authentication, authorizationAdmin, disableMechanicien);
+routes.route("/disable/mechanicien/:id").patch(disableMechanicien);
+
 //----LOG IN ROUTE----//
 routes.route("/login").post(login);
 
-//----SET PASSWORD  ROUTE----//
+//----SET PROFILE  ROUTE----//
 // routes.route("/client/setPassword").patch(setPassword);
 routes.route("/setProfile").patch(setProfile);
+
+//-----REACTIVATE USER ACCOUNT---//
+routes.route("/reactivate/:id").patch(reactivateAccount);
 
 module.exports = routes;

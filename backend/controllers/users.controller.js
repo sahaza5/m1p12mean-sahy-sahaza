@@ -3,6 +3,7 @@ const { Users } = require("../models/users.model");
 const jwt = require("jsonwebtoken");
 const httpStatus = require("http-status-codes");
 const { Apointments } = require("../models/apointment.model");
+const { Tasks } = require("../models/task.model");
 
 //GET ALL MECHANICIEN
 const getAllMechanicien = async (req, res) => {
@@ -135,7 +136,7 @@ const addMechanicien = async (req, res) => {
 };
 
 //DELETE OR DISABLE MECHANICIEN
-const deleteMechanicien = async (req, res) => {
+const disableMechanicien = async (req, res) => {
   const { id } = req.params;
   console.log("Delete mechanicien:", id);
   const objId = mongoose.isValidObjectId(id);
@@ -143,7 +144,7 @@ const deleteMechanicien = async (req, res) => {
     return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid ID" });
   }
   try {
-    const deletedMechanicien = await Users.findOneAndUpdate(
+    const deletedMechanicien = await Users.findByIdAndUpdate(
       { _id: id },
       { $set: { status: "DISABLE" } },
       { new: true }
@@ -153,26 +154,33 @@ const deleteMechanicien = async (req, res) => {
         .status(httpStatus.BAD_REQUEST)
         .send({ message: "User not found" });
     }
-    const apointmentOfThisOne = await Apointments.find({
+    // const apointmentOfThisOne = await Apointments.find({
+    //   assignedTo: id,
+    //   status: { $ne: "DONE" },
+    // });
+
+    // console.log("Apointment:", apointmentOfThisOne);
+
+    // if (apointmentOfThisOne.length) {(
+
+    const deleteApointments = await Apointments.updateMany(
+      { assignedTo: id, status: { $ne: "DONE" } },
+      { $set: { assignedTo: null, status: "PENDING" } },
+      { new: true }
+    );
+
+    //DELETE THE UNDONE TASK OF THAT EMPLOYEE
+    const deleteNotTerminatedTask = await Tasks.deleteMany({
       assignedTo: id,
-      status: { $ne: "DONE" },
     });
-
-    console.log("Apointment:", apointmentOfThisOne);
-
-    if (apointmentOfThisOne.length) {
-      const deleteApointment = await Apointments.findOneAndUpdate(
-        { assignedTo: id },
-        { $set: { assignedTo: null } },
-        { new: true }
-      );
-      if (!deleteApointment) {
-        return res.status(httpStatus.BAD_REQUEST).send({
-          message: "Something went wrong while updating the apointment",
-        });
-      }
-      return res.status(httpStatus.OK).json(deletedMechanicien);
-    }
+    // if (!deleteApointment) {
+    //   return res.status(httpStatus.BAD_REQUEST).send({
+    //     message: "Something went wrong while updating the apointment",
+    //   });
+    // }
+    // return res.status(httpStatus.OK).json(deletedMechanicien);
+    // }
+    console.log(deleteApointments);
     return res.status(httpStatus.OK).json(deletedMechanicien);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
@@ -195,6 +203,11 @@ const login = async (req, res) => {
       return res
         .status(httpStatus.BAD_REQUEST)
         .send({ message: "User not found" });
+    }
+    if (userCredentials.status === "DISABLE") {
+      return res
+        .status(httpStatus.FORBIDDEN)
+        .send({ message: "Your account has been disabled" });
     }
 
     //IF USER ROLE IS CLIENT THEN PROCEED
@@ -273,8 +286,26 @@ const setProfile = async (req, res) => {
   }
 };
 
+//REACTIVATE USER 'S ACCOUNT
+const reactivateAccount = async (req, res) => {
+  const { id } = req.params;
+  console.log("Reactivate account:", id);
+  try {
+    const account = await Users.findByIdAndUpdate(
+      { _id: id },
+      { $set: { status: "ENABLE" } },
+      { new: true }
+    );
+
+    return res.status(httpStatus.OK).send(account);
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
+  }
+};
+
 module.exports = {
   // getAllUsers,
+  reactivateAccount,
   getAllMechanicien,
   getUserById,
   register,
@@ -283,7 +314,7 @@ module.exports = {
   // clientLogin,
   // setPassword,
   setProfile,
-  deleteMechanicien,
+  disableMechanicien,
   getAllClient,
   getUserData,
 };

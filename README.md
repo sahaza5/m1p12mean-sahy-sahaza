@@ -39,6 +39,9 @@ http://localhost:3000/api/users/1231(id:user Id)
 ++++Set user profile as a PATCH request
 http://localhost:3000/api/users/setProfile, the body is {pswd?,name?,surname?,txt?,email?,phone?}
 
+++++Reactivate account of an user as a PATCH request
+http://localhost:3000/api/users/reactivate/id(12124134123)
+
 ++++Register a car as POST request
 http://localhost:3000/api/vehicule/register/werqwe(id:user id), body field are name, description,image. NB: CREATE A FOLDER CALLED images IN YOUR BACKEND FIRST!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -67,17 +70,25 @@ http://localhost:3000/api/apointments/mechanicien/id(mechanicien id 67db2bb77d0f
 http://localhost:3000/api/apointments/apointmentId67dc6c0ef4ae6fac83e96bba
 
 ++++Set/update apointment
+http://localhost:3000/api/apointments/setApointment/id(apointmentid67dc7e53d6de0ece5e7607c6), The body is {description?,date?}
 
-++++Cancel apointment
+++++Add mechanicien to apointment
+http://localhost:3000/api/apointments/addMechanicien/id(apointmentid67dc7e53d6de0ece5e7607c6),body{mechanicien:Mechanicien ID!!!!!!!!!!!!}
+
+++++Cancel
+http://localhost:3000/api/apointments/cancelApointment/apointmentId(67dc7e53d6de0ece5e7607c6)
 
 ++++Disable employee/user
+http://localhost:3000/api/users/disable/mechanicien/mechanicienID(67db4ed73aec33c9441ae5ef)
 
-++++Create task
+++++Get all tasks as a GET request
+http://localhost:3000/api/tasks
 
-++++Get all tasks
+++++Get task by id as a GET request
+http://localhost:3000/api/tasks/taskId67dde4585f7b2eb8c5a21c10
 
-++++Get task mechanicien
+++++Get task of a mechanicien as GET request
+http://localhost:3000/api/tasks/mechanicien/mechanicienId67db4ed73aec33c9441ae5ef
 
-++++Get task by id
-
-++++Update task
+++++Update task as a PATCH request
+http://localhost:3000/api/tasks/update/taskId67dde4585f7b2eb8c5a21c10, the body is {status}:["CREER", "EN ATTENTE", "EN COURS", "TERMINER"]

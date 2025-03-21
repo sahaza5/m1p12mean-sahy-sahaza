@@ -5,6 +5,7 @@ const { Apointments } = require("../models/apointment.model");
 // const { Users } = require("../models/users.model");
 const { Repairs } = require("../models/repair.model");
 const { Vehicules } = require("../models/vehicule.model");
+const { Tasks } = require("../models/task.model");
 
 //---------------GET ALL APOINTMENTS SPECIFIC FOR ADMIN-------//
 const getAllApointmentsForAdminRole = async (req, res) => {
@@ -144,38 +145,55 @@ const cancelApointment = async (req, res) => {
     return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
   }
   try {
-    const findApointment = await Apointments.findById({ _id: id }).populate(
-      "car"
-    );
-    const findRepair = await Repairs.findById({ apointment: id });
-    if (!findApointment) {
+    // const findApointment = await Apointments.findById({ _id: id }).populate(
+    //   "car"
+    // );
+    // const findRepair = await Repairs.findById({ apointment: id });
+    // if (!findApointment) {
+    //   return res
+    //     .status(httpStatus.BAD_REQUEST)
+    //     .send({ message: "Apointment not found" });
+    // }
+    // if (
+    //   findApointment.status !== "DONE" &&
+    //   findApointment.status !== "CANCELED"
+    // ) {
+    //   if (findRepair.status !== "DONE" && findRepair.status !== "REPAIRING")
+    //     try {
+    //       const canceled = await Apointments.findOneAndUpdate(
+    //         { _id: id },
+    //         { $set: { status: "CANCELED" } },
+    //         { new: true }
+    //       );
+    //       if (!canceled) {
+    //         return res
+    //           .status(httpStatus.BAD_REQUEST)
+    //           .send({ message: "Canceled failed" });
+    //       }
+    //       return res.status(httpStatus.OK).send(canceled);
+    //     } catch (error) {
+    //       return res
+    //         .status(httpStatus.BAD_REQUEST)
+    //         .send({ message: error.message });
+    //     }
+    // }
+
+    const findApointment = await Apointments.findById({ _id: id });
+    if (findApointment.status === "DONE") {
       return res
         .status(httpStatus.BAD_REQUEST)
-        .send({ message: "Apointment not found" });
+        .json({ message: "Cannot cancel" });
     }
-    if (
-      findApointment.status !== "DONE" &&
-      findApointment.status !== "CANCELED"
-    ) {
-      if (findRepair.status !== "DONE" && findRepair.status !== "REPAIRING")
-        try {
-          const canceled = await Apointments.findOneAndUpdate(
-            { _id: id },
-            { $set: { status: "CANCELED" } },
-            { new: true }
-          );
-          if (!canceled) {
-            return res
-              .status(httpStatus.BAD_REQUEST)
-              .send({ message: "Canceled failed" });
-          }
-          return res.status(httpStatus.OK).send(canceled);
-        } catch (error) {
-          return res
-            .status(httpStatus.BAD_REQUEST)
-            .send({ message: error.message });
-        }
-    }
+
+    const canceledApointment = await Apointments.findByIdAndUpdate(
+      { _id: id },
+      { $set: { status: "CANCELED" } },
+      { new: true }
+    );
+    const deleteTaskOfTheMechanicien = await Tasks.findOneAndDelete({
+      apointment: id,
+    });
+    return res.status(httpStatus.OK).json(canceledApointment);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
   }
@@ -184,7 +202,9 @@ const cancelApointment = async (req, res) => {
 //------UPDATE/SET APOINTMENT-------
 const updateApointment = async (req, res) => {
   console.log("Update the apointment");
-  const { date, assignedTo, status } = req.body;
+  // const { date, status } = req.body;
+  const { date, description } = req.body;
+
   const { id } = req.params;
   console.log(id);
   const validId = mongoose.isValidObjectId(id);
@@ -196,43 +216,46 @@ const updateApointment = async (req, res) => {
       { _id: id },
       {
         $set: {
-          status: status && status,
-          assignedTo: assignedTo && assignedTo,
-          date: new Date(date),
+          description: description && description,
+          // status: status && status,
+          // assignedTo: assignedTo && assignedTo,
+          date: date && new Date(date),
         },
       },
       { new: true }
     );
 
-    const findCar = await Vehicules.findById({ _id: updatedApointment.car });
-    console.log(updatedApointment);
-    if (updateApointment) {
-      if (
-        updateApointment.status !== "DONE"
-        // &&
-        // updateApointment.status !== "CANCELED"
-      ) {
-        const insertNew = await Repairs.create({
-          apointment: updatedApointment._id,
-          car: findCar.name,
-          // status: "REPAIRING",
-        });
-        console.log("Insert new is ", insertNew);
+    // const findCar = await Vehicules.findById({ _id: updatedApointment.car });
+    // console.log(updatedApointment);
+    // if (updateApointment) {
+    //   if (
+    //     updateApointment.status !== "DONE"
+    //     // &&
+    //     // updateApointment.status !== "CANCELED"
+    //   ) {
+    //     const insertNew = await Repairs.create({
+    //       apointment: updatedApointment._id,
+    //       car: findCar.name,
+    //       // status: "REPAIRING",
+    //     });
+    //     console.log("Insert new is ", insertNew);
 
-        // const [update, insert] = await Promise.all([updateApointment, insertNew]);
-        return res.status(200).send({ updateApointment, insertNew });
-      } else if (updateApointment.status === "DONE") {
-        const doneRepair = await Repairs.findByIdAndUpdate(
-          {
-            apointment: updatedApointment._id,
-          },
-          { $set: { status: "DONE" } }
-        );
-        return res.status(200).send({ updateApointment, doneRepair });
-      }
-    } else {
-      return res.status(httpStatus.BAD_REQUEST).send("Something went wrong");
-    }
+    // const [update, insert] = await Promise.all([updateApointment, insertNew]);
+    // return res.status(200).send({ updateApointment, insertNew });
+    return res.status(200).send(updatedApointment);
+
+    // } else if (updateApointment.status === "DONE") {
+    //   const doneRepair = await Repairs.findByIdAndUpdate(
+    //     {
+    //       apointment: updatedApointment._id,
+    //     },
+    //     { $set: { status: "DONE" } }
+    //   );
+    //   return res.status(200).send({ updateApointment, doneRepair });
+    // }
+    // } else {
+    //   return res.status(httpStatus.BAD_REQUEST).send("Something went wrong");
+    // }
 
     // try {
     //   console.log(updatedApointment._id, updatedApointment.status);
@@ -256,6 +279,36 @@ const updateApointment = async (req, res) => {
   }
 };
 
+//---------ADD MECHANICIEN TO APOINTMENT------
+const addMechanicienToApointment = async (req, res) => {
+  const { id } = req.params;
+  console.log("Add mechanicien to an apointmentId:", id);
+
+  const validId = mongoose.isValidObjectId(id);
+  if (!validId) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid ID" });
+  }
+  const { mechanicien } = req.body;
+
+  try {
+    const addMechanicien = await Apointments.findByIdAndUpdate(
+      { _id: id },
+      { $set: { assignedTo: mechanicien, status: "APPROVED" } },
+      { new: true }
+    );
+
+    //---------------CREATE THE TASK HERE------------//
+    const createTask = await Tasks.create({
+      apointment: id,
+      assignedTo: mechanicien,
+    });
+    console.log(createTask);
+    return res.status(httpStatus.OK).json({ addMechanicien, createTask });
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
+  }
+};
+
 //67cf2e9f5879087651b841ea
 
 module.exports = {
@@ -264,6 +317,7 @@ module.exports = {
   getApointmentById,
   getAllApointmentForClient,
   bookApointment,
+  addMechanicienToApointment,
   cancelApointment,
   updateApointment,
 };

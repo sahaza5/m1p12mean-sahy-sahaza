@@ -10,6 +10,7 @@ const {
   getAllApointmentsForResponsable,
   getApointmentById,
   getAllApointmentForClient,
+  addMechanicienToApointment,
   cancelApointment,
   updateApointment,
   bookApointment,
@@ -52,14 +53,19 @@ routes.get("/:id", getApointmentById);
 routes.post("/bookApointment/:userId/:vehicleId", bookApointment);
 
 //------------SET THE APOINTMENT--------//
-routes.patch(
-  "/setApointment/:id",
-  authentication,
-  authorizationAdmin,
-  updateApointment
-);
+// routes.patch(
+//   "/setApointment/:id",
+//   authentication,
+//   authorizationAdmin,
+//   updateApointment
+// );
+routes.patch("/setApointment/:id", updateApointment);
+
+//------------SET THE APOINTMENT TO A MECHANICIEN--------//
+routes.patch("/addMechanicienApointment/:id", addMechanicienToApointment);
 
 //---------CANCEL APOINTMENT------//
-routes.delete("/cancelApointment/:id", authentication, cancelApointment);
+// routes.patch("/cancelApointment/:id", authentication, cancelApointment);
+routes.patch("/cancelApointment/:id", cancelApointment);
 
 module.exports = routes;
