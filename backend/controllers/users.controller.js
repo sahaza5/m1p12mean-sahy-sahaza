@@ -28,7 +28,13 @@ const getAllClient = async (req, res) => {
 
 //GET USER DATA
 const getUserData = async (req, res) => {
-  return res.status(httpStatus.OK).send(req.user);
+  console.log("Get the user's data");
+  try {
+    const findUser = await Users.findById({ _id: req.user.id });
+    return res.status(httpStatus.OK).send(findUser);
+  } catch (error) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
+  }
 };
 
 //GET USER BY ID

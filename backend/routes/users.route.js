@@ -41,7 +41,7 @@ routes.route("/userdata").get(authentication, getUserData);
 //User must be authenticated(logged in) and have the privilege before getting all users
 // routes.route("/:id").get(authentication, authorizationResponsable, getUserById);
 
-routes.route("/:id").get(getUserById);
+routes.route("/:id").get(authentication, getUserById);
 
 //----REGISTER ROUTE----//
 // routes.route("/register/client").post(registerClient);
