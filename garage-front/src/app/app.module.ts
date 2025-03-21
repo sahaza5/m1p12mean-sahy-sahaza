@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -15,7 +17,9 @@ import { BrowserModule } from '@angular/platform-browser';
     BrowserModule,
     CommonModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    HttpClientModule,
+    FormsModule
   ],
 
 })

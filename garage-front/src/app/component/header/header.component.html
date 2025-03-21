@@ -32,10 +32,12 @@
            Accéder à votre espace
         </a>
 
-        <!-- Login Modal -->
+        <!-- Login Modal modal-backdrop fade hide-->
         <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
             <div class="modal-dialog">
+              <button class="close" data-dismiss="modal" aria-label="Close">ENREGISTRER</button>
                 <div class="modal-content">
+
                     <div class="main">
                         <input type="checkbox" id="chk" aria-hidden="true">
                             <div class="signup">
@@ -48,17 +50,17 @@
                             </div>
 
                             <div class="login">
-                                <form>
+                                <form (ngSubmit)="onSubmit()">
                                     <label for="chk" aria-hidden="true">INSCRIPTION</label>
-                                    <input type="text" name="txt" placeholder="Pseudo" required="">
-                                    <input type="email" name="email" placeholder="Email" required="">
-                                    <select name="userType" class="form-select" required="">
+                                    <input type="text" name="txt" placeholder="Pseudo" required="" [(ngModel)]="userData.txt">
+                                    <input type="email" name="email" placeholder="Email" required="" [(ngModel)]="userData.email">
+                                    <select name="userType" class="form-select" required="" [(ngModel)]="userData.userType">
                                         <option value="" disabled selected>Type d'utilisateur</option>
                                         <option value="client">Client</option>
                                         <option value="employee">Mécanicien</option>
                                     </select>
-                                    <input type="password" name="pswd" placeholder="Password" required="">
-                                    <button>ENREGISTRER</button>
+                                    <input type="password" name="pswd" placeholder="Password" required="" [(ngModel)]="userData.pswd">
+                                    <button class="close" data-dismiss="modal" aria-label="Close">ENREGISTRER</button>
                                 </form>
 
                             </div>
