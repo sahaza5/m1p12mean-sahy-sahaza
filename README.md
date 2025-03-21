@@ -37,7 +37,7 @@ http://localhost:3000/api/users/client
 http://localhost:3000/api/users/1231(id:user Id)
 
 ++++Set user profile as a PATCH request
-http://localhost:3000/api/users/setProfile, the body is {pswd?,name?,surname?,txt?,email?,phone?}
+http://localhost:3000/api/users/setProfile/id23124123123(userid), the body is {pswd?,name?,surname?,txt?,email?,phone?}
 
 ++++Reactivate account of an user as a PATCH request
 http://localhost:3000/api/users/reactivate/id(12124134123)
