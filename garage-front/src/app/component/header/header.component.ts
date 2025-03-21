@@ -1,17 +1,65 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import * as bootstrap from 'bootstrap';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-header',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
 
-  constructor() {}
+
+  userData = {
+    txt: '',
+    email: '',
+    userType: '',
+    pswd: ''
+  };
+
+  constructor(private authService: AuthService, private router: Router) {}
+
+  onSubmit() {
+
+    console.log("userData", this.userData)
+
+
+    this.authService.register(this.userData).subscribe(
+      (response:any) => {
+        console.log('Réponse de l\'API', response);
+        console.log('Inscription réussie', response);
+        console.log('Router:', this.router); // Vérifiez l'instance du routeur
+
+        this.router.navigate(['/profil']);
+        console.log('Navigation vers /profil réussie');
+
+        // // Fermer la modal
+        // if (this.loginModal && this.loginModal.nativeElement) {
+        //   const modal = bootstrap.Modal.getInstance(this.loginModal.nativeElement);
+        //   if (modal) {
+        //     modal.hide();
+        //   }
+        // }
+
+        // // Reset the checkbox
+        // if (this.chkbox && this.chkbox.nativeElement) {
+        //   this.chkbox.nativeElement.checked = false;
+        // }
+
+
+      },
+      error => {
+        console.error('Erreur de requête', error);
+        alert('Erreur lors de la communication avec le serveur. Veuillez réessayer.');
+      }
+    );
+  }
 
 
 
