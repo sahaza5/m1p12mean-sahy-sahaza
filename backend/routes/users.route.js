@@ -67,7 +67,7 @@ routes.route("/login").post(login);
 
 //----SET PROFILE  ROUTE----//
 // routes.route("/client/setPassword").patch(setPassword);
-routes.route("/setProfile").patch(setProfile);
+routes.route("/setProfile/:id").patch(setProfile);
 
 //-----REACTIVATE USER ACCOUNT---//
 routes.route("/reactivate/:id").patch(reactivateAccount);
