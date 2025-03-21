@@ -65,3 +65,19 @@ http://localhost:3000/api/apointments/mechanicien/id(mechanicien id 67db2bb77d0f
 
 ++++Get apointment by id as a GET request
 http://localhost:3000/api/apointments/apointmentId67dc6c0ef4ae6fac83e96bba
+
+++++Set/update apointment
+
+++++Cancel apointment
+
+++++Disable employee/user
+
+++++Create task
+
+++++Get all tasks
+
+++++Get task mechanicien
+
+++++Get task by id
+
+++++Update task

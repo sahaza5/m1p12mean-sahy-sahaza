@@ -59,10 +59,16 @@ const getUserById = async (req, res) => {
 //REGISTER CLIENT
 const register = async (req, res) => {
   const { txt, pswd, email, userType } = req.body;
+  console.log(txt, pswd, email, userType.toUpperCase());
   if (!txt.trim() || !pswd || !email || !userType) {
     return res
       .status(httpStatus.BAD_REQUEST)
       .send({ message: "Please provide credentials" });
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ message: "Invalid email format" });
   }
 
   try {
