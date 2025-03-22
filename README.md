@@ -81,6 +81,9 @@ http://localhost:3000/api/apointments/cancelApointment/apointmentId(67dc7e53d6de
 ++++Disable employee/user
 http://localhost:3000/api/users/disable/mechanicien/mechanicienID(67db4ed73aec33c9441ae5ef)
 
+++++Reactivate employee/user
+http://localhost:3000/api/users/reactivate/mechanicienID(67db4ed73aec33c9441ae5ef)
+
 ++++Get all tasks as a GET request
 http://localhost:3000/api/tasks
 

@@ -24,12 +24,7 @@ routes.get("/:id", getAllVehiculesForClient);
 //   upload.single("image"),
 //   registerVehicule
 // );
-routes.post(
-  "/register/:id",
-
-  upload.single("image"),
-  registerVehicule
-);
+routes.post("/register/:id", upload.single("image"), registerVehicule);
 
 //-----------UPDATE A VEHICULE--------//
 // routes.patch("/:id", authentication, updateVehicule);
