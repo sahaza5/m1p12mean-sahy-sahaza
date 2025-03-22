@@ -15,16 +15,16 @@ const myStorage = multer.diskStorage({
   },
 });
 
-const fileFilter = (req, file, cb) => {
-  const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png"];
-  if (allowedFileTypes.includes(file.mimeType)) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
+// const fileFilter = (req, file, cb) => {
+//   const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png"];
+//   if (allowedFileTypes.includes(file.mimeType)) {
+//     cb(null, true);
+//   } else {
+//     cb(null, false);
+//   }
+// };
 
-let upload = multer({ storage: myStorage, fileFilter: fileFilter });
+let upload = multer({ storage: myStorage });
 
 //---------------------------------------//
 const getAllVehiculesForClient = async (req, res) => {
@@ -86,7 +86,7 @@ const updateVehicule = async (req, res) => {
 const registerVehicule = async (req, res) => {
   console.log("Register vehicule");
   const { id } = req.params;
-  const vehicle = req.body;
+  const vehicle = { ...req.body };
   vehicle.image = req.file.filename;
   try {
     const newRegister = await Vehicules.create({

@@ -18,9 +18,15 @@ routes.get("/:id", getAllVehiculesForClient);
 
 //-----------REGISTER A VEHICULE-------//
 // routes.post("/register", authentication, registerVehicule);
+// routes.post(
+//   "/register/:id",
+//   authentication,
+//   upload.single("image"),
+//   registerVehicule
+// );
 routes.post(
   "/register/:id",
-  authentication,
+
   upload.single("image"),
   registerVehicule
 );
