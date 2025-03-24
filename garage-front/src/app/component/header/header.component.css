@@ -184,7 +184,7 @@ header.masthead .masthead-heading {
   white-space: nowrap;
   margin: auto;
   letter-spacing: 0.15em;
-  animation: typing 4s steps(30, end);
+  animation: typing 3s steps(30, end);
   text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
   background: linear-gradient(0deg, #ffffff, #ffffff);
   -webkit-background-clip: text;
@@ -206,7 +206,7 @@ header.masthead .masthead-heading {
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 1s ease forwards;
-  animation-delay: 4s; /* Starts after typing animation finishes */
+  animation-delay: 3s; /* Starts after typing animation finishes */
   text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
   background: linear-gradient(0deg, #ffffff, #ffffff);
   -webkit-background-clip: text;
@@ -246,7 +246,7 @@ header.masthead .masthead-heading {
     border-radius: 10px;
     box-shadow: 5px 20px 50px #000;
   }
-  
+
   #chk{
     display: none;
   }
@@ -319,12 +319,12 @@ header.masthead .masthead-heading {
     color: #573b8a;
     transform: scale(.6);
   }
-  
+
   #chk:checked ~ .login{
     transform: translateY(-500px);
   }
   #chk:checked ~ .login label{
-    transform: scale(1);	
+    transform: scale(1);
   }
   #chk:checked ~ .signup label{
     transform: scale(.6);

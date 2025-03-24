@@ -7,39 +7,35 @@
           <div class="card-header">
             <h1>Liste des vehicule</h1>
           </div>
-          <div class="card-body">
-            <!-- <div class="dd_heading">
-                            <h1 class="text-center">Liste des vehicules</h1> -->
-            <!-- <h3 class="text-center">Designed by : <strong>Dhruval Desai</strong></h3> -->
-            <!-- </div> -->
-            <main class="page-content">
-              <div
+          <div class="card-body" >
+            <main class="page-content" *ngIf="vehiculeData?.length > 0">
+              <div *ngFor="let vehicule of vehiculeData">
+                <div
                 class="d_card"
-                style="
-                  background-image: url(&quot;../../../assets/images/galloper.jpg&quot;);
-                  background-size: 100%;
-                  background-repeat: no-repeat;
-                "
-              >
-                <!-- <div
-                class="d_card"
-                style="
-                  background-image: url(http://localhost:3000/vehicle/cb655e8f-2052-4993-83e5-62c6777171a4-1742421797210.jpg);
-                  background-size: 100%;
-                  background-repeat: no-repeat;
-                "
-              > -->
-                <div class="content">
-                  <h2 class="heading">GALLOPER II</h2>
+                [ngStyle]="{
+                  'background-image': 'url(http://localhost:3000/vehicle/' + vehicule.image + ')',
+                  'background-size': 'cover',
+                  'background-position': 'center',
+                  'background-repeat': 'no-repeat'
+                }">
+
+                <!--
+                  style="
+                    "background-image: url(http://localhost:3000/vehicule/fa51c75f-c469-40cf-a41a-1d619ea9ce47-1742799198790.jpg)
+                -->
+
+                <div  class="content">
+                  <h2 class="heading">{{ vehicule.name }}</h2>
                   <p class="data-content">
-                    Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry.
+                    {{vehicule.description}}
                   </p>
                   <div class="d-flex gap-2 mt-3">
                     <button
                       data-bs-toggle="modal"
                       data-bs-target="#modifierVehicule"
                       class="btn btn-primary text-uppercase"
+                      (click)="selectVehicule(vehicule)"
+
                     >
                       modifier
                     </button>
@@ -53,6 +49,8 @@
                   </div>
                 </div>
               </div>
+              </div>
+
               <div
                 class="d_card"
                 data-bs-toggle="modal"
@@ -81,16 +79,19 @@
                       <div class="text-muted mb-1">
                         <h1>Nouvel vehicule</h1>
                       </div>
-                      <form>
+                      <form (ngSubmit)="onSubmit()" enctype="multipart/form-data">
                         <div class="row">
                           <div class="col-md-12">
                             <div class="form-group">
                               <label for="first">Nom du vehicule</label>
                               <input
                                 type="text"
+                                name="name"
                                 class="form-control"
                                 placeholder=""
                                 id="first"
+                                required=""
+                                [(ngModel)]="userData.name"
                               />
                             </div>
                           </div>
@@ -99,10 +100,13 @@
                               <label for="first">Description</label>
                               <textarea
                                 type="text"
+                                name="description"
                                 class="form-control"
                                 placeholder=""
                                 id="first"
                                 rows="3"
+                                required=""
+                                [(ngModel)]="userData.description"
                               ></textarea>
                             </div>
                           </div>
@@ -110,10 +114,15 @@
                             <div class="form-group">
                               <label for="first">Image du vehicule</label>
                               <input
+                                (change)="onFileChange($event)"
                                 type="file"
+                                accept="image/*"
+                                name="image"
                                 class="form-control"
                                 placeholder=""
                                 id="first"
+                                required=""
+                                [(ngModel)]="userData.image"
                               />
                             </div>
                           </div>
@@ -140,7 +149,7 @@
                       <div class="text-muted mb-1">
                         <h1>Modifier vehicule</h1>
                       </div>
-                      <form>
+                      <form (ngSubmit)="updateVehicule()">
                         <div class="row">
                           <div class="col-md-12">
                             <div class="form-group">
@@ -149,7 +158,10 @@
                                 type="text"
                                 class="form-control"
                                 placeholder=""
-                                id="first"
+                                id="vehiculeName"
+                                [(ngModel)]="selectedVehicule.name"
+                                name="vehiculeName"
+                                required
                               />
                             </div>
                           </div>
@@ -160,8 +172,11 @@
                                 type="text"
                                 class="form-control"
                                 placeholder=""
-                                id="first"
+                                id="vehiculeDescriptio"
                                 rows="3"
+                                [(ngModel)]="selectedVehicule.description"
+                                name="vehiculeDescription"
+                                required=""
                               ></textarea>
                             </div>
                           </div>
@@ -172,7 +187,8 @@
                                 type="file"
                                 class="form-control"
                                 placeholder=""
-                                id="first"
+                                id="vehiculeImage"
+                                (change)="onFileChange($event)"
                               />
                             </div>
                           </div>
@@ -181,6 +197,7 @@
                         <button type="submit" class="btn btn-primary mt-2">
                           Enregistrer
                         </button>
+                        <button type="button" class="btn btn-secondary mt-2" data-bs-dismiss="modal">Annuler</button>
                       </form>
                     </div>
                   </div>

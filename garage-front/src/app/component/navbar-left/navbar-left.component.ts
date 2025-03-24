@@ -3,6 +3,7 @@ import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import { UsersService } from '../../services/users.service';
 
 
 @Component({
@@ -12,11 +13,24 @@ import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common'
   styleUrl: './navbar-left.component.css'
 })
 export class NavbarLeftComponent {
+  userData: any;
   // @ViewChild('dashboardNav', { static: true }) dashboardNav!: ElementRef;
   // @ViewChild('dashboard', { static: true }) dashboard!: ElementRef;
   // mobileScreen: MediaQueryList = window.matchMedia("(max-width: 990px)");
 
-  // constructor(private renderer: Renderer2) {}
+  constructor(private usersService: UsersService) {
+    this.usersService.getUserProfile().subscribe(
+      (userData) => {
+        console.log('Données utilisateur récupérées:', userData);
+        this.userData = userData;
+        console.log('userData', this.userData);
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des données:', error);
+        alert('Erreur lors de la récupération des données utilisateur');
+      }
+    );
+  }
 
   // ngOnInit(): void {
   //   // Gérer le clic sur les éléments du menu déroulant

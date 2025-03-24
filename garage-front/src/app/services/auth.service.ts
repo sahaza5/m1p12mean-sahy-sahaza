@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environment/environment';
 
 
 @Injectable({
@@ -8,7 +9,8 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:3000/api/users';
+  //private apiUrl = 'http://localhost:3000/api/users';
+  private apiUrl = `${environment.apiUrl}/users`;
 
   constructor(private http: HttpClient) { }
 
@@ -16,28 +18,9 @@ export class AuthService {
     console.log("userData", userData)
     return this.http.post(`${this.apiUrl}/register`, userData);
   }
-  // constructor(
-  //   private loginService: LoginService,
-  //   private router: Router,
-  // ) {}
 
-  // canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any {
-  //   if (this.loginService.isAuthenticated()) {
-  //     console.log('Can activate');
-  //     return this.loginService.verifyToken().pipe(
-  //       map(() => true),
-  //       catchError(() => {
-  //         this.router.navigate(['/login']);
-  //         return [false];
-  //       }),
-  //     );
-  //     // return true;
-  //   } else {
-  //     this.router.navigate(['/login']);
-  //     return false;
-  //   }
-
-  //   // this.router.navigate(['/login']);
-  //   // return false;
-  // }
+  login(userData: any): Observable<any> {
+    console.log("userData", userData)
+    return this.http.post(`${this.apiUrl}/login`, userData);
+  }
 }

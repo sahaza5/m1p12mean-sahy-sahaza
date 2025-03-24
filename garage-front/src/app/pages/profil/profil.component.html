@@ -6,16 +6,16 @@
             <div class='container'>
                 <div class='card mt-1'>
                     <div class='card-header'>
-                        <h1>Rakoto <small>(Mecanicien)</small></h1>
+                        <h1>Completez votre profil <small style="font-size: 16px;">({{userData.userType}})</small></h1>
                     </div>
                     <div class='card-body'>
                         <div class="container">
-                            <form>
+                            <form (ngSubmit)="updateUserProfile()">
                               <div class="row">
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="first">Nom</label>
-                                    <input type="text" class="form-control" placeholder="" id="first">
+                                    <input [(ngModel)]="userData.name" name="name" type="text" class="form-control" placeholder="" id="first">
                                   </div>
                                 </div>
                                 <!--  col-md-6   -->
@@ -23,7 +23,7 @@
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="last">Prenom</label>
-                                    <input type="text" class="form-control" placeholder="" id="last">
+                                    <input [(ngModel)]="userData.surname" name="surname" type="text" class="form-control" placeholder="" id="last">
                                   </div>
                                 </div>
                                 <!--  col-md-6   -->
@@ -34,7 +34,7 @@
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="company">Pseudo</label>
-                                    <input type="text" class="form-control" placeholder="" id="company">
+                                    <input [(ngModel)]="userData.txt" name="txt" type="text" class="form-control" placeholder="" id="company">
                                   </div>
 
 
@@ -44,7 +44,7 @@
                                 <div class="col-md-6">
                                   <div class="form-group">
                                       <label for="mot_de_passe">Mot de passe</label>
-                                      <input type="password" class="form-control" id="mot_de_passe">
+                                      <input [(ngModel)]="userData.pswd" name="pswd" type="password" class="form-control" id="mot_de_passe">
                                   </div>
                               </div>
                                 <!--  col-md-6   -->
@@ -57,7 +57,7 @@
 
                                   <div class="form-group">
                                     <label for="email">Adresse mail</label>
-                                    <input type="email" class="form-control" id="email" placeholder="">
+                                    <input [(ngModel)]="userData.email" name="email" type="email" class="form-control" id="email" placeholder="">
                                   </div>
                                 </div>
                                 <!--  col-md-6   -->
@@ -65,7 +65,7 @@
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="phone">Numero téléphone</label>
-                                    <input type="tel" class="form-control" id="phone" placeholder="">
+                                    <input [(ngModel)]="userData.phone" name="phone" type="tel" class="form-control" id="phone" placeholder="">
                                   </div>
 
                                 </div>

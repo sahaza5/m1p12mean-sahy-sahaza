@@ -64,3 +64,7 @@ body {
 .cursor-pointer {
     cursor: pointer;
 }
+
+.modal-close{
+  overflow: auto!important;
+}

@@ -20,40 +20,17 @@
                   </tr>
               </thead>
               <tbody>
-                <tr style="vertical-align: middle;">
-                  <th scope="row">Rakoto</th>
-                  <td>test</td>
-                  <td>Test</td>
-                  <td>Test</td>
-                  <td>0342056214</td><td style="width: 200px;text-align: center;">
+                <tr *ngFor="let mecanicien of mecaniciens" style="vertical-align: middle;">
+                  <th scope="row">{{mecanicien.name}}</th>
+                  <td>{{mecanicien.surname}}</td>
+                  <td>{{mecanicien.txt}}</td>
+                  <td>{{mecanicien.email}}</td>
+                  <td>{{mecanicien.phone}}</td><td style="width: 200px;text-align: center;">
                   <button class="btn btn-danger btn-sm me-2" data-bs-toggle="modal" data-bs-target="#desactiverCompte">
                     <i class="fas fa-user-slash"></i> Désactiver compte
                   </button>
                   </td>
                 </tr>
-                <tr style="vertical-align: middle;">
-                  <th scope="row">Rakoto</th>
-                  <td>test</td>
-                  <td>Test</td>
-                  <td>Test</td>
-                  <td>0342056214</td><td style="width: 200px;text-align: center;">
-                  <button class="btn btn-danger btn-sm me-2" data-bs-toggle="modal" data-bs-target="#desactiverCompte">
-                    <i class="fas fa-user-slash"></i> Désactiver compte
-                  </button>
-                  </td>
-                </tr>
-                <tr style="vertical-align: middle;">
-                  <th scope="row">Rakoto</th>
-                  <td>test</td>
-                  <td>Test</td>
-                  <td>Test</td>
-                  <td>0342056214</td><td style="width: 200px;text-align: center;">
-                  <button class="btn btn-danger btn-sm me-2" data-bs-toggle="modal" data-bs-target="#desactiverCompte">
-                    <i class="fas fa-user-slash"></i> Désactiver compte
-                  </button>
-                  </td>
-                </tr>
-
               </tbody>
             </table>
 

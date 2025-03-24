@@ -19,21 +19,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                  <tr style="vertical-align: middle;">
-                    <th scope="row">Test</th>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>0342056214</td>
+                  <tr *ngFor="let client of clients" style="vertical-align: middle;">
+                    <th scope="row">{{client.name}}</th>
+                    <td>{{client.surname}}</td>
+                    <td>{{client.txt}}</td>
+                    <td>{{client.email}}</td>
+                    <td>{{client.phone}}</td>
                   </tr>
-                  <tr style="vertical-align: middle;">
-                    <th scope="row">Test</th>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>0342056214</td>
-                  </tr>
-
                 </tbody>
               </table>
 

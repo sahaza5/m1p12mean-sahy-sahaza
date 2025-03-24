@@ -32,25 +32,89 @@ export class HeaderComponent {
 
     this.authService.register(this.userData).subscribe(
       (response:any) => {
+        const userId = response.user._id;
+        const token = response.token;
+
+        console.log("userId :", userId)
+
+        localStorage.setItem('userId', userId);
+        localStorage.setItem('token', token);
+
+
         console.log('Réponse de l\'API', response);
         console.log('Inscription réussie', response);
-        console.log('Router:', this.router); // Vérifiez l'instance du routeur
 
-        this.router.navigate(['/profil']);
+
+        console.log('Router:', this.router); // Vérifiez l'instance du routeur
+        this.router.navigate(['/profil', { id: userId }]);
         console.log('Navigation vers /profil réussie');
 
-        // // Fermer la modal
-        // if (this.loginModal && this.loginModal.nativeElement) {
-        //   const modal = bootstrap.Modal.getInstance(this.loginModal.nativeElement);
-        //   if (modal) {
-        //     modal.hide();
-        //   }
-        // }
 
-        // // Reset the checkbox
-        // if (this.chkbox && this.chkbox.nativeElement) {
-        //   this.chkbox.nativeElement.checked = false;
-        // }
+
+
+        // Récupérer la modal de login
+        const loginModal = document.getElementById('loginModal');
+        if (loginModal) {
+          const modal = bootstrap.Modal.getInstance(loginModal);
+          if (modal) {
+            modal.hide();
+
+            loginModal.classList.remove('show');
+            document.body.style.cssText = '';
+            document.body.classList.replace('modal-open', 'modal-close');
+
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) {
+              backdrop.remove();
+            }
+          }
+        }
+
+      },
+      error => {
+        console.error('Erreur de requête', error);
+        alert('Erreur lors de la communication avec le serveur. Veuillez réessayer.');
+      }
+    );
+
+  }
+
+  login() {
+    console.log("userData", this.userData)
+    this.authService.login(this.userData).subscribe(
+      (response:any) => {
+        const userId = response.user._id;
+        const token = response.token;
+
+        localStorage.setItem('userId', userId);
+        localStorage.setItem('token', token);
+
+        console.log('Réponse de l\'API', response);
+        console.log('Connexion réussie', response);
+
+
+
+        this.router.navigate(['/liste-vehicule', { id: userId }]);
+        console.log('Navigation vers /liste-vehicule réussie');
+
+          // Récupérer la modal de login
+        const loginModal = document.getElementById('loginModal');
+        if (loginModal) {
+          const modal = bootstrap.Modal.getInstance(loginModal);
+          if (modal) {
+            modal.hide();
+
+            loginModal.classList.remove('show');
+            document.body.style.cssText = '';
+            document.body.classList.replace('modal-open', 'modal-close');
+
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) {
+              backdrop.remove();
+            }
+          }
+        }
+
 
 
       },
@@ -60,6 +124,8 @@ export class HeaderComponent {
       }
     );
   }
+
+
 
 
 
@@ -128,4 +194,8 @@ export class HeaderComponent {
         });
       });
   }
+}
+
+function jwt_decode(token: any): any {
+  throw new Error('Function not implemented.');
 }
