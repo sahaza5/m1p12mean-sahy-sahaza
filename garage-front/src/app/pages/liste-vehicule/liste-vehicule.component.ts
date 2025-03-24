@@ -4,6 +4,7 @@ import { NavbarLeftComponent } from '../../component/navbar-left/navbar-left.com
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { RendezVousService } from '../../services/rendez-vous.service';
 
 @Component({
   selector: 'app-liste-vehicule',
@@ -23,12 +24,15 @@ export class ListeVehiculeComponent {
 
   selectedVehicule: any = { _id: '', name: '', description: '', image: '' }; // Véhicule sélectionné
 
+  // Données pour le rendez-vous
   appointmentData = {
     date: '',
-    description: ''
-  }
+    description: '',
+  };
 
-  constructor(private vehiculeService: VehiculeService, private router: Router, private route: ActivatedRoute){
+
+  constructor(
+    private vehiculeService: VehiculeService, private router: Router, private route: ActivatedRoute, private rendezvousService: RendezVousService){
     // Récupérer l'ID depuis les paramètres de l'URL
     this.route.params.subscribe(params => {
       if (params['id']) {
@@ -86,11 +90,13 @@ export class ListeVehiculeComponent {
     );
   }
 
-  // Sélectionner un véhicule pour modification et remplir le formulaire
+   // Sélectionner un véhicule pour modification
   selectVehicule(vehicule: any): void {
-    this.selectedVehicule = { ...vehicule }; // Copie pour éviter la modification directe
+    //console.log("here")
+    this.selectedVehicule = { ...vehicule };
   }
 
+  // Mettre à jour le véhicule sélectionné
   updateVehicule(){
     if(!this.selectedVehicule._id){
       alert("aucun vehicule selectionné !")
@@ -108,5 +114,45 @@ export class ListeVehiculeComponent {
       }
     )
   }
+
+   // Sélectionner un véhicule pour réparation
+   selectVehiculeForRepair(vehicule: any) {
+    console.log("ici")
+    this.selectedVehicule = vehicule;
+    console.log('Véhicule sélectionné pour réparation:', this.selectedVehicule);
+  }
+
+  // Prendre un rendez-vous pour réparation
+  addAppointment(){
+    console.log("here")
+
+    console.log("_id: ",this.selectedVehicule._id)
+    if (!this.selectedVehicule._id) {
+      alert('Aucun véhicule sélectionné pour la réparation !');
+      return;
+    }
+    console.log("date:", this.appointmentData.date)
+
+    if (!this.appointmentData.date || !this.appointmentData.description) {
+      alert('Veuillez remplir tous les champs du rendez-vous.');
+      return;
+    }
+
+    this.rendezvousService.addAppointment(this.userId, this.selectedVehicule._id, this.appointmentData).subscribe(
+      (response) => {
+        console.log("Données envoyées :", {
+          userId: this.userId,
+          vehiculeId: this.selectedVehicule._id,
+          appointmentData: this.appointmentData
+        });
+        console.log('Rendez-vous pris avec succès:', response);
+        alert('Rendez-vous pris avec succès !');
+      },
+      (error) => {
+        console.error('Erreur lors de la prise de rendez-vous :', error);
+      }
+    )
+  }
+
 
 }
