@@ -27,6 +27,8 @@ export class ListeRendezVousComponent {
 
     this.getUserRole();
 
+    this.getAppointments()
+
     if (this.userId) {
       this.getAppointments();
     }
@@ -64,6 +66,7 @@ export class ListeRendezVousComponent {
     this.selectedAppointment = { ...appointment }; // Copie des données pour éviter la modification directe
   }
 
+  // mise à jour rdv
   updateAppointment(): void {
     if (!this.selectedAppointment._id) {
       alert('Aucun rendez-vous sélectionné !');
@@ -82,6 +85,7 @@ export class ListeRendezVousComponent {
     );
   }
 
+  // annuler rdv
   cancelAppointment(appointment: any): void {
     if (confirm("Voulez-vous vraiment annuler ce rendez-vous ?")) {
       // Mettre à jour immédiatement l'UI

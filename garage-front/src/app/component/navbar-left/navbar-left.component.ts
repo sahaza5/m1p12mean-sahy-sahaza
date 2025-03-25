@@ -65,4 +65,21 @@ export class NavbarLeftComponent {
   //   }
   // }
 
+  toggleMenu() {
+    const dashboardNav = document.getElementById("dashboard-nav");
+    const dashboardToolbar = document.getElementById("dashboard-toolbar");
+    const dashboardApp = document.getElementById("dashboard-app");
+
+    if(dashboardNav){
+      dashboardNav.style.display = dashboardNav.style.display ==='none' ? 'block' :'none';
+    }
+
+    if(dashboardToolbar){
+      dashboardToolbar.style.left = dashboardToolbar.style.left ==='0px' ? '238px' :'0px';
+    }
+
+    if(dashboardApp){
+      dashboardApp.style.marginLeft = dashboardApp.style.marginLeft ==='0px' ? '238px' :'0px';
+    }
+  }
 }
