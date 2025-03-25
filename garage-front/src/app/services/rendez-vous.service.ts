@@ -30,4 +30,8 @@ export class RendezVousService {
     return this.http.patch(`${this.apiUrl}/setApointment/${appointmentId}`, appointmentData);
   }
 
+  cancelAppointment(appointmentId: string) {
+    return this.http.patch(`${this.apiUrl}/cancelApointment/${appointmentId}`, { status: "ANNULER" });
+  }
+
 }

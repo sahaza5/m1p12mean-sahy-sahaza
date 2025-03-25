@@ -40,6 +40,19 @@ export class AuthService {
     }
   }
 
+  getUserRole(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const decodedToken: any = jwtDecode(token);
+      return decodedToken.role || null; // Assurez-vous que le backend envoie bien le rôle dans le token
+    } catch (error) {
+      console.error('Erreur lors du décodage du token:', error);
+      return null;
+    }
+  }
+
 
   register(userData: any): Observable<any> {
     console.log("userData", userData)

@@ -15,6 +15,7 @@ import { AuthService } from '../../services/auth.service';
 export class ListeRendezVousComponent {
 
   userId: string | null = '';
+  userRole: string | null = ''; // Stocke le rôle de l'utilisateur
   appointments: any[] = [];
   selectedAppointment: any = { _id: '', date: '', description: '' }; // Rendez-vous sélectionné pour modification
 
@@ -23,6 +24,8 @@ export class ListeRendezVousComponent {
   ngOnInit(): void {
 
     this.getUserId();
+
+    this.getUserRole();
 
     if (this.userId) {
       this.getAppointments();
@@ -35,6 +38,13 @@ export class ListeRendezVousComponent {
     console.log("User ID récupéré : ", this.userId);  // Affiche l'ID dans la console pour vérification
   }
 
+  // Récupérer le rôle de l'utilisateur connecté
+  getUserRole(): void {
+    this.userRole = this.authService.getUserRole(); // Implémente cette méthode dans `AuthService`
+    console.log("User Role récupéré : ", this.userRole);
+  }
+
+  // Récupérer les rendez-vous du client connecté
   getAppointments(): void {
     this.rendezVousService.getAppointmentClient(this.userId!).subscribe(
       (response) => {
@@ -70,5 +80,25 @@ export class ListeRendezVousComponent {
         console.error('Erreur lors de la mise à jour du rendez-vous :', error);
       }
     );
+  }
+
+  cancelAppointment(appointment: any): void {
+    if (confirm("Voulez-vous vraiment annuler ce rendez-vous ?")) {
+      // Mettre à jour immédiatement l'UI
+      appointment.status = "ANNULER";
+
+
+      // Envoyer la requête au backend pour enregistrer l'annulation
+      this.rendezVousService.cancelAppointment(appointment._id).subscribe(
+        (response) => {
+          console.log("Rendez-vous annulé avec succès :", response);
+          alert("Votre rendez-vous a été annulé !");
+        },
+        (error) => {
+          console.error("Erreur lors de l'annulation du rendez-vous :", error);
+          alert("Une erreur s'est produite lors de l'annulation.");
+        }
+      );
+    }
   }
 }

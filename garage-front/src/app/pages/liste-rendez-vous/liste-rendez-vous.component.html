@@ -23,19 +23,51 @@
                                 <tr *ngFor="let appointment of appointments" style="vertical-align: middle;">
                                     <th scope="row">{{appointment.car.name}}</th>
                                     <td>{{appointment.date | date:'dd MMMM yyyy'}}</td>
-                                    <td>J{{appointment.car.description}}</td>
+                                    <td>{{appointment.description}}</td>
                                     <td>{{ appointment.mecanicienName || 'Non assigné' }}</td>
-                                    <td style="width: 120px;text-align: center;"><span style="width: 100%;" class="badge p-2" [ngClass]="{'bg-success': appointment.status === 'PENDING', 'bg-warning': appointment.status === 'IN PROGRESS', 'bg-danger': appointment.status === 'CANCELED'}">{{ appointment.status }}</span></td>
+                                    <td style="width: 120px;text-align: center;">
+                                      <span
+                                        style="width: 100%;"
+                                        class="badge p-2"
+                                        [ngClass]="{
+                                          'bg-success': appointment.status === 'PENDING',
+                                          'bg-warning': appointment.status === 'IN PROGRESS',
+                                          'bg-danger': appointment.status === 'CANCELED'
+                                        }">
+                                        {{ appointment.status }}
+                                      </span>
+                                    </td>
                                     <td style="width: 150px;text-align: center;">
-                                        <button class="btn btn-warning btn-sm me-2" (click)="selectAppointmentForEdit(appointment)" data-bs-toggle="modal" data-bs-target="#modifierRendezVous">
+                                        <!-- Bouton Modifier (Affiché pour tous) -->
+
+                                        <!-- Boutons masqués si le statut est "CANCELED" -->
+                                          <!-- Bouton Modifier -->
+                                          <button
+                                            class="btn btn-warning btn-sm me-2"
+                                            (click)="selectAppointmentForEdit(appointment)"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modifierRendezVous"
+                                            [disabled]="appointment.status === 'CANCELED'">
+
                                             <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#ajoutMecanicien">
+                                          </button>
+
+                                          <!-- Bouton Ajouter Mécanicien (Seulement pour Admin) -->
+                                          <button
+                                            *ngIf="userRole === 'admin'"
+                                            class="btn btn-primary btn-sm me-2"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#ajoutMecanicien">
                                             <i class="fas fa-check"></i>
-                                        </button>
-                                        <button class="btn btn-danger btn-sm me-2">
-                                          <i class="fas fa-trash"></i>
-                                        </button>
+                                          </button>
+
+                                          <button
+                                            class="btn btn-danger btn-sm me-2"
+                                            (click)="cancelAppointment(appointment)"
+                                            [disabled]="appointment.status === 'CANCELED'">
+
+                                            <i class="fas fa-times"></i>
+                                          </button>
                                     </td>
                                 </tr>
                             </tbody>
