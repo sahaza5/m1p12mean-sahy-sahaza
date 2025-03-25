@@ -145,39 +145,6 @@ const cancelApointment = async (req, res) => {
     return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
   }
   try {
-    // const findApointment = await Apointments.findById({ _id: id }).populate(
-    //   "car"
-    // );
-    // const findRepair = await Repairs.findById({ apointment: id });
-    // if (!findApointment) {
-    //   return res
-    //     .status(httpStatus.BAD_REQUEST)
-    //     .send({ message: "Apointment not found" });
-    // }
-    // if (
-    //   findApointment.status !== "DONE" &&
-    //   findApointment.status !== "CANCELED"
-    // ) {
-    //   if (findRepair.status !== "DONE" && findRepair.status !== "REPAIRING")
-    //     try {
-    //       const canceled = await Apointments.findOneAndUpdate(
-    //         { _id: id },
-    //         { $set: { status: "CANCELED" } },
-    //         { new: true }
-    //       );
-    //       if (!canceled) {
-    //         return res
-    //           .status(httpStatus.BAD_REQUEST)
-    //           .send({ message: "Canceled failed" });
-    //       }
-    //       return res.status(httpStatus.OK).send(canceled);
-    //     } catch (error) {
-    //       return res
-    //         .status(httpStatus.BAD_REQUEST)
-    //         .send({ message: error.message });
-    //     }
-    // }
-
     const findApointment = await Apointments.findById({ _id: id });
     if (findApointment.status === "DONE") {
       return res
@@ -225,55 +192,7 @@ const updateApointment = async (req, res) => {
       { new: true }
     );
 
-    // const findCar = await Vehicules.findById({ _id: updatedApointment.car });
-    // console.log(updatedApointment);
-    // if (updateApointment) {
-    //   if (
-    //     updateApointment.status !== "DONE"
-    //     // &&
-    //     // updateApointment.status !== "CANCELED"
-    //   ) {
-    //     const insertNew = await Repairs.create({
-    //       apointment: updatedApointment._id,
-    //       car: findCar.name,
-    //       // status: "REPAIRING",
-    //     });
-    //     console.log("Insert new is ", insertNew);
-
-    // const [update, insert] = await Promise.all([updateApointment, insertNew]);
-    // return res.status(200).send({ updateApointment, insertNew });
     return res.status(200).send(updatedApointment);
-
-    // } else if (updateApointment.status === "DONE") {
-    //   const doneRepair = await Repairs.findByIdAndUpdate(
-    //     {
-    //       apointment: updatedApointment._id,
-    //     },
-    //     { $set: { status: "DONE" } }
-    //   );
-    //   return res.status(200).send({ updateApointment, doneRepair });
-    // }
-    // } else {
-    //   return res.status(httpStatus.BAD_REQUEST).send("Something went wrong");
-    // }
-
-    // try {
-    //   console.log(updatedApointment._id, updatedApointment.status);
-    //   const insertRepair = new Repairs.create({
-    //     apointment: id,
-    //     status: "REPAIRING",
-    //   });
-    //   // const newInsert = (await insertRepair).save();
-    //   console.log("New insert is ", insertRepair);
-    //   return res.status(200).json(updatedApointment, insertRepair);
-    // } catch (error) {
-    //   return res
-    //     .status(httpStatus.BAD_REQUEST)
-    //     .send({ message: "Bad request" });
-    // }
-
-    // return res.status(httpStatus.OK).send(updatedApointment);
-    // return res.status(httpStatus.OK).send(updatedApointment, newInsert);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
   }

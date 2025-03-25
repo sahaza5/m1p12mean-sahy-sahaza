@@ -23,49 +23,55 @@ const {
 //   authorizationAdmin,
 //   getAllApointmentsForAdminRole
 // );
-// routes.get(
-//   "/admin",
-//   authentication,
-//   authorizationAdmin,
-//   getAllApointmentsForAdminRole
-// );
-routes.get("/admin", getAllApointmentsForAdminRole);
+routes.get(
+  "/admin",
+  authentication,
+  authorizationAdmin,
+  getAllApointmentsForAdminRole
+);
+// routes.get("/admin", getAllApointmentsForAdminRole);
 
 //-------------GET ALL APOINTMENTS OF A MECHANICIEN--------//
-// routes.get(
-//   "/mechanicien/:id",
-//   authentication,
-//   authorizationResponsable,
-//   getAllApointmentsForResponsable
-// );
-routes.get("/mechanicien/:id", getAllApointmentsForResponsable);
+routes.get(
+  "/mechanicien/:id",
+  authentication,
+  authorizationResponsable,
+  getAllApointmentsForResponsable
+);
+// routes.get("/mechanicien/:id", getAllApointmentsForResponsable);
 
 //-------------GET ALL APOINTMENTS FOR CLIENT-------//
-// routes.get("/client/:id", authentication, getAllApointmentForClient);
-routes.get("/client/:id", getAllApointmentForClient);
+routes.get("/client/:id", authentication, getAllApointmentForClient);
+// routes.get("/client/:id", getAllApointmentForClient);
 
 //-----------GET AN APOINTMENT BY ID-----------//
-// routes.get("/:id", authentication, getApointmentById);
-routes.get("/:id", getApointmentById);
+routes.get("/:id", authentication, getApointmentById);
+// routes.get("/:id", getApointmentById);
 
 //-------------CLIENT BOOKING APOINTMENT--------//
-// routes.post("/bookApointment", authentication, bookApointment);
-routes.post("/bookApointment/:userId/:vehicleId", bookApointment);
+routes.post("/bookApointment", authentication, bookApointment);
+// routes.post("/bookApointment/:userId/:vehicleId", bookApointment);
 
 //------------SET THE APOINTMENT--------//
-// routes.patch(
-//   "/setApointment/:id",
-//   authentication,
-//   authorizationAdmin,
-//   updateApointment
-// );
-routes.patch("/setApointment/:id", updateApointment);
+routes.patch(
+  "/setApointment/:id",
+  authentication,
+  // authorizationAdmin,
+  updateApointment
+);
+// routes.patch("/setApointment/:id", updateApointment);
 
 //------------SET THE APOINTMENT TO A MECHANICIEN--------//
-routes.patch("/addMechanicienApointment/:id", addMechanicienToApointment);
+// routes.patch("/addMechanicienApointment/:id", addMechanicienToApointment);
+routes.patch(
+  "/addMechanicienApointment/:id",
+  authentication,
+  authorizationAdmin,
+  addMechanicienToApointment
+);
 
 //---------CANCEL APOINTMENT------//
-// routes.patch("/cancelApointment/:id", authentication, cancelApointment);
-routes.patch("/cancelApointment/:id", cancelApointment);
+routes.patch("/cancelApointment/:id", authentication, cancelApointment);
+// routes.patch("/cancelApointment/:id", cancelApointment);
 
 module.exports = routes;

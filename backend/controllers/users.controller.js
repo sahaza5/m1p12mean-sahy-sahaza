@@ -88,7 +88,7 @@ const register = async (req, res) => {
     const token = jwt.sign(
       {
         id: registerUser._id,
-        txt: registerUser.txt,
+        // txt: registerUser.txt,
         userType: registerUser.userType,
         email: registerUser.email,
       },
@@ -215,8 +215,8 @@ const login = async (req, res) => {
     const token = jwt.sign(
       {
         id: userCredentials._id,
-        username: userCredentials.username,
-        role: userCredentials.role,
+        email: userCredentials.email,
+        userType: userCredentials.userType,
       },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
@@ -264,6 +264,12 @@ const setProfile = async (req, res) => {
   //     .status(httpStatus.BAD_REQUEST)
   //     .send({ message: "Please new password" });
   // }
+  if (req.params !== req.user.id) {
+    return res
+      .status(httpStatus.FORBIDDEN)
+      .send({ message: "Forbidden access " });
+  }
+
   try {
     const newProfile = await Users.findOneAndUpdate(
       { _id: id },

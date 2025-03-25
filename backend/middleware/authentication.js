@@ -9,19 +9,22 @@ const authentication = async (req, res, next) => {
   const token = req.headers.authorization;
   console.log("Token with bearer is:", token);
 
-  if (!token || !token.startsWith("Bearer")) {
+  // if (!token || !token.startsWith("Bearer")) {
+  if (!token) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: "Wrong token" });
   }
 
-  const splitedToken = token.split(" ");
-  const myToken = splitedToken[1];
+  // const splitedToken = token.split(" ");
+  // const myToken = splitedToken[1];
   console.log("Token without Bearer is:", myToken);
 
   try {
     //Decode the token to get the user data
     //Because we have SIGNED the data during login process
     //Now we are going to verify that token if it is genuine to get the user information(in our case, we return id,username,role)
-    const decoded = jwt.verify(myToken, process.env.JWT_SECRET);
+    // const decoded = jwt.verify(myToken, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
     console.log(decoded);
     //In the log in, we have signed the user information, here it will return the user information, example:
     // {
@@ -29,9 +32,9 @@ const authentication = async (req, res, next) => {
     //     "username":"sa",
     //     "role":"ADMIN"
     // }
-    const { id, username, role } = decoded;
+    const { id, email, userType } = decoded;
     //Store the data in our request
-    req.user = { id, username, role };
+    req.user = { id, email, userType };
     next();
   } catch (error) {
     return res
