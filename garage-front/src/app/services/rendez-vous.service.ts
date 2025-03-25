@@ -26,4 +26,8 @@ export class RendezVousService {
 
   }
 
+  updateAppointment(appointmentId: string, appointmentData: any) {
+    return this.http.patch(`${this.apiUrl}/setApointment/${appointmentId}`, appointmentData);
+  }
+
 }

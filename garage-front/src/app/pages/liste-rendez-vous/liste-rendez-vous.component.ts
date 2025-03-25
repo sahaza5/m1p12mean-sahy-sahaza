@@ -16,6 +16,7 @@ export class ListeRendezVousComponent {
 
   userId: string | null = '';
   appointments: any[] = [];
+  selectedAppointment: any = { _id: '', date: '', description: '' }; // Rendez-vous sélectionné pour modification
 
   constructor(private rendezVousService: RendezVousService, private route: Router, private authService: AuthService){}
 
@@ -44,6 +45,29 @@ export class ListeRendezVousComponent {
       },
       (error) => {
         console.error("Erreur lors de la récupération des rendez-vous :", error);
+      }
+    );
+  }
+
+  // Sélectionner un rendez-vous pour modification
+  selectAppointmentForEdit(appointment: any): void {
+    this.selectedAppointment = { ...appointment }; // Copie des données pour éviter la modification directe
+  }
+
+  updateAppointment(): void {
+    if (!this.selectedAppointment._id) {
+      alert('Aucun rendez-vous sélectionné !');
+      return;
+    }
+
+    this.rendezVousService.updateAppointment(this.selectedAppointment._id, this.selectedAppointment).subscribe(
+      (response) => {
+        console.log('Rendez-vous mis à jour avec succès:', response);
+        alert('Rendez-vous mis à jour avec succès !');
+        this.getAppointments(); // Recharger la liste après mise à jour
+      },
+      (error) => {
+        console.error('Erreur lors de la mise à jour du rendez-vous :', error);
       }
     );
   }

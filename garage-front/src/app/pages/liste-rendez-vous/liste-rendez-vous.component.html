@@ -27,7 +27,7 @@
                                     <td>{{ appointment.mecanicienName || 'Non assigné' }}</td>
                                     <td style="width: 120px;text-align: center;"><span style="width: 100%;" class="badge p-2" [ngClass]="{'bg-success': appointment.status === 'PENDING', 'bg-warning': appointment.status === 'IN PROGRESS', 'bg-danger': appointment.status === 'CANCELED'}">{{ appointment.status }}</span></td>
                                     <td style="width: 150px;text-align: center;">
-                                        <button class="btn btn-warning btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modifierRendezVous">
+                                        <button class="btn btn-warning btn-sm me-2" (click)="selectAppointmentForEdit(appointment)" data-bs-toggle="modal" data-bs-target="#modifierRendezVous">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#ajoutMecanicien">
@@ -90,18 +90,18 @@
                                         <div class='text-muted mb-1'>
                                             <h1>Modifier rendez-vous</h1>
                                         </div>
-                                        <form>
+                                        <form (submit)="updateAppointment()">
                                             <div class="row">
                                                 <div class="col-md-12">
                                                   <div class="form-group">
                                                     <label for="first">Date de réparation</label>
-                                                    <input type="date" class="form-control" placeholder="" id="first">
+                                                    <input type="date" class="form-control" id="editDate" placeholder="" [(ngModel)]="selectedAppointment.date" name="date">
                                                   </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                       <label for="first">Description du problème</label>
-                                                      <textarea type="text" class="form-control" placeholder="" id="first" rows="3"></textarea>
+                                                      <textarea type="text" class="form-control" placeholder="" id="editDescription" rows="3" [(ngModel)]="selectedAppointment.description" name="description"></textarea>
                                                     </div>
                                                 </div>
                                             </div>

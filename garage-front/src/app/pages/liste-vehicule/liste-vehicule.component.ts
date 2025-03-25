@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RendezVousService } from '../../services/rendez-vous.service';
+import { useAnimation } from '@angular/animations';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-liste-vehicule',
@@ -147,6 +149,24 @@ export class ListeVehiculeComponent {
         });
         console.log('Rendez-vous pris avec succès:', response);
         alert('Rendez-vous pris avec succès !');
+        this.router.navigate(['/liste-rendez-vous', {id: this.userId}])
+
+        // const Modal = document.getElementById('loginModal');
+        // if (Modal) {
+        //   const modal = bootstrap.Modal.getInstance(Modal);
+        //   if (modal) {
+        //     modal.hide();
+
+        //     Modal.classList.remove('show');
+        //     document.body.style.cssText = '';
+        //     document.body.classList.replace('modal-open', 'modal-close');
+
+        //     const backdrop = document.querySelector('.modal-backdrop');
+        //     if (backdrop) {
+        //       backdrop.remove();
+        //     }
+        //   }
+        // }
       },
       (error) => {
         console.error('Erreur lors de la prise de rendez-vous :', error);
