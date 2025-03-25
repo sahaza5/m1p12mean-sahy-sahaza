@@ -1,6 +1,6 @@
 <div class='dashboard'>
     <app-navbar-left></app-navbar-left>
-    <div class='dashboard-app'>
+    <div class='dashboard-app' id="dashboard-app">
         <div class='dashboard-content'>
             <div class='container'>
                 <div class='card mt-1'>
@@ -11,97 +11,63 @@
                         <table class="table table-bordered table-hover">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th scope="col">Vehicule</th>
+                                    <th scope="col">Véhicule</th>
                                     <th scope="col">Date</th>
+                                    <th scope="col">Description</th>
                                     <th scope="col">Mecanicien</th>
-                                    <th scope="col">Status</th>
+                                    <th scope="col">Statut</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr style="vertical-align: middle;">
-                                    <th scope="row">GALLOPER</th>
-                                    <td>05 Janvier 2025</td>
-                                    <td>Jean Baptiste</td>
-                                    <td style="width: 120px;text-align: center;"><span style="width: 100%;" class="badge bg-success p-2">En cours</span></td>
+                                <tr *ngFor="let appointment of appointments" style="vertical-align: middle;">
+                                    <th scope="row">{{appointment.car.name}}</th>
+                                    <td>{{appointment.date | date:'dd MMMM yyyy'}}</td>
+                                    <td>{{appointment.description}}</td>
+                                    <td>{{ appointment.mecanicienName || 'Non assigné' }}</td>
+                                    <td style="width: 120px;text-align: center;">
+                                      <span
+                                        style="width: 100%;"
+                                        class="badge p-2"
+                                        [ngClass]="{
+                                          'bg-success': appointment.status === 'PENDING',
+                                          'bg-warning': appointment.status === 'IN PROGRESS',
+                                          'bg-danger': appointment.status === 'CANCELED'
+                                        }">
+                                        {{ appointment.status }}
+                                      </span>
+                                    </td>
                                     <td style="width: 150px;text-align: center;">
-                                        <button class="btn btn-warning btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modifierRendezVous">
+                                        <!-- Bouton Modifier (Affiché pour tous) -->
+
+                                        <!-- Boutons masqués si le statut est "CANCELED" -->
+                                          <!-- Bouton Modifier -->
+                                          <button
+                                            class="btn btn-warning btn-sm me-2"
+                                            (click)="selectAppointmentForEdit(appointment)"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modifierRendezVous"
+                                            [disabled]="appointment.status === 'CANCELED'">
+
                                             <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#ajoutMecanicien">
+                                          </button>
+
+                                          <!-- Bouton Ajouter Mécanicien (Seulement pour Admin) -->
+                                          <button
+                                            *ngIf="userRole === 'admin'"
+                                            class="btn btn-primary btn-sm me-2"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#ajoutMecanicien">
                                             <i class="fas fa-check"></i>
-                                        </button>
-                                        <button class="btn btn-danger btn-sm me-2">
-                                          <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr style="vertical-align: middle;">
-                                    <th scope="row">GALLOPER</th>
-                                    <td>05 Janvier 2025</td>
-                                    <td>Jean Baptiste</td>
-                                    <td style="width: 120px;text-align: center;"><span style="width: 100%;" class="badge bg-success p-2">En cours</span></td>
-                                    <td style="width: 150px;text-align: center;">
-                                      <button class="btn btn-warning btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modifierRendezVous">
-                                          <i class="fas fa-edit"></i>
-                                      </button>
-                                      <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#ajoutMecanicien">
-                                          <i class="fas fa-check"></i>
-                                      </button>
-                                      <button class="btn btn-danger btn-sm me-2">
-                                        <i class="fas fa-trash"></i>
-                                      </button>
-                                    </td>
-                                </tr>
-                                <tr style="vertical-align: middle;">
-                                    <th scope="row">GALLOPER</th>
-                                    <td>05 Janvier 2025</td>
-                                    <td>Jean Baptiste</td>
-                                    <td style="width: 120px;text-align: center;"><span style="width: 100%;" class="badge bg-success p-2">En cours</span></td>
-                                    <td style="width: 150px;text-align: center;">
-                                      <button class="btn btn-warning btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modifierRendezVous">
-                                          <i class="fas fa-edit"></i>
-                                      </button>
-                                      <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#ajoutMecanicien">
-                                          <i class="fas fa-check"></i>
-                                      </button>
-                                      <button class="btn btn-danger btn-sm me-2">
-                                        <i class="fas fa-trash"></i>
-                                      </button>
-                                    </td>
-                                </tr>
-                                <tr style="vertical-align: middle;">
-                                    <th scope="row">GALLOPER</th>
-                                    <td>05 Janvier 2025</td>
-                                    <td>Jean Baptiste</td>
-                                    <td style="width: 120px;text-align: center;"><span style="width: 100%;" class="badge bg-success p-2">En cours</span></td>
-                                    <td style="width: 150px;text-align: center;">
-                                      <button class="btn btn-warning btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modifierRendezVous">
-                                          <i class="fas fa-edit"></i>
-                                      </button>
-                                      <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#ajoutMecanicien">
-                                          <i class="fas fa-check"></i>
-                                      </button>
-                                      <button class="btn btn-danger btn-sm me-2">
-                                        <i class="fas fa-trash"></i>
-                                      </button>
-                                    </td>
-                                </tr>
-                                <tr style="vertical-align: middle;">
-                                    <th scope="row">GALLOPER</th>
-                                    <td>05 Janvier 2025</td>
-                                    <td>Jean Baptiste</td>
-                                    <td style="width: 120px;text-align: center;"><span style="width: 100%;" class="badge bg-success p-2">En cours</span></td>
-                                    <td style="width: 150px;text-align: center;">
-                                      <button class="btn btn-warning btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modifierRendezVous">
-                                          <i class="fas fa-edit"></i>
-                                      </button>
-                                      <button class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#ajoutMecanicien">
-                                          <i class="fas fa-check"></i>
-                                      </button>
-                                      <button class="btn btn-danger btn-sm me-2">
-                                        <i class="fas fa-trash"></i>
-                                      </button>
+                                          </button>
+
+                                          <button
+                                            class="btn btn-danger btn-sm me-2"
+                                            (click)="cancelAppointment(appointment)"
+                                            [disabled]="appointment.status === 'CANCELED'">
+
+                                            <i class="fas fa-times"></i>
+                                          </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -156,18 +122,18 @@
                                         <div class='text-muted mb-1'>
                                             <h1>Modifier rendez-vous</h1>
                                         </div>
-                                        <form>
+                                        <form (submit)="updateAppointment()">
                                             <div class="row">
                                                 <div class="col-md-12">
                                                   <div class="form-group">
                                                     <label for="first">Date de réparation</label>
-                                                    <input type="date" class="form-control" placeholder="" id="first">
+                                                    <input type="date" class="form-control" id="editDate" placeholder="" [(ngModel)]="selectedAppointment.date" name="date">
                                                   </div>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                       <label for="first">Description du problème</label>
-                                                      <textarea type="text" class="form-control" placeholder="" id="first" rows="3"></textarea>
+                                                      <textarea type="text" class="form-control" placeholder="" id="editDescription" rows="3" [(ngModel)]="selectedAppointment.description" name="description"></textarea>
                                                     </div>
                                                 </div>
                                             </div>

@@ -1,6 +1,6 @@
 <!-- <div class='dashboard'> -->
-<div class="dashboard-nav">
-    <header><a href="#!" class="menu-toggle cursor-pointer"><i class="fas fa-bars"></i></a><a href="#" class="brand-logo">
+<div class="dashboard-nav" id="dashboard-nav">
+    <header><a (click)="toggleMenu()" class="menu-toggle cursor-pointer"><i class="fas fa-bars"></i></a><a href="#" class="brand-logo">
             <span>GARAGE</span>
           </a></header>
     <nav class="dashboard-nav-list">
@@ -42,7 +42,7 @@
     </nav>
 </div>
 <div class='dashboard-app'>
-    <header class='dashboard-toolbar'><a class="menu-toggle cursor-pointer"><i class="fas fa-bars"></i></a></header>
+    <header  class='dashboard-toolbar' id="dashboard-toolbar"><a (click)="toggleMenu()" class="menu-toggle cursor-pointer"><i class="fas fa-bars"></i></a></header>
     <!-- <div class='dashboard-content'>
             <div class='container'>
                 <div class='card'>
