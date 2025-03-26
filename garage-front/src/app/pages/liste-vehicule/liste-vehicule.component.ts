@@ -18,6 +18,8 @@ import { AuthService } from '../../services/auth.service';
 export class ListeVehiculeComponent {
   userId = '';
   formData = new FormData();
+  formDataUpdate = new FormData();
+
   userData = {
     name: '',
     description: '',
@@ -53,6 +55,27 @@ export class ListeVehiculeComponent {
       this.formData.append('name', this.userData.name);
       this.formData.append('description', this.userData.description);
       this.formData.append('image', file);
+
+      // const renamedFile = new File([file], newFileName, { type: file.type });
+      // console.log("zasasa",renamedFile);
+      this.userData.image = file;
+    }
+    // console.log("zasasa",this.userData)
+  }
+
+  onFileChangeUpdate(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      // const timestamp = new Date().toISOString().replace(/[-:.]/g, ""); // Supprime les caractères spéciaux
+      // const fileExtension = file.name.split('.').pop(); // Récupère l'extension du fichier
+      // const newFileName = `file_${timestamp}.${fileExtension}`; // Nouveau nom avec datetime
+
+      this.formDataUpdate.append('name', this.selectedVehicule.name);
+      this.formDataUpdate.append(
+        'description',
+        this.selectedVehicule.description,
+      );
+      this.formDataUpdate.append('image', file);
 
       // const renamedFile = new File([file], newFileName, { type: file.type });
       // console.log("zasasa",renamedFile);
@@ -103,7 +126,7 @@ export class ListeVehiculeComponent {
     }
 
     this.vehiculeService
-      .updateVehicule(this.selectedVehicule._id, this.selectedVehicule)
+      .updateVehicule(this.selectedVehicule._id, this.formDataUpdate)
       .subscribe(
         (response) => {
           console.log(' Véhicule mis à jour avec succès:', response);
