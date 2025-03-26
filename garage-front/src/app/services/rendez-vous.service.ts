@@ -5,55 +5,74 @@ import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RendezVousService {
+  private apiUrl = `${environment.apiUrl}/apointments`;
 
-  private apiUrl = `${environment.apiUrl}/apointments`
+  constructor(private http: HttpClient) {}
 
-  constructor(private http:HttpClient) { }
-
-  addAppointment(userId: string, vehiculeId: string, appointmentData: any, authService: AuthService): Observable<any>{
-    return this.http.post(`${this.apiUrl}/bookApointment/${userId}/${vehiculeId}`, appointmentData, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    });
+  addAppointment(
+    userId: string,
+    vehiculeId: string,
+    appointmentData: any,
+    authService: AuthService,
+  ): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/bookApointment/${userId}/${vehiculeId}`,
+      appointmentData,
+      {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+      },
+    );
   }
 
   // récuperer les rendez-vous du client connécté
-  getAppointmentClient(userId: string, authService: AuthService): Observable<any> {
+  getAppointmentClient(
+    userId: string,
+    authService: AuthService,
+  ): Observable<any> {
     //const token = localStorage.getItem('token')
     const token = authService.getToken();
     console.log('client token', token);
     return this.http.get(`${this.apiUrl}/client/${userId}`, {
       headers: {
-        Authorization: `${token}`
-      }
+        Authorization: `${token}`,
+      },
     });
-
   }
 
-  updateAppointment(appointmentId: string, appointmentData: any, authService: AuthService) {
+  updateAppointment(
+    appointmentId: string,
+    appointmentData: any,
+    authService: AuthService,
+  ) {
     const token = authService.getToken();
-    console.log ("token in updateAppointment", token);
-    return this.http.patch(`${this.apiUrl}/setApointment/${appointmentId}`, appointmentData, {
-      headers: {
-        Authorization: `${token}`
-      }
-    });
+    console.log('token in updateAppointment', token);
+    return this.http.patch(
+      `${this.apiUrl}/setApointment/${appointmentId}`,
+      appointmentData,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      },
+    );
   }
 
   cancelAppointment(appointmentId: string) {
-    return this.http.patch(`${this.apiUrl}/cancelApointment/${appointmentId}`, { status: "CANCELED" });
-  }
-
-  getAllAppointmentClient(): Observable<any>{
-    return this.http.get<any[]>(`${this.apiUrl}/admin/`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
+    return this.http.patch(`${this.apiUrl}/cancelApointment/${appointmentId}`, {
+      status: 'CANCELED',
     });
   }
 
+  getAllAppointmentClient(): Observable<any> {
+    return this.http.get<any[]>(`${this.apiUrl}/admin/`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+  }
 }
