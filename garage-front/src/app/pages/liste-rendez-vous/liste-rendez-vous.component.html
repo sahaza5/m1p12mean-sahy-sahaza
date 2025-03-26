@@ -21,10 +21,11 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let appointment of appointments" style="vertical-align: middle;">
-                                    <th scope="row">{{appointment.car.name}}</th>
+                                    <th scope="row">{{appointment.car?.name}}</th>
                                     <td>{{appointment.date | date:'dd MMMM yyyy'}}</td>
                                     <td>{{appointment.description}}</td>
-                                    <td>{{ appointment.mecanicienName || 'Non assigné' }}</td>
+                                    <!-- <td>{{ appointment.mecanicienName || 'Non assigné' }}</td> -->
+                                    <td>{{ appointment.assignedTo.name || appointment.assignedTo.txt || 'Non assigné' }}</td>
                                     <td style="width: 120px;text-align: center;">
                                       <span
                                         style="width: 100%;"
@@ -32,7 +33,8 @@
                                         [ngClass]="{
                                           'bg-success': appointment.status === 'PENDING',
                                           'bg-warning': appointment.status === 'IN PROGRESS',
-                                          'bg-danger': appointment.status === 'CANCELED'
+                                          'bg-danger': appointment.status === 'CANCELED',
+                                          'bg-primary': appointment.status === 'DONE'
                                         }">
                                         {{ appointment.status }}
                                       </span>
@@ -47,7 +49,7 @@
                                             (click)="selectAppointmentForEdit(appointment)"
                                             data-bs-toggle="modal"
                                             data-bs-target="#modifierRendezVous"
-                                            [disabled]="appointment.status === 'CANCELED'">
+                                            [disabled]="appointment.status === 'CANCELED' || appointment.status === 'DONE'">
 
                                             <i class="fas fa-edit"></i>
                                           </button>

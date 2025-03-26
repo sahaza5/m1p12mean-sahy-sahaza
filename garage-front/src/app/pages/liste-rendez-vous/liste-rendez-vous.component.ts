@@ -56,12 +56,12 @@ export class ListeRendezVousComponent {
 
   // Récupérer les rendez-vous du client connecté
   getAppointments(): void {
-    this.rendezVousService.getAppointmentClient(this.userId!).subscribe(
+    this.rendezVousService.getAppointmentClient(this.userId!, this.authService).subscribe(
       (response) => {
         this.appointments = response;
         console.log("Rendez-vous récupérés :", this.appointments);
 
-        this.route.navigate(['/liste-rendez-vous', { id: this.userId }]);
+        this.route.navigate(['/liste-rendez-vous']);
       },
       (error) => {
         console.error("Erreur lors de la récupération des rendez-vous :", error);
