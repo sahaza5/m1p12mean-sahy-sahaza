@@ -9,13 +9,13 @@ const authentication = async (req, res, next) => {
   const token = req.headers.authorization;
   console.log("Token with bearer is:", token);
 
-  // if (!token || !token.startsWith("Bearer")) {
-  if (!token) {
+  if (!token || !token.startsWith("Bearer")) {
+    // if (!token) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: "Wrong token" });
   }
 
-  // const splitedToken = token.split(" ");
-  // const myToken = splitedToken[1];
+  const splitedToken = token.split(" ");
+  const myToken = splitedToken[1];
   console.log("Token without Bearer is:", myToken);
 
   try {

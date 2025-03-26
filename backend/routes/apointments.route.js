@@ -62,16 +62,16 @@ routes.patch(
 // routes.patch("/setApointment/:id", updateApointment);
 
 //------------SET THE APOINTMENT TO A MECHANICIEN--------//
-// routes.patch("/addMechanicienApointment/:id", addMechanicienToApointment);
-routes.patch(
-  "/addMechanicienApointment/:id",
-  authentication,
-  authorizationAdmin,
-  addMechanicienToApointment
-);
+routes.patch("/addMechanicienApointment/:id", addMechanicienToApointment);
+// routes.patch(
+//   "/addMechanicienApointment/:id",
+//   authentication,
+//   authorizationAdmin,
+//   addMechanicienToApointment
+// );
 
 //---------CANCEL APOINTMENT------//
-routes.patch("/cancelApointment/:id", authentication, cancelApointment);
-// routes.patch("/cancelApointment/:id", cancelApointment);
+// routes.patch("/cancelApointment/:id", authentication, cancelApointment);
+routes.patch("/cancelApointment/:id", cancelApointment);
 
 module.exports = routes;

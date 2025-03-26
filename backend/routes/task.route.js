@@ -22,21 +22,21 @@ routes.get("/", authentication, authorizationAdmin, getAllTasks);
 routes.get("/:id", authentication, getTaskbyId);
 
 //----GET TASK OF A MECHANICIEN------
-// routes.get("/mechanicien/:id", getTaskMechanicien);
-routes.get(
-  "/mechanicien/:id",
-  authentication,
-  authorizationResponsable,
-  getTaskMechanicien
-);
+routes.get("/mechanicien/:id", getTaskMechanicien);
+// routes.get(
+//   "/mechanicien/:id",
+//   authentication,
+//   authorizationResponsable,
+//   getTaskMechanicien
+// );
 
 //----SET/UPDATE TASK STATUS---------
-// routes.patch("/update/:id", updateTaskStatus);
-routes.patch(
-  "/update/:id",
-  authentication,
-  authorizationResponsable,
-  updateTaskStatus
-);
+routes.patch("/update/:id", updateTaskStatus);
+// routes.patch(
+//   "/update/:id",
+//   authentication,
+//   authorizationResponsable,
+//   updateTaskStatus
+// );
 
 module.exports = routes;

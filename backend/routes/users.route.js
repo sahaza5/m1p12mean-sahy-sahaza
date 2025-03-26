@@ -27,13 +27,15 @@ const routes = express.Router();
 
 //----GET ALL USERS ROUTE------//
 //User must be authenticated(logged in) and have the privilege before getting all users
-routes.route("/").get(authentication, authorizationAdmin, getAllMechanicien);
+// routes.route("/").get(authentication, authorizationAdmin, getAllMechanicien);
+routes.route("/").get(getAllMechanicien);
 
 // routes.route("/").get(getAllMechanicien);
 
 //-------GET ALL CLIENTS
+routes.route("/client").get(getAllClient);
+// routes.route("/client").get(authentication, authorizationAdmin, getAllClient);
 // routes.route("/client").get(getAllClient);
-routes.route("/client").get(authentication, authorizationAdmin, getAllClient);
 
 //----GET USER DATA-----//
 // routes.route("/userdata/:id").get(authentication, getUserData);
@@ -43,8 +45,8 @@ routes.route("/userdata/").get(authentication, getUserData);
 //User must be authenticated(logged in) and have the privilege before getting all users
 // routes.route("/:id").get(authentication, authorizationResponsable, getUserById);
 
-routes.route("/:id").get(authentication, getUserById);
-// routes.route("/:id").get(getUserById);
+// routes.route("/:id").get(authentication, getUserById);
+routes.route("/:id").get(getUserById);
 
 //----REGISTER ROUTE----//
 // routes.route("/register/client").post(registerClient);
@@ -52,31 +54,32 @@ routes.route("/register").post(register);
 
 //----ADD MECHANICIEN ROUTE----//
 //User must be authenticated(logged in) and be an admin before getting all users
-routes
-  .route("/add/mechanicien")
-  .post(authentication, authorizationAdmin, addMechanicien);
+// routes
+//   .route("/add/mechanicien")
+//   .post(authentication, authorizationAdmin, addMechanicien);
+routes.route("/add/mechanicien").post(addMechanicien);
 
 //-----DELETE/LAY DOWN A MECHANICIEN ROUTE-----//
 // routes
 //   .route("/delete/mechanicien/:id")
 //   .patch(authentication, authorizationAdmin, disableMechanicien);
-// routes.route("/disable/mechanicien/:id").patch(disableMechanicien);
-routes
-  .route("/disable/mechanicien/:id")
-  .patch(authentication, authorizationAdmin, disableMechanicien);
+routes.route("/disable/mechanicien/:id").patch(disableMechanicien);
+// routes
+//   .route("/disable/mechanicien/:id")
+//   .patch(authentication, authorizationAdmin, disableMechanicien);
 
 //----LOG IN ROUTE----//
 routes.route("/login").post(login);
 
 //----SET PROFILE  ROUTE----//
 // routes.route("/client/setPassword").patch(setPassword)
-// routes.route("/setProfile/:id").patch(setProfile);
-routes.route("/setProfile/:id").patch(authentication, setProfile);
+routes.route("/setProfile/:id").patch(setProfile);
+// routes.route("/setProfile/:id").patch(authentication, setProfile);
 
 //-----REACTIVATE USER ACCOUNT---//
-// routes.route("/reactivate/:id").patch(reactivateAccount);
-routes
-  .route("/reactivate/:id")
-  .patch(authentication, authorizationAdmin, reactivateAccount);
+routes.route("/reactivate/:id").patch(reactivateAccount);
+// routes
+//   .route("/reactivate/:id")
+//   .patch(authentication, authorizationAdmin, reactivateAccount);
 
 module.exports = routes;
