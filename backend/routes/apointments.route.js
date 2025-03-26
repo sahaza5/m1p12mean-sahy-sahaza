@@ -49,7 +49,11 @@ routes.get("/:id", authentication, getApointmentById);
 // routes.get("/:id", getApointmentById);
 
 //-------------CLIENT BOOKING APOINTMENT--------//
-routes.post("/bookApointment", authentication, bookApointment);
+routes.post(
+  "/bookApointment/:userId/:vehicleId",
+  // authentication,
+  bookApointment
+);
 // routes.post("/bookApointment/:userId/:vehicleId", bookApointment);
 
 //------------SET THE APOINTMENT--------//

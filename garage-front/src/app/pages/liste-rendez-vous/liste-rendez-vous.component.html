@@ -1,80 +1,94 @@
-<div class='dashboard'>
-    <app-navbar-left></app-navbar-left>
-    <div class='dashboard-app' id="dashboard-app">
-        <div class='dashboard-content'>
-            <div class='container'>
-                <div class='card mt-1'>
-                    <div class='card-header'>
-                        <h1>Liste des rendez-vous</h1>
-                    </div>
-                    <div class='card-body'>
-                        <table class="table table-bordered table-hover">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">Véhicule</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Mecanicien</th>
-                                    <th scope="col">Statut</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let appointment of appointments" style="vertical-align: middle;">
-                                    <th scope="row">{{appointment.car?.name}}</th>
-                                    <td>{{appointment.date | date:'dd MMMM yyyy'}}</td>
-                                    <td>{{appointment.description}}</td>
-                                    <!-- <td>{{ appointment.mecanicienName || 'Non assigné' }}</td> -->
-                                    <td>{{ appointment.assignedTo.name || appointment.assignedTo.txt || 'Non assigné' }}</td>
-                                    <td style="width: 120px;text-align: center;">
-                                      <span
-                                        style="width: 100%;"
-                                        class="badge p-2"
-                                        [ngClass]="{
-                                          'bg-success': appointment.status === 'PENDING',
-                                          'bg-warning': appointment.status === 'IN PROGRESS',
-                                          'bg-danger': appointment.status === 'CANCELED',
-                                          'bg-primary': appointment.status === 'DONE'
-                                        }">
-                                        {{ appointment.status }}
-                                      </span>
-                                    </td>
-                                    <td style="width: 150px;text-align: center;">
-                                        <!-- Bouton Modifier (Affiché pour tous) -->
+<div class="dashboard">
+  <app-navbar-left></app-navbar-left>
+  <div class="dashboard-app" id="dashboard-app">
+    <div class="dashboard-content">
+      <div class="container">
+        <div class="card mt-1">
+          <div class="card-header">
+            <h1>Liste des rendez-vous</h1>
+          </div>
+          <div class="card-body">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Véhicule</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Mecanicien</th>
+                  <th scope="col">Statut</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let appointment of appointments"
+                  style="vertical-align: middle"
+                >
+                  <th scope="row">{{ appointment.car?.name }}</th>
+                  <td>{{ appointment.date | date: "dd MMMM yyyy" }}</td>
+                  <td>{{ appointment.description }}</td>
+                  <!-- <td>{{ appointment.mecanicienName || 'Non assigné' }}</td> -->
+                  <td>
+                    {{
+                      appointment.assignedTo?.name ||
+                        appointment.assignedTo?.txt ||
+                        "Non assigné"
+                    }}
+                  </td>
+                  <td style="width: 120px; text-align: center">
+                    <span
+                      style="width: 100%"
+                      class="badge p-2"
+                      [ngClass]="{
+                        'bg-success': appointment.status === 'PENDING',
+                        'bg-warning': appointment.status === 'IN PROGRESS',
+                        'bg-danger': appointment.status === 'CANCELED',
+                        'bg-primary': appointment.status === 'DONE',
+                      }"
+                    >
+                      {{ appointment.status }}
+                    </span>
+                  </td>
+                  <td style="width: 150px; text-align: center">
+                    <!-- Bouton Modifier (Affiché pour tous) -->
 
-                                        <!-- Boutons masqués si le statut est "CANCELED" -->
-                                          <!-- Bouton Modifier -->
-                                          <button
-                                            class="btn btn-warning btn-sm me-2"
-                                            (click)="selectAppointmentForEdit(appointment)"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modifierRendezVous"
-                                            [disabled]="appointment.status === 'CANCELED' || appointment.status === 'DONE'">
+                    <!-- Boutons masqués si le statut est "CANCELED" -->
+                    <!-- Bouton Modifier -->
+                    <button
+                      class="btn btn-warning btn-sm me-2"
+                      (click)="selectAppointmentForEdit(appointment)"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modifierRendezVous"
+                      [disabled]="
+                        appointment.status === 'CANCELED' ||
+                        appointment.status === 'DONE'
+                      "
+                    >
+                      <i class="fas fa-edit"></i>
+                    </button>
 
-                                            <i class="fas fa-edit"></i>
-                                          </button>
+                    <!-- Bouton Ajouter Mécanicien (Seulement pour Admin) -->
+                    <button
+                      *ngIf="userRole === 'admin'"
+                      class="btn btn-primary btn-sm me-2"
+                      data-bs-toggle="modal"
+                      data-bs-target="#ajoutMecanicien"
+                    >
+                      <i class="fas fa-check"></i>
+                    </button>
 
-                                          <!-- Bouton Ajouter Mécanicien (Seulement pour Admin) -->
-                                          <button
-                                            *ngIf="userRole === 'admin'"
-                                            class="btn btn-primary btn-sm me-2"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#ajoutMecanicien">
-                                            <i class="fas fa-check"></i>
-                                          </button>
-
-                                          <button
-                                            class="btn btn-danger btn-sm me-2"
-                                            (click)="cancelAppointment(appointment)"
-                                            [disabled]="appointment.status === 'CANCELED'">
-
-                                            <i class="fas fa-times"></i>
-                                          </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <!-- <div class="d-flex justify-content-between align-items-center mt-3">
+                    <button
+                      class="btn btn-danger btn-sm me-2"
+                      (click)="cancelAppointment(appointment)"
+                      [disabled]="appointment.status === 'CANCELED'"
+                    >
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- <div class="d-flex justify-content-between align-items-center mt-3">
                             <span>Affichage de {{ getStartIndex() + 1 }} - {{ getEndIndex() }} sur {{ items.length }}</span>
                             <nav>
                               <ul class="pagination">
@@ -94,93 +108,122 @@
                               </ul>
                             </nav>
                           </div> -->
-                          <div class="d-flex justify-content-between align-items-center mt-3">
-                            <!-- <span>Affichage de 5 - 5 sur 5</span> -->
-                            <nav>
-                              <ul class="pagination cursor-pointer">
-                                <li class="page-item">
-                                  <a class="page-link" aria-label="Précédent">
-                                    <span aria-hidden="true">&laquo;</span>
-                                  </a>
-                                </li>
-                                <li class="page-item">
-                                  <a class="page-link">1</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link">2</a>
-                                </li>
-                                <li class="page-item">
-                                  <a class="page-link" aria-label="Suivant">
-                                    <span aria-hidden="true">&raquo;</span>
-                                  </a>
-                                </li>
-                              </ul>
-                            </nav>
-                          </div>
-                          <div class="modal fade" id="modifierRendezVous" tabindex="-1" aria-labelledby="modifierRendezVous" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="container p-4">
-                                        <div class='text-muted mb-1'>
-                                            <h1>Modifier rendez-vous</h1>
-                                        </div>
-                                        <form (submit)="updateAppointment()">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                  <div class="form-group">
-                                                    <label for="first">Date de réparation</label>
-                                                    <input type="date" class="form-control" id="editDate" placeholder="" [(ngModel)]="selectedAppointment.date" name="date">
-                                                  </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                      <label for="first">Description du problème</label>
-                                                      <textarea type="text" class="form-control" placeholder="" id="editDescription" rows="3" [(ngModel)]="selectedAppointment.description" name="description"></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                          <button type="submit" class="btn btn-primary mt-2">Enregistrer</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <!-- <span>Affichage de 5 - 5 sur 5</span> -->
+              <nav>
+                <ul class="pagination cursor-pointer">
+                  <li class="page-item">
+                    <a class="page-link" aria-label="Précédent">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link">1</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link">2</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" aria-label="Suivant">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
             </div>
-
-
-            <div class="modal fade" id="ajoutMecanicien" tabindex="-1" aria-labelledby="ajoutMecanicien" aria-hidden="true">
+            <div
+              class="modal fade"
+              id="modifierRendezVous"
+              tabindex="-1"
+              aria-labelledby="modifierRendezVous"
+              aria-hidden="true"
+            >
               <div class="modal-dialog">
-                  <div class="modal-content">
-                      <div class="container p-4">
-                          <div class='text-muted mb-1'>
-                              <h1>Ajouter un mécanicien</h1>
+                <div class="modal-content">
+                  <div class="container p-4">
+                    <div class="text-muted mb-1">
+                      <h1>Modifier rendez-vous</h1>
+                    </div>
+                    <form (submit)="updateAppointment()">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label for="first">Date de réparation</label>
+                            <input
+                              type="date"
+                              class="form-control"
+                              id="editDate"
+                              placeholder=""
+                              [(ngModel)]="selectedAppointment.date"
+                              name="date"
+                            />
                           </div>
-                          <form>
-                              <div class="row">
-                                <div class="col-md-12">
-                                  <div class="form-group">
-                                      <label for="mecanicien">Mécanicien</label>
-                                      <select class="form-control" id="mecanicien">
-                                          <option value="">Sélectionner un mécanicien</option>
-                                          <option value="1">Jean Dupont</option>
-                                          <option value="2">Marie Curie</option>
-                                          <option value="3">Pierre Martin</option>
-                                      </select>
-                                  </div>
-                                </div>
-                              </div>
-                              <div>
-                                <button type="submit" class="btn btn-primary mt-2">Ajouter</button>
-                              </div>
-
-                          </form>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label for="first">Description du problème</label>
+                            <textarea
+                              type="text"
+                              class="form-control"
+                              placeholder=""
+                              id="editDescription"
+                              rows="3"
+                              [(ngModel)]="selectedAppointment.description"
+                              name="description"
+                            ></textarea>
+                          </div>
+                        </div>
                       </div>
+
+                      <button type="submit" class="btn btn-primary mt-2">
+                        Enregistrer
+                      </button>
+                    </form>
                   </div>
+                </div>
               </div>
+            </div>
           </div>
         </div>
+      </div>
+
+      <div
+        class="modal fade"
+        id="ajoutMecanicien"
+        tabindex="-1"
+        aria-labelledby="ajoutMecanicien"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="container p-4">
+              <div class="text-muted mb-1">
+                <h1>Ajouter un mécanicien</h1>
+              </div>
+              <form>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="mecanicien">Mécanicien</label>
+                      <select class="form-control" id="mecanicien">
+                        <option value="">Sélectionner un mécanicien</option>
+                        <option value="1">Jean Dupont</option>
+                        <option value="2">Marie Curie</option>
+                        <option value="3">Pierre Martin</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <button type="submit" class="btn btn-primary mt-2">
+                    Ajouter
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
