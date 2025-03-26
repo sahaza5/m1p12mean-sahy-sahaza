@@ -23,6 +23,7 @@ export class UsersService {
   }
 
   updateUserProfile(userId: string, userData: any): Observable<any> {
+    console.log('userdata, userid', userData, userId);
     return this.http
       .patch(`${this.apiUrl}/setProfile/${userId}`, userData)
       .pipe(catchError(this.handleError));

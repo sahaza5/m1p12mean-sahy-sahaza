@@ -264,7 +264,8 @@ const setProfile = async (req, res) => {
   //     .status(httpStatus.BAD_REQUEST)
   //     .send({ message: "Please new password" });
   // }
-  if (req.params !== req.user.id) {
+  console.log("Id is:", id);
+  if (!req.params) {
     return res
       .status(httpStatus.FORBIDDEN)
       .send({ message: "Forbidden access " });
