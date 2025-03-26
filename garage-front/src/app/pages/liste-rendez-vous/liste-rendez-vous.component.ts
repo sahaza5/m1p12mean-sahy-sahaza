@@ -103,7 +103,11 @@ export class ListeRendezVousComponent {
     }
 
     this.rendezVousService
-      .updateAppointment(this.selectedAppointment._id, this.selectedAppointment)
+      .updateAppointment(
+        this.selectedAppointment._id,
+        this.selectedAppointment,
+        this.authService,
+      )
       .subscribe(
         (response) => {
           console.log('Rendez-vous mis à jour avec succès:', response);
