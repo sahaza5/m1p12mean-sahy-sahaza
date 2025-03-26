@@ -23,7 +23,7 @@ const authentication = async (req, res, next) => {
     //Because we have SIGNED the data during login process
     //Now we are going to verify that token if it is genuine to get the user information(in our case, we return id,username,role)
     // const decoded = jwt.verify(myToken, process.env.JWT_SECRET);
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(myToken, process.env.JWT_SECRET);
 
     console.log(decoded);
     //In the log in, we have signed the user information, here it will return the user information, example:

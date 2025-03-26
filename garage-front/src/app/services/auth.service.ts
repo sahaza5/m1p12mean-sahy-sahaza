@@ -4,21 +4,19 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
 import jwtDecode from 'jwt-decode';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-
   //private apiUrl = 'http://localhost:3000/api/users';
   private apiUrl = `${environment.apiUrl}/users`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   // Récupérer le token du localStorage
   getToken(): string | null {
     const token = localStorage.getItem('token');
-    console.log("Token dans localStorage:", token);  // Ajoute ce log pour vérifier
+    console.log('Token dans localStorage:', token); // Ajoute ce log pour vérifier
     return token;
 
     //return localStorage.getItem('token');
@@ -30,9 +28,10 @@ export class AuthService {
     if (!token) return null;
 
     try {
-      const decodedToken: any = jwtDecode(token);
-      console.log("Token décodé:", decodedToken);  // Ajoute ce log pour vérifier
-      console.log(decodedToken.id)
+      const myToken = token.split(' ');
+      const decodedToken: any = jwtDecode(myToken[1]);
+      console.log('Token décodé:', decodedToken); // Ajoute ce log pour vérifier
+      console.log(decodedToken.id);
       return decodedToken.id || null;
     } catch (error) {
       console.error('Erreur lors du décodage du token:', error);
@@ -45,7 +44,9 @@ export class AuthService {
     if (!token) return null;
 
     try {
-      const decodedToken: any = jwtDecode(token);
+      const myToken = token.split(' ');
+
+      const decodedToken: any = jwtDecode(myToken[1]);
       return decodedToken.role || null; // Assurez-vous que le backend envoie bien le rôle dans le token
     } catch (error) {
       console.error('Erreur lors du décodage du token:', error);
@@ -53,14 +54,13 @@ export class AuthService {
     }
   }
 
-
   register(userData: any): Observable<any> {
-    console.log("userData", userData)
+    console.log('userData', userData);
     return this.http.post(`${this.apiUrl}/register`, userData);
   }
 
   login(userData: any): Observable<any> {
-    console.log("userData", userData)
+    console.log('userData', userData);
     return this.http.post(`${this.apiUrl}/login`, userData);
   }
 

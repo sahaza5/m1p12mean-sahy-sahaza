@@ -5,27 +5,23 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VehiculeService {
+  private apiUrl = `${environment.apiUrl}/vehicule`;
 
-  private apiUrl = `${environment.apiUrl}/vehicule`
+  constructor(private http: HttpClient) {}
 
-  constructor(private http:HttpClient ) {}
-
-  addVehicule(userId: string, userData:any): Observable<any>{
-    console.log('userData service',userData);
+  addVehicule(userId: string, userData: any): Observable<any> {
+    console.log('userData service', userData);
     return this.http.post(`${this.apiUrl}/register/${userId}`, userData);
   }
 
-  getVehicule(userId: string, vehiculeData:any): Observable<any>{
-
-    return this.http.get(`${this.apiUrl}/${userId}`, vehiculeData)
-
+  getVehicule(userId: string, vehiculeData: any): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${userId}`);
   }
 
   updateVehicule(vehiculeId: string, vehiculeData: any): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/${vehiculeId}`, vehiculeData)
+    return this.http.patch(`${this.apiUrl}/${vehiculeId}`, vehiculeData);
   }
-
 }

@@ -1,19 +1,35 @@
 <!-- <div class='dashboard'> -->
 <div class="dashboard-nav" id="dashboard-nav">
-    <header><a (click)="toggleMenu()" class="menu-toggle cursor-pointer"><i class="fas fa-bars"></i></a><a href="#" class="brand-logo">
-            <span>GARAGE</span>
-          </a></header>
-    <nav class="dashboard-nav-list">
-      <a href="#" class="dashboard-nav-item"><i class="fas fa-home"></i> Home </a>
-      <a href="/liste-vehicule" *ngIf="userData.userType=='CLIENT'" class="dashboard-nav-item active"><i class="fas fa-tachometer-alt"></i>
-            Mes vehicules
-        </a>
-      <a href="/liste-rendez-vous" *ngIf="userData.userType=='CLIENT'" class="dashboard-nav-item"><i class="fas fa-file-upload"></i> Mes rendez-vous
-        </a>
+  <header>
+    <a (click)="toggleMenu()" class="menu-toggle cursor-pointer"
+      ><i class="fas fa-bars"></i></a
+    ><a href="#" class="brand-logo">
+      <span>GARAGE</span>
+    </a>
+  </header>
+  <nav class="dashboard-nav-list">
+    <a href="#" class="dashboard-nav-item"><i class="fas fa-home"></i> Home </a>
+    <a
+      href="/liste-vehicule"
+      *ngIf="userData?.userType == 'CLIENT'"
+      class="dashboard-nav-item active"
+      ><i class="fas fa-tachometer-alt"></i>
+      Mes vehicules
+    </a>
+    <a
+      href="/liste-rendez-vous"
+      *ngIf="userData.userType == 'CLIENT'"
+      class="dashboard-nav-item"
+      ><i class="fas fa-file-upload"></i> Mes rendez-vous
+    </a>
 
-        <a href="/liste-client" *ngIf="userData.userType=='ADMIN'" class="dashboard-nav-item"><i class="fas fa-file-upload"></i> Liste client
-        </a>
-        <!-- <div class='dashboard-nav-dropdown'><a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
+    <a
+      href="/liste-client"
+      *ngIf="userData.userType == 'ADMIN'"
+      class="dashboard-nav-item"
+      ><i class="fas fa-file-upload"></i> Liste client
+    </a>
+    <!-- <div class='dashboard-nav-dropdown'><a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
                     class="fas fa-photo-video"></i> Media </a>
             <div class='dashboard-nav-dropdown-menu'><a href="#" class="dashboard-nav-dropdown-item">All</a><a href="#"
                     class="dashboard-nav-dropdown-item">Recent</a><a href="#"
@@ -28,22 +44,37 @@
                     class="dashboard-nav-dropdown-item">Banned</a><a href="#"
                     class="dashboard-nav-dropdown-item">New</a></div>
         </div> -->
-        <!-- <div class='dashboard-nav-dropdown'><a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
+    <!-- <div class='dashboard-nav-dropdown'><a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
                     class="fas fa-money-check-alt"></i> Payments </a>
             <div class='dashboard-nav-dropdown-menu'><a href="#" class="dashboard-nav-dropdown-item">All</a><a href="#"
                     class="dashboard-nav-dropdown-item">Recent</a><a href="#" class="dashboard-nav-dropdown-item">
                     Projections</a>
             </div>
         </div> -->
-        <a href="#" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings </a><a href="#"
-            class="dashboard-nav-item"><i class="fas fa-user"></i> Profile </a>
-        <div class="nav-item-divider" style="position: fixed; bottom: 40px; width: 280px;"></div>
-        <a href="#" class="dashboard-nav-item" style="position: fixed; bottom: 0; width: 280px;"><i class="fas fa-sign-out-alt"></i> Logout </a>
-    </nav>
+    <a href="#" class="dashboard-nav-item"
+      ><i class="fas fa-cogs"></i> Settings </a
+    ><a href="#" class="dashboard-nav-item"
+      ><i class="fas fa-user"></i> Profile
+    </a>
+    <div
+      class="nav-item-divider"
+      style="position: fixed; bottom: 40px; width: 280px"
+    ></div>
+    <a
+      href="#"
+      class="dashboard-nav-item"
+      style="position: fixed; bottom: 0; width: 280px"
+      ><i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+  </nav>
 </div>
-<div class='dashboard-app'>
-    <header  class='dashboard-toolbar' id="dashboard-toolbar"><a (click)="toggleMenu()" class="menu-toggle cursor-pointer"><i class="fas fa-bars"></i></a></header>
-    <!-- <div class='dashboard-content'>
+<div class="dashboard-app">
+  <header class="dashboard-toolbar" id="dashboard-toolbar">
+    <a (click)="toggleMenu()" class="menu-toggle cursor-pointer"
+      ><i class="fas fa-bars"></i
+    ></a>
+  </header>
+  <!-- <div class='dashboard-content'>
             <div class='container'>
                 <div class='card'>
                     <div class='card-header'>

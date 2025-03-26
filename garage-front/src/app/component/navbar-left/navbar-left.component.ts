@@ -2,18 +2,23 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import {
+  Location,
+  LocationStrategy,
+  PathLocationStrategy,
+} from '@angular/common';
 import { UsersService } from '../../services/users.service';
-
 
 @Component({
   selector: 'app-navbar-left',
   imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './navbar-left.component.html',
-  styleUrl: './navbar-left.component.css'
+  styleUrl: './navbar-left.component.css',
 })
 export class NavbarLeftComponent {
-  userData: any;
+  userData = {
+    userType: '',
+  };
   // @ViewChild('dashboardNav', { static: true }) dashboardNav!: ElementRef;
   // @ViewChild('dashboard', { static: true }) dashboard!: ElementRef;
   // mobileScreen: MediaQueryList = window.matchMedia("(max-width: 990px)");
@@ -21,14 +26,14 @@ export class NavbarLeftComponent {
   constructor(private usersService: UsersService) {
     this.usersService.getUserProfile().subscribe(
       (userData) => {
-        console.log('Données utilisateur récupérées:', userData);
-        this.userData = userData;
+        console.log('Données utilisateur récupérées navbar left:', userData);
+        this.userData = { ...userData };
         console.log('userData', this.userData);
       },
       (error) => {
         console.error('Erreur lors de la récupération des données:', error);
         alert('Erreur lors de la récupération des données utilisateur');
-      }
+      },
     );
   }
 
@@ -66,20 +71,23 @@ export class NavbarLeftComponent {
   // }
 
   toggleMenu() {
-    const dashboardNav = document.getElementById("dashboard-nav");
-    const dashboardToolbar = document.getElementById("dashboard-toolbar");
-    const dashboardApp = document.getElementById("dashboard-app");
+    const dashboardNav = document.getElementById('dashboard-nav');
+    const dashboardToolbar = document.getElementById('dashboard-toolbar');
+    const dashboardApp = document.getElementById('dashboard-app');
 
-    if(dashboardNav){
-      dashboardNav.style.display = dashboardNav.style.display ==='none' ? 'block' :'none';
+    if (dashboardNav) {
+      dashboardNav.style.display =
+        dashboardNav.style.display === 'none' ? 'block' : 'none';
     }
 
-    if(dashboardToolbar){
-      dashboardToolbar.style.left = dashboardToolbar.style.left ==='0px' ? '238px' :'0px';
+    if (dashboardToolbar) {
+      dashboardToolbar.style.left =
+        dashboardToolbar.style.left === '0px' ? '238px' : '0px';
     }
 
-    if(dashboardApp){
-      dashboardApp.style.marginLeft = dashboardApp.style.marginLeft ==='0px' ? '238px' :'0px';
+    if (dashboardApp) {
+      dashboardApp.style.marginLeft =
+        dashboardApp.style.marginLeft === '0px' ? '238px' : '0px';
     }
   }
 }

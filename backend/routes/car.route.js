@@ -13,7 +13,7 @@ const { authentication } = require("../middleware/authentication");
 
 //-----------GET ALL VEHICULES FOR CLIENT
 // routes.get("/", authentication, getAllVehicules);
-routes.get("/:id", authentication, getAllVehiculesForClient);
+routes.get("/:id", getAllVehiculesForClient);
 // routes.get("/:id", getAllVehiculesForClient);
 
 //-----------REGISTER A VEHICULE-------//
