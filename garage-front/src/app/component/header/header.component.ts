@@ -5,6 +5,7 @@ import * as bootstrap from 'bootstrap';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import jwtDecode from 'jwt-decode';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,9 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
+
+  userRole: string | null = ''; // Stocke le rôle de l'utilisateur
+
   userData = {
     txt: '',
     email: '',
@@ -24,6 +28,7 @@ export class HeaderComponent {
     private authService: AuthService,
     private router: Router,
   ) {}
+
 
   onSubmit() {
     console.log('userData', this.userData);
@@ -73,12 +78,15 @@ export class HeaderComponent {
   }
 
   login() {
+
     console.log('userData', this.userData);
+
     this.authService.login(this.userData).subscribe(
       (response: any) => {
         const userId = response.user._id;
         const token = response.token;
         this.userData = { ...response.user };
+        this.userRole = response.user.userType;
 
         localStorage.setItem('userId', userId);
         localStorage.setItem('token', `Bearer ${token}`);
@@ -86,8 +94,48 @@ export class HeaderComponent {
         console.log("Réponse de l'API", response);
         console.log('Connexion réussie', response);
 
-        this.router.navigate(['/liste-vehicule', { id: userId }]);
-        console.log('Navigation vers /liste-vehicule réussie');
+        // Redirection selon le rôle
+         switch (this.userRole) {
+          case 'CLIENT':
+            this.router.navigate(['/liste-vehicule', { id: userId }]);
+            break;
+          case 'ADMIN':
+            this.router.navigate(['/liste-rendez-vous', { id: userId }]);
+            break;
+          case 'EMPLOYEE':
+            this.router.navigate(['/liste-tache', { id: userId }]);
+            break;
+          default:
+            console.error("Rôle inconnu !");
+            alert("Erreur : rôle utilisateur inconnu.");
+            return;
+        }
+
+
+        // const userRole = response.user.userType
+
+        // localStorage.setItem('userId', userId);
+        // localStorage.setItem('token', token);
+        // console.log(token)
+        // console.log("Token décodé:", userRole);  // Ajoute ce log pour vérifier
+
+        //  // Redirection selon le rôle
+        //  switch (userRole) {
+        //   case 'CLIENT':
+        //     this.router.navigate(['/liste-vehicule', { id: userId }]);
+        //     break;
+        //   case 'ADMIN':
+        //     this.router.navigate(['/liste-rendez-vous', { id: userId }]);
+        //     break;
+        //   case 'EMPLOYEE':
+        //     this.router.navigate(['/liste-tache', { id: userId }]);
+        //     break;
+        //   default:
+        //     console.error("Rôle inconnu !");
+        //     alert("Erreur : rôle utilisateur inconnu.");
+        //     return;
+        // }
+
 
         // Récupérer la modal de login
         const loginModal = document.getElementById('loginModal');
@@ -116,6 +164,7 @@ export class HeaderComponent {
     );
   }
 
+
   toggleNavbar() {
     const navbarCollapse = document.querySelector('#navbarResponsive');
     if (navbarCollapse) {
@@ -128,6 +177,7 @@ export class HeaderComponent {
   }
 
   ngOnInit() {
+
     // Code à exécuter après le chargement de la page
     // Fonction pour réduire la navbar
     const navbarShrink = () => {

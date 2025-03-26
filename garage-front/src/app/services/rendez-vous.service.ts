@@ -34,4 +34,12 @@ export class RendezVousService {
     return this.http.patch(`${this.apiUrl}/cancelApointment/${appointmentId}`, { status: "ANNULER" });
   }
 
+  getAllAppointmentClient(): Observable<any>{
+    return this.http.get<any[]>(`${this.apiUrl}/admin/`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+  }
+
 }

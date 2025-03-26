@@ -23,19 +23,19 @@ export class AuthService {
   }
 
   // Décoder le token pour récupérer l'ID utilisateur
-  getUserId(): string | null {
+  getUserId(): string {
     const token = this.getToken();
-    if (!token) return null;
+    if (!token) return '';
 
     try {
       const myToken = token.split(' ');
       const decodedToken: any = jwtDecode(myToken[1]);
       console.log('Token décodé:', decodedToken); // Ajoute ce log pour vérifier
       console.log(decodedToken.id);
-      return decodedToken.id || null;
+      return decodedToken.id || '';
     } catch (error) {
       console.error('Erreur lors du décodage du token:', error);
-      return null;
+      return '';
     }
   }
 
@@ -44,10 +44,12 @@ export class AuthService {
     if (!token) return null;
 
     try {
+
       const myToken = token.split(' ');
 
       const decodedToken: any = jwtDecode(myToken[1]);
-      return decodedToken.role || null; // Assurez-vous que le backend envoie bien le rôle dans le token
+      return decodedToken.userType || null; // Assurez-vous que le backend envoie bien le rôle dans le token
+
     } catch (error) {
       console.error('Erreur lors du décodage du token:', error);
       return null;

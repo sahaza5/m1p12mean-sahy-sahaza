@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RendezVousService } from '../../services/rendez-vous.service';
 import { useAnimation } from '@angular/animations';
 import * as bootstrap from 'bootstrap';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-liste-vehicule',
@@ -15,7 +16,7 @@ import * as bootstrap from 'bootstrap';
   styleUrl: './liste-vehicule.component.css',
 })
 export class ListeVehiculeComponent {
-  userId: string = '';
+  userId = '';
   formData = new FormData();
   userData = {
     name: '',
@@ -37,15 +38,10 @@ export class ListeVehiculeComponent {
     private router: Router,
     private route: ActivatedRoute,
     private rendezvousService: RendezVousService,
+    private authService: AuthService,
   ) {
-    // Récupérer l'ID depuis les paramètres de l'URL
-    this.route.params.subscribe((params) => {
-      if (params['id']) {
-        this.userId = params['id'];
-      } else {
-        alert('ID utilisateur not found');
-      }
-    });
+    this.userId = this.authService.getUserId();
+
   }
 
   onFileChange(event: any) {

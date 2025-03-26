@@ -18,6 +18,7 @@ import { UsersService } from '../../services/users.service';
 export class NavbarLeftComponent {
   userData = {
     userType: '',
+    _id: '',
   };
   // @ViewChild('dashboardNav', { static: true }) dashboardNav!: ElementRef;
   // @ViewChild('dashboard', { static: true }) dashboard!: ElementRef;
@@ -29,6 +30,7 @@ export class NavbarLeftComponent {
         console.log('Données utilisateur récupérées navbar left:', userData);
         this.userData = { ...userData };
         console.log('userData', this.userData);
+        console.log('userData._id', this.userData._id);
       },
       (error) => {
         console.error('Erreur lors de la récupération des données:', error);
@@ -38,6 +40,7 @@ export class NavbarLeftComponent {
   }
 
   // ngOnInit(): void {
+  // [routerLink]="['/liste-rendez-vous', userData._id]"
   //   // Gérer le clic sur les éléments du menu déroulant
   //   const dropdownToggles = document.querySelectorAll('.dashboard-nav-dropdown-toggle');
   //   dropdownToggles.forEach(toggle => {
