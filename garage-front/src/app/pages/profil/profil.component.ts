@@ -61,7 +61,7 @@ export class ProfilComponent {
       (response) => {
         console.log('Profil mis à jour avec succès:', response);
         alert('Profil mis à jour avec succès');
-        this.router.navigate(['/voir-profil']);
+        this.router.navigate(['/voir-profile']);
       },
       (error) => {
         console.error('Erreur lors de la mise à jour du profil:', error);
