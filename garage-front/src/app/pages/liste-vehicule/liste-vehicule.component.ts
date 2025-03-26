@@ -41,7 +41,6 @@ export class ListeVehiculeComponent {
     private authService: AuthService,
   ) {
     this.userId = this.authService.getUserId();
-
   }
 
   onFileChange(event: any) {
@@ -51,8 +50,8 @@ export class ListeVehiculeComponent {
       // const fileExtension = file.name.split('.').pop(); // Récupère l'extension du fichier
       // const newFileName = `file_${timestamp}.${fileExtension}`; // Nouveau nom avec datetime
 
-      this.formData.append('name', 'file');
-      this.formData.append('description', 'file');
+      this.formData.append('name', this.userData.name);
+      this.formData.append('description', this.userData.description);
       this.formData.append('image', file);
 
       // const renamedFile = new File([file], newFileName, { type: file.type });
@@ -68,6 +67,7 @@ export class ListeVehiculeComponent {
       .addVehicule(this.userId, this.formData)
       .subscribe((response: any) => {
         console.log('ajout réussi', response);
+        this.vehiculeData.push({ ...response });
       });
   }
 
@@ -144,7 +144,7 @@ export class ListeVehiculeComponent {
         this.userId,
         this.selectedVehicule._id,
         this.appointmentData,
-        this.authService
+        this.authService,
       )
       .subscribe(
         (response) => {
