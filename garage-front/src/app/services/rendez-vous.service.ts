@@ -34,12 +34,18 @@ export class RendezVousService {
 
   }
 
-  updateAppointment(appointmentId: string, appointmentData: any) {
-    return this.http.patch(`${this.apiUrl}/setApointment/${appointmentId}`, appointmentData);
+  updateAppointment(appointmentId: string, appointmentData: any, authService: AuthService) {
+    const token = authService.getToken();
+    console.log ("token in updateAppointment", token);
+    return this.http.patch(`${this.apiUrl}/setApointment/${appointmentId}`, appointmentData, {
+      headers: {
+        Authorization: `${token}`
+      }
+    });
   }
 
   cancelAppointment(appointmentId: string) {
-    return this.http.patch(`${this.apiUrl}/cancelApointment/${appointmentId}`, { status: "ANNULER" });
+    return this.http.patch(`${this.apiUrl}/cancelApointment/${appointmentId}`, { status: "CANCELED" });
   }
 
   getAllAppointmentClient(): Observable<any>{

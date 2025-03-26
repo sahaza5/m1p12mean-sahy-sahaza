@@ -94,7 +94,7 @@ export class ListeRendezVousComponent {
       return;
     }
 
-    this.rendezVousService.updateAppointment(this.selectedAppointment._id, this.selectedAppointment).subscribe(
+    this.rendezVousService.updateAppointment(this.selectedAppointment._id, this.selectedAppointment, this.authService).subscribe(
       (response) => {
         console.log('Rendez-vous mis à jour avec succès:', response);
         alert('Rendez-vous mis à jour avec succès !');
