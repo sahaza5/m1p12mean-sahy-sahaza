@@ -80,7 +80,7 @@
                     <button
                       class="btn btn-danger btn-sm me-2"
                       (click)="cancelAppointment(appointment)"
-                      [disabled]="appointment.status === 'CANCELED'"
+                      [disabled]="appointment.status === 'CANCELED' || appointment.status === 'DONE'"
                     >
                       <i class="fas fa-times"></i>
                     </button>
