@@ -154,7 +154,10 @@
                       <div class="text-muted mb-1">
                         <h1>Modifier vehicule</h1>
                       </div>
-                      <form (ngSubmit)="updateVehicule()">
+                      <form
+                        (ngSubmit)="updateVehicule()"
+                        enctype="multipart/form-data"
+                      >
                         <div class="row">
                           <div class="col-md-12">
                             <div class="form-group">
@@ -165,7 +168,7 @@
                                 placeholder=""
                                 id="vehiculeName"
                                 [(ngModel)]="selectedVehicule.name"
-                                name="vehiculeName"
+                                name="name"
                                 required
                               />
                             </div>
@@ -180,7 +183,7 @@
                                 id="vehiculeDescription"
                                 rows="3"
                                 [(ngModel)]="selectedVehicule.description"
-                                name="vehiculeDescription"
+                                name="description"
                                 required=""
                               ></textarea>
                             </div>
@@ -190,6 +193,7 @@
                               <label for="first">Image du vehicule</label>
                               <input
                                 type="file"
+                                accept="image/*"
                                 class="form-control"
                                 placeholder=""
                                 id="vehiculeImage"

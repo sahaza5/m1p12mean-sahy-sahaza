@@ -70,28 +70,33 @@ export class ListeVehiculeComponent {
       // const fileExtension = file.name.split('.').pop(); // Récupère l'extension du fichier
       // const newFileName = `file_${timestamp}.${fileExtension}`; // Nouveau nom avec datetime
 
-      this.formDataUpdate.append('name', this.selectedVehicule.name);
-      this.formDataUpdate.append(
-        'description',
-        this.selectedVehicule.description,
-      );
       this.formDataUpdate.append('image', file);
+      // this.formDataUpdate.append('name', this.selectedVehicule.name);
+      // this.formDataUpdate.append(
+      //   'description',
+      //   this.selectedVehicule.description,
+      // );
 
       // const renamedFile = new File([file], newFileName, { type: file.type });
       // console.log("zasasa",renamedFile);
-      this.userData.image = file;
+      // this.userData.image = file;
     }
+
     // console.log("zasasa",this.userData)
   }
 
   onSubmit() {
     console.log('===========>', this.formData);
-    this.vehiculeService
-      .addVehicule(this.userId, this.formData)
-      .subscribe((response: any) => {
+    this.vehiculeService.addVehicule(this.userId, this.formData).subscribe(
+      (response: any) => {
         console.log('ajout réussi', response);
         this.vehiculeData.push({ ...response });
-      });
+      },
+      (error) => {
+        this.formData = new FormData();
+        console.error('Erreur lors de la mise à jour du véhicule :', error);
+      },
+    );
   }
 
   ngOnInit() {
@@ -114,26 +119,41 @@ export class ListeVehiculeComponent {
 
   // Sélectionner un véhicule pour modification
   selectVehicule(vehicule: any): void {
-    //console.log("here")
+    console.log('here', vehicule);
     this.selectedVehicule = { ...vehicule };
   }
 
   // Mettre à jour le véhicule sélectionné
   updateVehicule() {
+    this.formDataUpdate.append('name', this.selectedVehicule.name);
+    this.formDataUpdate.append(
+      'description',
+      this.selectedVehicule.description,
+    );
+    console.log(
+      'Selected car befor:',
+      this.selectedVehicule,
+      this.formDataUpdate,
+    );
     if (!this.selectedVehicule._id) {
       alert('aucun vehicule selectionné !');
       return;
     }
 
+    console.log('Updated vehicule', this.selectedVehicule);
+
     this.vehiculeService
       .updateVehicule(this.selectedVehicule._id, this.formDataUpdate)
       .subscribe(
         (response) => {
+          this.formDataUpdate = new FormData();
           console.log(' Véhicule mis à jour avec succès:', response);
           alert('Véhicule mis à jour avec succès');
           this.getVehicules(); // Rafraîchir la liste après mise à jour
         },
         (error) => {
+          this.formDataUpdate = new FormData();
+
           console.error('Erreur lors de la mise à jour du véhicule :', error);
         },
       );

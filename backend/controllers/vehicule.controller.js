@@ -63,6 +63,7 @@ const updateVehicule = async (req, res) => {
   console.log("Update vehicule by id", req.params);
   const { id } = req.params;
   const { name, description } = req.body;
+  console.log("name,description", name, description);
   try {
     const updatedVehicule = await Vehicules.findByIdAndUpdate(
       { _id: id },
