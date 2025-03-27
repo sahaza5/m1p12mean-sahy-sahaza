@@ -158,6 +158,13 @@ export class ListeRendezVousComponent {
         (response) => {
             this.mechanics = response;
             console.log("Mécaniciens récupérés :", this.mechanics);
+
+             // Filtrer uniquement les mécaniciens avec le statut "ENABLE"
+            this.mechanics = response.filter((mechanic: any) => mechanic.status === 'ENABLE');
+
+            if (this.mechanics.length > 0) {
+              this.selectedMechanicId = this.mechanics[0]._id; // ✅ Sélection du premier mécanicien par défaut
+            }
         },
         (error) => {
             console.error("Erreur lors du chargement des mécaniciens :", error);
@@ -183,7 +190,7 @@ export class ListeRendezVousComponent {
     //     mechanicId: this.selectedMechanicId,
     // };
 
-    this.rendezVousService.assignMechanicToAppointment(this.selectedAppointmentId, this.authService).subscribe(
+    this.rendezVousService.assignMechanicToAppointment(this.selectedAppointmentId, this.selectedMechanicId, this.authService).subscribe(
         (response) => {
             console.log("Mécanicien assigné avec succès :", response);
             alert("Mécanicien assigné !");

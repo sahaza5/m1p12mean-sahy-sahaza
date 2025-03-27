@@ -84,10 +84,11 @@ export class RendezVousService {
   //   });
   // }
 
-  assignMechanicToAppointment(appointmentId: string, authService: AuthService,): Observable<any> {
+  assignMechanicToAppointment(appointmentId: string,  mechanicId: string, authService: AuthService,): Observable<any> {
     const token = authService.getToken();
     console.log("tpken assignMechanicAppointment", token)
     return this.http.patch<any>(`${this.apiUrl}/addMechanicienApointment/${appointmentId}`,
+      { mechanicien: mechanicId },
       {
       headers: {
         Authorization: `${token}`,

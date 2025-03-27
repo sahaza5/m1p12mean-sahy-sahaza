@@ -44,6 +44,7 @@
                         'bg-warning': appointment.status === 'IN PROGRESS',
                         'bg-danger': appointment.status === 'CANCELED',
                         'bg-primary': appointment.status === 'DONE',
+                        'bg-info': appointment.status === 'APPROVED',
                       }"
                     >
                       {{ appointment?.status }}
@@ -210,8 +211,9 @@
                     <div class="form-group">
                       <label for="mecanicien">Mécanicien</label>
                       <select class="form-control" id="mecanicien" [(ngModel)]="selectedMechanicId" name="mechanic">
-                        <option [value]="mechanic._id" *ngFor="let mechanic of mechanics">{{mechanic.name}}</option>
-
+                        <ng-container *ngFor="let mechanic of mechanics">
+                          <option [value]="mechanic._id" *ngIf="mechanic.status === 'ENABLE'">{{mechanic.txt}} - {{mechanic.name}}</option>
+                        </ng-container>
                       </select>
                     </div>
                   </div>
