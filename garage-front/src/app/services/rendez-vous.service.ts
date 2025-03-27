@@ -77,4 +77,21 @@ export class RendezVousService {
       }
     });
   }
+
+  // assignMechanicToAppointment(appointmentId: string, payload: any): Observable<any> {
+  //   return this.http.put<any>(`${this.apiUrl}/appointments/${appointmentId}/assign-mechanic`, payload, {
+  //       headers: { Authorization: `Bearer ${this.authService.getToken()}` }
+  //   });
+  // }
+
+  assignMechanicToAppointment(appointmentId: string, authService: AuthService,): Observable<any> {
+    const token = authService.getToken();
+    console.log("tpken assignMechanicAppointment", token)
+    return this.http.patch<any>(`${this.apiUrl}/addMechanicienApointment/${appointmentId}`,
+      {
+      headers: {
+        Authorization: `${token}`,
+      }
+    });
+  }
 }

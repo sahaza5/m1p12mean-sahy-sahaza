@@ -73,7 +73,8 @@
                       class="btn btn-primary btn-sm me-2"
                       data-bs-toggle="modal"
                       data-bs-target="#ajoutMecanicien"
-                    >
+                      (click)="openMechanicModal(appointment._id)"
+                      ><!-- vao novaina -->
                       <i class="fas fa-check"></i>
                     </button>
 
@@ -203,16 +204,14 @@
               <div class="text-muted mb-1">
                 <h1>Ajouter un mécanicien</h1>
               </div>
-              <form>
+              <form (submit)="assignMechanic()">
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
                       <label for="mecanicien">Mécanicien</label>
-                      <select class="form-control" id="mecanicien">
-                        <option value="">Sélectionner un mécanicien</option>
-                        <option value="1">Jean Dupont</option>
-                        <option value="2">Marie Curie</option>
-                        <option value="3">Pierre Martin</option>
+                      <select class="form-control" id="mecanicien" [(ngModel)]="selectedMechanicId" name="mechanic">
+                        <option [value]="mechanic._id" *ngFor="let mechanic of mechanics">{{mechanic.name}}</option>
+
                       </select>
                     </div>
                   </div>

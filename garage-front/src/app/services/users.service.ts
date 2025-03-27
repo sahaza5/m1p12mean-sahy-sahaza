@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +28,16 @@ export class UsersService {
     return this.http
       .patch(`${this.apiUrl}/setProfile/${userId}`, userData)
       .pipe(catchError(this.handleError));
+  }
+
+  getAllMechanics(authService: AuthService): Observable<any> {
+    const token = authService.getToken();
+    console.log('token in getAllMechanics', token);
+    return this.http.get(`${this.apiUrl}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
   }
 
   private handleError(error: HttpErrorResponse) {

@@ -5,6 +5,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-liste-rendez-vous',
@@ -17,11 +18,17 @@ export class ListeRendezVousComponent {
   userRole: string | null = ''; // Stocke le rôle de l'utilisateur
   appointments: any[] = [];
   selectedAppointment: any = { _id: '', date: '', description: '' }; // Rendez-vous sélectionné pour modification
+  mechanics: any[] = [];  // Stocke les mécaniciens récupérés
+
+  // update
+  selectedMechanicId: string = ''; // Stocke l'ID du mécanicien sélectionné
+  selectedAppointmentId: string = ''; // Stocke l'ID du rendez-vous sélectionné
 
   constructor(
     private rendezVousService: RendezVousService,
     private route: Router,
     private authService: AuthService,
+    private usersService: UsersService,
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +47,8 @@ export class ListeRendezVousComponent {
     if(this.userRole === "ADMIN"){
       this.getAllAppointments();
     }
+
+    this.loadMechanics(); // Charger les mécaniciens au démarrage
   }
 
   // Méthode pour récupérer l'ID de l'utilisateur connecté
@@ -141,5 +150,48 @@ export class ListeRendezVousComponent {
         },
       );
     }
+  }
+
+  // fonction load all mechanic in select modal
+  loadMechanics() {
+    this.usersService.getAllMechanics(this.authService).subscribe(
+        (response) => {
+            this.mechanics = response;
+            console.log("Mécaniciens récupérés :", this.mechanics);
+        },
+        (error) => {
+            console.error("Erreur lors du chargement des mécaniciens :", error);
+        }
+    );
+  }
+
+  // Fonction pour ouvrir la modal et définir l'ID du rendez-vous sélectionné
+  openMechanicModal(appointmentId: string) {
+    console.log("appointmentId", appointmentId)
+    this.selectedAppointmentId = appointmentId;
+    console.log("selectedAppointmentId", this.selectedAppointmentId)
+  }
+
+  // Fonction pour assigner un mécanicien à un rendez-vous
+  assignMechanic() {
+    if (!this.selectedMechanicId || !this.selectedAppointmentId) {
+        alert("Veuillez sélectionner un mécanicien.");
+        return;
+    }
+
+    // const payload = {
+    //     mechanicId: this.selectedMechanicId,
+    // };
+
+    this.rendezVousService.assignMechanicToAppointment(this.selectedAppointmentId, this.authService).subscribe(
+        (response) => {
+            console.log("Mécanicien assigné avec succès :", response);
+            alert("Mécanicien assigné !");
+        },
+        (error) => {
+            console.error("Erreur lors de l'assignation :", error);
+            alert("Erreur lors de l'assignation du mécanicien.");
+        }
+    );
   }
 }
