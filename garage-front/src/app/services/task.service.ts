@@ -25,7 +25,7 @@ export class TaskService {
   updateTaskStatus(taskId: string, newStatus: string): Observable<any> {
     const token = this.authService.getToken();
     return this.http.patch<any>(
-      `${this.apiUrl}/update-status/${taskId}`,
+      `${this.apiUrl}/update/${taskId}`,
       { status: newStatus },
       { headers: { Authorization: `Bearer ${token}` } }
     );

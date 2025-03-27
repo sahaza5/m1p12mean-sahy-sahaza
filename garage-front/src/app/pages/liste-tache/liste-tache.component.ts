@@ -40,16 +40,20 @@ export class ListeTacheComponent {
   }
 
   //Met à jour le statut d'une tâche
-updateTaskStatus(taskId: string, newStatus: string) {
-  this.taskService.updateTaskStatus(taskId, newStatus).subscribe(
-    () => {
-      this.tasks = this.tasks.map(task =>
-        task._id === taskId ? { ...task, status: newStatus } : task
-      );
-    },
-    (error) => {
-      console.error('Erreur lors de la mise à jour du statut :', error);
-    }
-  );
-}
+  updateTaskStatus(taskId: string, newStatus: string) {
+    this.taskService.updateTaskStatus(taskId, newStatus).subscribe(
+      () => {
+        this.tasks = this.tasks.map(task =>
+          task._id === taskId ? { ...task, status: newStatus } : task
+
+        );
+        console.log("tasks", this.tasks)
+        console.log("newStatus", newStatus)
+        alert("Tâche mise à jour avec succès");
+      },
+      (error) => {
+        console.error('Erreur lors de la mise à jour du statut :', error);
+      }
+    );
+  }
 }
