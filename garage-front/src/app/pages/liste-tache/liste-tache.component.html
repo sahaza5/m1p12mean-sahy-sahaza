@@ -20,7 +20,7 @@
                             <tbody>
                                 <tr style="vertical-align: middle;">
                                     <th >
-                                      <div class="ticket-card cursor-pointer position-relative">
+                                      <div class="ticket-card cursor-pointer position-relative" *ngFor="let task of tasks">
                                         <div class="position-absolute" style="top: 10px; right: 10px;">
                                           <button class="btn btn-link text-dark" type="button" (click)="toggleDropdown()">
                                             <i class="fas fa-ellipsis-v"></i>
@@ -31,8 +31,10 @@
                                             <li><a class="dropdown-item" href="#">Términer</a></li>
                                           </ul>
                                         </div>
-                                        <p><strong>TITRE</strong></p>
-                                        <p class="text-muted">À tout moment, vous pouvez retirer votre consentement ou vous opposer au traitement des données fondé...</p>
+                                        <p><strong>Vehicule: {{ task.apointment.car?.name }}</strong></p>
+                                        <p class="text-muted">Description: {{ task.apointment.description }}</p>
+                                        <p class="text-muted">Client: {{ task.apointment.belongsTo?.name }}</p>
+                                        <p class="text-muted">Date: {{ task.apointment.date }}</p>
                                       </div>
                                     </th>
                                     <td></td>
