@@ -40,7 +40,11 @@ const getTaskMechanicien = async (req, res) => {
   const { id } = req.params;
   console.log("Get task mechanicien with id:", id);
   try {
-    const myTasks = await Tasks.find({ assignedTo: id }).populate("apointment");
+    // const myTasks = await Tasks.find({ assignedTo: id }).populate("apointment");
+    const myTasks = await Tasks.find({ assignedTo: id }).populate({
+      path: "apointment",
+      populate: [{ path: "car" }, { path: "belongsTo" }],
+    });
     return res.status(httpStatus.OK).json(myTasks);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
