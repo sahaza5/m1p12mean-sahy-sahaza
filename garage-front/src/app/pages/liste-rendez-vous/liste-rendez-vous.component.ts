@@ -29,9 +29,9 @@ export class ListeRendezVousComponent {
 
     this.getUserRole();
 
-    // if(this.userRole === "CLIENT"){
-    //   this.getAppointments();
-    // }
+    if(this.userRole === "CLIENT"){
+      this.getAppointments();
+    }
 
     if (this.userId) {
       this.getAppointments();
