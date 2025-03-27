@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class ListeTacheComponent {
   tasks: any[] = [];
-  isDropdownOpen = false;
+  dropdownStates: { [taskId: string]: boolean } = {};
 
   constructor(private taskService: TaskService, private authService: AuthService) {}
 
@@ -21,8 +21,17 @@ export class ListeTacheComponent {
     this.getTasksByMechanic();
   }
 
-  toggleDropdown() {
-    this.isDropdownOpen = !this.isDropdownOpen;
+
+  toggleDropdown(taskId: string): void {
+    // Ferme tous les dropdowns sauf celui sur lequel on a cliqué
+    Object.keys(this.dropdownStates).forEach(id => {
+      if (id !== taskId) {
+        this.dropdownStates[id] = false;
+      }
+    });
+
+    // Bascule l'état du dropdown de la tâche sélectionnée
+    this.dropdownStates[taskId] = !this.dropdownStates[taskId];
   }
 
   // Récupère les tâches du mécanicien connecté

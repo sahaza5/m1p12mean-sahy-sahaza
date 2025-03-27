@@ -22,10 +22,10 @@
                                     <th >
                                       <div class="ticket-card cursor-pointer position-relative" *ngFor="let task of tasks">
                                         <div class="position-absolute" style="top: 10px; right: 10px;">
-                                          <button class="btn btn-link text-dark" type="button" (click)="toggleDropdown()">
+                                          <button class="btn btn-link text-dark" type="button" (click)="toggleDropdown(task._id)">
                                             <i class="fas fa-ellipsis-v"></i>
                                           </button>
-                                          <ul class="dropdown-menu" [class.show]="isDropdownOpen">
+                                          <ul class="dropdown-menu" [class.show]="dropdownStates[task._id]">
                                             <li><a class="dropdown-item" (click)="updateTaskStatus(task._id, 'PENDING')">En attente</a></li>
                                             <li><a class="dropdown-item" (click)="updateTaskStatus(task._id, 'IN PROGRESS')">En cours</a></li>
                                             <li><a class="dropdown-item" (click)="updateTaskStatus(task._id, 'DONE')">Términer</a></li>
