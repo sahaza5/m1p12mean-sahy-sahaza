@@ -68,11 +68,13 @@ export class RendezVousService {
     });
   }
 
-  getAllAppointmentClient(): Observable<any> {
+  getAllAppointmentClient(authService: AuthService): Observable<any> {
+    const token = authService.getToken();
+    console.log("token getallappointmet", token)
     return this.http.get<any[]>(`${this.apiUrl}/admin/`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
+        Authorization: `${token}`,
+      }
     });
   }
 }

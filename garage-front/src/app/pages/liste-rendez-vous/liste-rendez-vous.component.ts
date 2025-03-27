@@ -37,9 +37,9 @@ export class ListeRendezVousComponent {
       this.getAppointments();
     }
 
-    // if(this.userRole === "ADMIN"){
-    //   this.getAllAppointments();
-    // }
+    if(this.userRole === "ADMIN"){
+      this.getAllAppointments();
+    }
   }
 
   // Méthode pour récupérer l'ID de l'utilisateur connecté
@@ -76,7 +76,7 @@ export class ListeRendezVousComponent {
 
   // récuperer tout les rdv du clients pour l'admin
   getAllAppointments() {
-    this.rendezVousService.getAllAppointmentClient().subscribe(
+    this.rendezVousService.getAllAppointmentClient(this.authService).subscribe(
       (response) => {
         this.appointments = response;
         console.log('Liste des rendez-vous des clients :', this.appointments);
