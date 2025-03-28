@@ -1,49 +1,237 @@
-<div class='dashboard'>
-    <app-navbar-left></app-navbar-left>
-    <div class='dashboard-app' id="dashboard-app">
-        <div class='dashboard-content'>
-            <div class='container'>
-                <div class='card mt-1'>
-                    <div class='card-header'>
-                        <h1>Liste des taches</h1>
-                    </div>
-                    <div class='card-body'>
-                        <table class="table table-bordered">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th style="width: 25%;" scope="col">Créer</th>
-                                    <th style="width: 25%;" scope="col">En attente</th>
-                                    <th style="width: 25%;" scope="col">En cours</th>
-                                    <th style="width: 25%;" scope="col">Términer</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr style="vertical-align: middle;">
-                                    <th >
-                                      <div class="ticket-card cursor-pointer position-relative" *ngFor="let task of tasks">
-                                        <div class="position-absolute" style="top: 10px; right: 10px;">
-                                          <button class="btn btn-link text-dark" type="button" (click)="toggleDropdown(task._id)">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                          </button>
-                                          <ul class="dropdown-menu" [class.show]="dropdownStates[task._id]">
-                                            <li><a class="dropdown-item" (click)="updateTaskStatus(task._id, 'PENDING')">En attente</a></li>
-                                            <li><a class="dropdown-item" (click)="updateTaskStatus(task._id, 'IN PROGRESS')">En cours</a></li>
-                                            <li><a class="dropdown-item" (click)="updateTaskStatus(task._id, 'DONE')">Términer</a></li>
-                                          </ul>
-                                        </div>
-                                        <p><strong>Vehicule: {{ task.apointment.car?.name }}</strong></p>
-                                        <p class="text-muted">Description: {{ task.apointment.description }}</p>
-                                        <p class="text-muted">Client: {{ task.apointment.belongsTo?.name }}</p>
-                                        <p class="text-muted">Date: {{ task.apointment.date | date: "dd/MM/yyyy"}}</p>
-                                      </div>
-                                    </th>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <!-- <div class="d-flex justify-content-between align-items-center mt-3">
+<div class="dashboard">
+  <app-navbar-left></app-navbar-left>
+  <div class="dashboard-app" id="dashboard-app">
+    <div class="dashboard-content">
+      <div class="container">
+        <div class="card mt-1">
+          <div class="card-header">
+            <h1>Liste des taches</h1>
+          </div>
+          <div class="card-body">
+            <table class="table table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th style="width: 25%" scope="col">Créer</th>
+                  <th style="width: 25%" scope="col">En attente</th>
+                  <th style="width: 25%" scope="col">En cours</th>
+                  <th style="width: 25%" scope="col">Términer</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="vertical-align: middle">
+                  <th>
+                    <ng-container *ngFor="let task of tasks">
+                      <div
+                        class="ticket-card cursor-pointer position-relative"
+                        *ngIf="task.status === 'CREER'"
+                      >
+                        <div
+                          class="position-absolute"
+                          style="top: 10px; right: 10px"
+                        >
+                          <button
+                            class="btn btn-link text-dark"
+                            type="button"
+                            (click)="toggleDropdown(task._id)"
+                          >
+                            <i class="fas fa-ellipsis-v"></i>
+                          </button>
+                          <ul
+                            class="dropdown-menu"
+                            [class.show]="dropdownStates[task._id]"
+                          >
+                            <li>
+                              <a
+                                class="dropdown-item"
+                                (click)="
+                                  updateTaskStatus(task._id, 'EN ATTENTE')
+                                "
+                                >En attente</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                class="dropdown-item"
+                                (click)="updateTaskStatus(task._id, 'EN COURS')"
+                                >En cours</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                class="dropdown-item"
+                                (click)="updateTaskStatus(task._id, 'TERMINER')"
+                                >Términer</a
+                              >
+                            </li>
+                          </ul>
+                        </div>
+                        <p>
+                          <strong
+                            >Vehicule: {{ task.apointment.car?.name }}</strong
+                          >
+                        </p>
+                        <p class="text-muted">
+                          Description: {{ task.apointment.description }}
+                        </p>
+                        <p class="text-muted">
+                          Client: {{ task.apointment.belongsTo?.name }}
+                        </p>
+                        <p class="text-muted">
+                          Date: {{ task.apointment.date | date: "dd/MM/yyyy" }}
+                        </p>
+                      </div>
+                    </ng-container>
+                  </th>
+                  <td>
+                    <ng-container *ngFor="let task of tasks">
+                      <div
+                        class="ticket-card cursor-pointer position-relative"
+                        *ngIf="task.status === 'EN ATTENTE'"
+                      >
+                        <div
+                          class="position-absolute"
+                          style="top: 10px; right: 10px"
+                        >
+                          <button
+                            class="btn btn-link text-dark"
+                            type="button"
+                            (click)="toggleDropdown(task._id)"
+                          >
+                            <i class="fas fa-ellipsis-v"></i>
+                          </button>
+                          <ul
+                            class="dropdown-menu"
+                            [class.show]="dropdownStates[task._id]"
+                          >
+                            <li>
+                              <a
+                                class="dropdown-item"
+                                (click)="updateTaskStatus(task._id, 'EN COURS')"
+                                >En cours</a
+                              >
+                            </li>
+                            <li>
+                              <a
+                                class="dropdown-item"
+                                (click)="updateTaskStatus(task._id, 'TERMINER')"
+                                >Términer</a
+                              >
+                            </li>
+                          </ul>
+                        </div>
+                        <p>
+                          <strong
+                            >Vehicule: {{ task.apointment.car?.name }}</strong
+                          >
+                        </p>
+                        <p class="text-muted">
+                          Description: {{ task.apointment.description }}
+                        </p>
+                        <p class="text-muted">
+                          Client: {{ task.apointment.belongsTo?.name }}
+                        </p>
+                        <p class="text-muted">
+                          Date: {{ task.apointment.date | date: "dd/MM/yyyy" }}
+                        </p>
+                      </div>
+                    </ng-container>
+                  </td>
+                  <td>
+                    <ng-container *ngFor="let task of tasks">
+                      <div
+                        class="ticket-card cursor-pointer position-relative"
+                        *ngIf="task.status === 'EN COURS'"
+                      >
+                        <div
+                          class="position-absolute"
+                          style="top: 10px; right: 10px"
+                        >
+                          <button
+                            class="btn btn-link text-dark"
+                            type="button"
+                            (click)="toggleDropdown(task._id)"
+                          >
+                            <i class="fas fa-ellipsis-v"></i>
+                          </button>
+                          <ul
+                            class="dropdown-menu"
+                            [class.show]="dropdownStates[task._id]"
+                          >
+                            <li>
+                              <a
+                                class="dropdown-item"
+                                (click)="
+                                  updateTaskStatus(task._id, 'EN ATTENTE')
+                                "
+                                >En attente</a
+                              >
+                            </li>
+
+                            <li>
+                              <a
+                                class="dropdown-item"
+                                (click)="updateTaskStatus(task._id, 'TERMINER')"
+                                >Términer</a
+                              >
+                            </li>
+                          </ul>
+                        </div>
+                        <p>
+                          <strong
+                            >Vehicule: {{ task.apointment.car?.name }}</strong
+                          >
+                        </p>
+                        <p class="text-muted">
+                          Description: {{ task.apointment.description }}
+                        </p>
+                        <p class="text-muted">
+                          Client: {{ task.apointment.belongsTo?.name }}
+                        </p>
+                        <p class="text-muted">
+                          Date: {{ task.apointment.date | date: "dd/MM/yyyy" }}
+                        </p>
+                      </div>
+                    </ng-container>
+                  </td>
+                  <td>
+                    <ng-container *ngFor="let task of tasks">
+                      <div
+                        class="ticket-card cursor-pointer position-relative"
+                        *ngIf="task.status === 'TERMINER'"
+                      >
+                        <div
+                          class="position-absolute"
+                          style="top: 10px; right: 10px"
+                        >
+                          <button
+                            class="btn btn-link text-dark"
+                            type="button"
+                            (click)="toggleDropdown(task._id)"
+                          >
+                            <i class="fas fa-ellipsis-v"></i>
+                          </button>
+                        </div>
+                        <p>
+                          <strong
+                            >Vehicule: {{ task.apointment.car?.name }}</strong
+                          >
+                        </p>
+                        <p class="text-muted">
+                          Description: {{ task.apointment.description }}
+                        </p>
+                        <p class="text-muted">
+                          Client: {{ task.apointment.belongsTo?.name }}
+                        </p>
+                        <p class="text-muted">
+                          Date: {{ task.apointment.date | date: "dd/MM/yyyy" }}
+                        </p>
+                      </div>
+                    </ng-container>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- <div class="d-flex justify-content-between align-items-center mt-3">
                             <span>Affichage de {{ getStartIndex() + 1 }} - {{ getEndIndex() }} sur {{ items.length }}</span>
                             <nav>
                               <ul class="pagination">
@@ -63,9 +251,9 @@
                               </ul>
                             </nav>
                           </div> -->
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
