@@ -17,8 +17,12 @@ export class ListeRendezVousComponent {
   userId: string | null = '';
   userRole: string | null = ''; // Stocke le rôle de l'utilisateur
   appointments: any[] = [];
+  slicedAppointments: any[] = [];
+  pages: any[] = [];
+  currentPage = 1;
+  totalPages: number = 0;
   selectedAppointment: any = { _id: '', date: '', description: '' }; // Rendez-vous sélectionné pour modification
-  mechanics: any[] = [];  // Stocke les mécaniciens récupérés
+  mechanics: any[] = []; // Stocke les mécaniciens récupérés
 
   // update
   selectedMechanicId: string = ''; // Stocke l'ID du mécanicien sélectionné
@@ -36,7 +40,7 @@ export class ListeRendezVousComponent {
 
     this.getUserRole();
 
-    if(this.userRole === "CLIENT"){
+    if (this.userRole === 'CLIENT') {
       this.getAppointments();
     }
 
@@ -44,7 +48,7 @@ export class ListeRendezVousComponent {
       this.getAppointments();
     }
 
-    if(this.userRole === "ADMIN"){
+    if (this.userRole === 'ADMIN') {
       this.getAllAppointments();
     }
 
@@ -61,6 +65,17 @@ export class ListeRendezVousComponent {
   getUserRole(): void {
     this.userRole = this.authService.getUserRole(); // Implémente cette méthode dans `AuthService`
     console.log('User Role récupéré : ', this.userRole);
+  }
+
+  //When we click to the page or next or previous button
+  goToPage(page: any) {
+    if (page > 0 && page <= this.pages.length) {
+      this.currentPage = page;
+      this.slicedAppointments = this.appointments.slice(
+        (page - 1) * 2,
+        2 * page,
+      );
+    }
   }
 
   // Récupérer les rendez-vous du client connecté
@@ -88,6 +103,23 @@ export class ListeRendezVousComponent {
     this.rendezVousService.getAllAppointmentClient(this.authService).subscribe(
       (response) => {
         this.appointments = response;
+        this.totalPages = Math.ceil(this.appointments.length / 2);
+        console.log('Page number is:', this.totalPages);
+        this.pages = [];
+
+        //INITIALIZE THE NUMBER OF PAGES
+        for (let i = 1; i <= this.totalPages; i++) {
+          this.pages.push(i);
+        }
+
+        //SLICE IT TO THE DEMANDED NUMBER OF ITEMS FOR EACH PAGE(WE DEFINED IT TO 2 ITEMS EACH PAGE)
+        this.slicedAppointments = this.appointments.slice(
+          (this.currentPage - 1) * 2,
+          2 * this.currentPage,
+        );
+        // this.slicedAppointments = this.appointments;
+        console.log('Pages', this.pages);
+        console.log('Slices apt:', this.slicedAppointments);
         console.log('Liste des rendez-vous des clients :', this.appointments);
       },
       (error) => {
@@ -155,50 +187,58 @@ export class ListeRendezVousComponent {
   // fonction load all mechanic in select modal
   loadMechanics() {
     this.usersService.getAllMechanics(this.authService).subscribe(
-        (response) => {
-            this.mechanics = response;
-            console.log("Mécaniciens récupérés :", this.mechanics);
+      (response) => {
+        this.mechanics = response;
+        console.log('Mécaniciens récupérés :', this.mechanics);
 
-             // Filtrer uniquement les mécaniciens avec le statut "ENABLE"
-            this.mechanics = response.filter((mechanic: any) => mechanic.status === 'ENABLE');
+        // Filtrer uniquement les mécaniciens avec le statut "ENABLE"
+        this.mechanics = response.filter(
+          (mechanic: any) => mechanic.status === 'ENABLE',
+        );
 
-            if (this.mechanics.length > 0) {
-              this.selectedMechanicId = this.mechanics[0]._id; // ✅ Sélection du premier mécanicien par défaut
-            }
-        },
-        (error) => {
-            console.error("Erreur lors du chargement des mécaniciens :", error);
+        if (this.mechanics.length > 0) {
+          this.selectedMechanicId = this.mechanics[0]._id; // ✅ Sélection du premier mécanicien par défaut
         }
+      },
+      (error) => {
+        console.error('Erreur lors du chargement des mécaniciens :', error);
+      },
     );
   }
 
   // Fonction pour ouvrir la modal et définir l'ID du rendez-vous sélectionné
   openMechanicModal(appointmentId: string) {
-    console.log("appointmentId", appointmentId)
+    console.log('appointmentId', appointmentId);
     this.selectedAppointmentId = appointmentId;
-    console.log("selectedAppointmentId", this.selectedAppointmentId)
+    console.log('selectedAppointmentId', this.selectedAppointmentId);
   }
 
   // Fonction pour assigner un mécanicien à un rendez-vous
   assignMechanic() {
     if (!this.selectedMechanicId || !this.selectedAppointmentId) {
-        alert("Veuillez sélectionner un mécanicien.");
-        return;
+      alert('Veuillez sélectionner un mécanicien.');
+      return;
     }
 
     // const payload = {
     //     mechanicId: this.selectedMechanicId,
     // };
 
-    this.rendezVousService.assignMechanicToAppointment(this.selectedAppointmentId, this.selectedMechanicId, this.authService).subscribe(
+    this.rendezVousService
+      .assignMechanicToAppointment(
+        this.selectedAppointmentId,
+        this.selectedMechanicId,
+        this.authService,
+      )
+      .subscribe(
         (response) => {
-            console.log("Mécanicien assigné avec succès :", response);
-            alert("Mécanicien assigné !");
+          console.log('Mécanicien assigné avec succès :', response);
+          alert('Mécanicien assigné !');
         },
         (error) => {
-            console.error("Erreur lors de l'assignation :", error);
-            alert("Erreur lors de l'assignation du mécanicien.");
-        }
-    );
+          console.error("Erreur lors de l'assignation :", error);
+          alert("Erreur lors de l'assignation du mécanicien.");
+        },
+      );
   }
 }
