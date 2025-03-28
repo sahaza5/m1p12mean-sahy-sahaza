@@ -75,6 +75,7 @@
                       data-bs-toggle="modal"
                       data-bs-target="#ajoutMecanicien"
                       (click)="openMechanicModal(appointment._id)"
+                      [disabled]="appointment?.status === 'CANCELED' || appointment?.status === 'DONE'"
                       ><!-- vao novaina -->
                       <i class="fas fa-check"></i>
                     </button>

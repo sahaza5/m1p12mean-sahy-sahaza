@@ -17,11 +17,19 @@
       ><i class="fas fa-tachometer-alt"></i>
       Mes vehicules
     </a>
-    <a
-      href="/liste-rendez-vous"
-      *ngIf="userData.userType == 'CLIENT'"
-      class="dashboard-nav-item"
-      ><i class="fas fa-file-upload"></i> Mes rendez-vous
+
+    <a href="/liste-rendez-vous"
+      *ngIf="userData.userType==='CLIENT' || userData.userType === 'ADMIN'"
+      class="dashboard-nav-item">
+      <i class="fas fa-file-upload"></i>
+      Mes rendez-vous
+    </a>
+
+    <a href="/liste-mecanicien"
+      *ngIf="userData.userType === 'ADMIN'"
+      class="dashboard-nav-item">
+      <i class="fas fa-file-upload"></i>
+      Tout les employés
     </a>
 
     <a
@@ -30,6 +38,22 @@
       class="dashboard-nav-item"
       ><i class="fas fa-file-upload"></i> Liste client
     </a>
+
+    <a href="/liste-tache" class="dashboard-nav-item"  *ngIf="userData.userType == 'EMPLOYEE'"
+      ><i class="fas fa-user"></i>
+      Mes tâches
+    </a>
+
+    <a href="/voir-profile" class="dashboard-nav-item"
+      ><i class="fas fa-user"></i>
+      Profile
+    </a>
+
+
+
+
+
+
     <!-- <div class='dashboard-nav-dropdown'><a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
 =======
     <header><a (click)="toggleMenu()" class="menu-toggle cursor-pointer"><i class="fas fa-bars"></i></a><a href="#" class="brand-logo">
@@ -71,11 +95,11 @@
             </div>
         </div> -->
 
-    <a href="#" class="dashboard-nav-item"
-      ><i class="fas fa-cogs"></i> Settings </a
-    ><a href="#" class="dashboard-nav-item"
-      ><i class="fas fa-user"></i> Profile
-    </a>
+    <!-- <a href="#" class="dashboard-nav-item"
+      ><i class="fas fa-cogs"></i>
+      Settings
+    </a> -->
+
     <div
       class="nav-item-divider"
       style="position: fixed; bottom: 40px; width: 280px"
@@ -100,17 +124,4 @@
       ><i class="fas fa-bars"></i
     ></a>
   </header>
-  <!-- <div class='dashboard-content'>
-            <div class='container'>
-                <div class='card'>
-                    <div class='card-header'>
-                        <h1>Welcome back Jim</h1>
-                    </div>
-                    <div class='card-body'>
-                        <p>Your account type is: Administrator</p>
-                    </div>
-                </div>
-            </div>
-        </div> -->
 </div>
-<!-- </div> -->
