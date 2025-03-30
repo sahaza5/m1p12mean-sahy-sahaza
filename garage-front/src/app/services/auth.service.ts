@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
 import jwtDecode from 'jwt-decode';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,10 @@ export class AuthService {
   //private apiUrl = 'http://localhost:3000/api/users';
   private apiUrl = `${environment.apiUrl}/users`;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {}
 
   // Récupérer le token du localStorage
   getToken(): string | null {
@@ -44,12 +48,10 @@ export class AuthService {
     if (!token) return null;
 
     try {
-
       const myToken = token.split(' ');
 
       const decodedToken: any = jwtDecode(myToken[1]);
       return decodedToken.userType || null; // Assurez-vous que le backend envoie bien le rôle dans le token
-
     } catch (error) {
       console.error('Erreur lors du décodage du token:', error);
       return null;
@@ -67,10 +69,11 @@ export class AuthService {
   }
 
   // Déconnexion de l'utilisateur
-  // logout() {
-  //   localStorage.removeItem('token');
-  //   this.router.navigate(['/login']);
-  // }
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    this.router.navigate(['']);
+  }
 }
 
 // function jwtDecode(token: string): any {

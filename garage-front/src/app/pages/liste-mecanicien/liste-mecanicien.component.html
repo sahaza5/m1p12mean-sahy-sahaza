@@ -1,39 +1,53 @@
-<div class='dashboard'>
+<div class="dashboard">
   <app-navbar-left></app-navbar-left>
-  <div class='dashboard-app' id="dashboard-app">
-    <div class='dashboard-content'>
-      <div class='container'>
-        <div class='card mt-1'>
-          <div class='card-header'>
-            <h1>Liste des mécaniciens</h1>
+  <div class="dashboard-app" id="dashboard-app">
+    <div class="dashboard-content">
+      <div class="container">
+        <div class="card mt-1">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
+            <h1>Liste des mecanicien</h1>
+            <input
+              type="text"
+              (input)="filterMecanicien()"
+              [(ngModel)]="searchItem"
+              class="form-control w-25"
+              placeholder="Rechercher nom/prenom/pseudo..."
+            />
           </div>
-          <div class='card-body'>
+          <div class="card-body">
             <table class="table table-bordered table-hover">
               <thead class="thead-dark">
-                  <tr>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Prénom</th>
-                    <th scope="col">Pseudo</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Téléphone</th>
-                    <th scope="col">Action</th>
-                  </tr>
+                <tr>
+                  <th scope="col">Nom</th>
+                  <th scope="col">Prénom</th>
+                  <th scope="col">Pseudo</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Téléphone</th>
+                  <th scope="col">Action</th>
+                </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let mecanicien of mecaniciens" style="vertical-align: middle;">
-                  <th scope="row">{{mecanicien.name}}</th>
-                  <td>{{mecanicien.surname}}</td>
-                  <td>{{mecanicien.txt}}</td>
-                  <td>{{mecanicien.email}}</td>
-                  <td>{{mecanicien.phone}}</td><td style="width: 200px;text-align: center;">
-                  <button
-                    class="btn btn-danger btn-sm me-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#desactiverCompte"
-                    (click)="desactiverMecanicien(mecanicien)"
-                    [disabled]="mecanicien.status === 'Désactivé'">
-                    <i class="fas fa-user-slash"></i> Désactiver compte
-                  </button>
+                <tr
+                  *ngFor="let mecanicien of slicedMecaniciens"
+                  style="vertical-align: middle"
+                >
+                  <th scope="row">{{ mecanicien.name }}</th>
+                  <td>{{ mecanicien.surname }}</td>
+                  <td>{{ mecanicien.txt }}</td>
+                  <td>{{ mecanicien.email }}</td>
+                  <td>{{ mecanicien.phone }}</td>
+                  <td style="width: 200px; text-align: center">
+                    <button
+                      class="btn btn-danger btn-sm me-2"
+                      data-bs-toggle="modal"
+                      data-bs-target="#desactiverCompte"
+                      (click)="desactiverMecanicien(mecanicien)"
+                      [disabled]="mecanicien.status === 'Désactivé'"
+                    >
+                      <i class="fas fa-user-slash"></i> Désactiver compte
+                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -44,18 +58,37 @@
               <nav>
                 <ul class="pagination cursor-pointer">
                   <li class="page-item">
-                    <a class="page-link" aria-label="Précédent">
+                    <a
+                      class="page-link"
+                      (click)="goToPage(currentPage - 1)"
+                      aria-label="Précédent"
+                    >
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
-                  <li class="page-item">
+                  <ng-container *ngFor="let page of pages">
+                    <li
+                      class="page-item"
+                      [ngClass]="{ active: page === currentPage }"
+                    >
+                      <a class="page-link" (click)="goToPage(page)">{{
+                        page
+                      }}</a>
+                    </li>
+                  </ng-container>
+
+                  <!-- <li class="page-item">
                     <a class="page-link">1</a>
                   </li>
                   <li class="page-item">
-                      <a class="page-link">2</a>
-                  </li>
+                    <a class="page-link">2</a>
+                  </li> -->
                   <li class="page-item">
-                    <a class="page-link" aria-label="Suivant">
+                    <a
+                      class="page-link"
+                      (click)="goToPage(currentPage + 1)"
+                      aria-label="Suivant"
+                    >
                       <span aria-hidden="true">&raquo;</span>
                     </a>
                   </li>

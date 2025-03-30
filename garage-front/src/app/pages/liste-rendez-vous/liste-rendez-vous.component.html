@@ -4,14 +4,35 @@
     <div class="dashboard-content">
       <div class="container">
         <div class="card mt-1">
-          <div class="card-header">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
             <h1>Liste des rendez-vous</h1>
+            <input
+              type="text"
+              (input)="filterAppointments()"
+              [(ngModel)]="searchItem"
+              class="form-control w-25"
+              [placeholder]="placeholderText"
+            />
           </div>
           <div class="card-body">
             <table class="table table-bordered table-hover">
               <thead class="thead-dark">
                 <tr>
                   <th scope="col">Véhicule</th>
+                  <th
+                    *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'"
+                    scope="col"
+                  >
+                    Client
+                  </th>
+                  <th
+                    *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'"
+                    scope="col"
+                  >
+                    Phone
+                  </th>
                   <th scope="col">Date</th>
                   <th scope="col">Description</th>
                   <th scope="col">Mecanicien</th>
@@ -25,6 +46,23 @@
                   style="vertical-align: middle"
                 >
                   <th scope="row">{{ appointment.car?.name }}</th>
+                  <td
+                    scope="row"
+                    *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'"
+                    scope="col"
+                  >
+                    {{
+                      appointment.belongsTo?.name || appointment.belongsTo?.txt
+                    }}
+                  </td>
+                  <td
+                    scope="row"
+                    *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'"
+                    scope="col"
+                  >
+                    {{ appointment.belongsTo?.phone || "--//--" }}
+                  </td>
+
                   <td>{{ appointment.date | date: "dd MMMM yyyy" }}</td>
                   <td>{{ appointment.description }}</td>
                   <!-- <td>{{ appointment.mecanicienName || 'Non assigné' }}</td> -->
@@ -40,11 +78,10 @@
                       style="width: 100%"
                       class="badge p-2"
                       [ngClass]="{
-                        'bg-success': appointment.status === 'PENDING',
-                        'bg-warning': appointment.status === 'IN PROGRESS',
+                        'bg-warning': appointment.status === 'PENDING',
                         'bg-danger': appointment.status === 'CANCELED',
-                        'bg-primary': appointment.status === 'DONE',
-                        'bg-info': appointment.status === 'APPROVED',
+                        'bg-success': appointment.status === 'DONE',
+                        'bg-primary': appointment.status === 'APPROVED',
                       }"
                     >
                       {{ appointment?.status }}

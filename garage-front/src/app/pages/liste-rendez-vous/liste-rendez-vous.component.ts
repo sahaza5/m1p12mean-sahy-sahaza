@@ -14,6 +14,9 @@ import { UsersService } from '../../services/users.service';
   styleUrl: './liste-rendez-vous.component.css',
 })
 export class ListeRendezVousComponent {
+  searchItem = '';
+  placeholderText = '';
+  filteredAppointments: any[] = [];
   userId: string | null = '';
   userRole: string | null = ''; // Stocke le rôle de l'utilisateur
   appointments: any[] = [];
@@ -37,28 +40,68 @@ export class ListeRendezVousComponent {
 
   ngOnInit(): void {
     this.getUserId();
-
     this.getUserRole();
+    this.setPlaceholder();
 
-    if (this.userRole === 'CLIENT') {
+    if (this.userRole === 'CLIENT' && this.userId) {
       this.getAppointments();
     }
 
-    if (this.userId) {
-      this.getAppointments();
-    }
+    // if (this.userId) {
+    //   this.getAppointments();
+    // }
 
     if (this.userRole === 'ADMIN') {
       this.getAllAppointments();
+      this.loadMechanics(); // Charger les mécaniciens au démarrage
     }
-
-    this.loadMechanics(); // Charger les mécaniciens au démarrage
   }
 
   // Méthode pour récupérer l'ID de l'utilisateur connecté
   getUserId(): void {
     this.userId = this.authService.getUserId(); // Récupère l'ID de l'utilisateur à partir du service AuthService
     console.log('User ID récupéré : ', this.userId); // Affiche l'ID dans la console pour vérification
+  }
+
+  //FILTER SEARCHING
+  filterAppointments(): void {
+    // if (this.searchItem.length > 0) {
+    console.log('Search:', this.searchItem);
+    this.filteredAppointments = this.appointments.filter((appointment) => {
+      return (
+        appointment.belongsTo?.name
+          .toLowerCase()
+          .includes(this.searchItem.toLowerCase()) ||
+        appointment.belongsTo?.txt
+          .toLowerCase()
+          .includes(this.searchItem.toLowerCase()) ||
+        appointment.car?.name
+          .toLowerCase()
+          .includes(this.searchItem.toLowerCase())
+      );
+    });
+    console.log('filter:', this.filteredAppointments);
+    this.totalPages = Math.ceil(this.filteredAppointments.length / 2);
+    this.pages = [];
+    for (let i = 1; i <= this.totalPages; i++) {
+      this.pages.push(i);
+    }
+    this.slicedAppointments = this.filteredAppointments.slice(
+      (this.currentPage - 1) * 2,
+      2 * this.currentPage,
+    );
+    // }
+  }
+
+  // Set the placeholder text based on the user role
+  setPlaceholder(): void {
+    if (this.userRole === 'CLIENT') {
+      this.placeholderText = 'Rechercher vehicule name...';
+    } else if (this.userRole === 'ADMIN') {
+      this.placeholderText = 'Rechercher nom du client/vehicle...';
+    } else {
+      this.placeholderText = 'Rechercher...';
+    }
   }
 
   // Récupérer le rôle de l'utilisateur connecté
@@ -85,9 +128,24 @@ export class ListeRendezVousComponent {
       .subscribe(
         (response) => {
           this.appointments = response;
-          console.log('Rendez-vous récupérés :', this.appointments);
+          this.totalPages = Math.ceil(this.appointments.length / 2);
+          console.log('Page number is:', this.totalPages);
+          this.pages = [];
 
-          this.route.navigate(['/liste-rendez-vous']);
+          //INITIALIZE THE NUMBER OF PAGES
+          for (let i = 1; i <= this.totalPages; i++) {
+            this.pages.push(i);
+          }
+
+          //SLICE IT TO THE DEMANDED NUMBER OF ITEMS FOR EACH PAGE(WE DEFINED IT TO 2 ITEMS EACH PAGE)
+          this.slicedAppointments = this.appointments.slice(
+            (this.currentPage - 1) * 2,
+            2 * this.currentPage,
+          );
+          console.log('Rendez-vous récupérés :', this.appointments);
+          this.filterAppointments(); // Apply the filter after fetching data
+
+          // this.route.navigate(['/liste-rendez-vous']);
         },
         (error) => {
           console.error(
@@ -118,6 +176,7 @@ export class ListeRendezVousComponent {
           2 * this.currentPage,
         );
         // this.slicedAppointments = this.appointments;
+        this.filterAppointments(); // Apply the filter after fetching data
         console.log('Pages', this.pages);
         console.log('Slices apt:', this.slicedAppointments);
         console.log('Liste des rendez-vous des clients :', this.appointments);

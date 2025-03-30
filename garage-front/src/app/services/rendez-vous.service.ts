@@ -63,18 +63,27 @@ export class RendezVousService {
   }
 
   cancelAppointment(appointmentId: string) {
-    return this.http.patch(`${this.apiUrl}/cancelApointment/${appointmentId}`, {
-      status: 'CANCELED',
-    });
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `${localStorage.getItem('token')}`,
+    );
+
+    return this.http.patch(
+      `${this.apiUrl}/cancelApointment/${appointmentId}`,
+      {
+        status: 'CANCELED',
+      },
+      { headers },
+    );
   }
 
   getAllAppointmentClient(authService: AuthService): Observable<any> {
     const token = authService.getToken();
-    console.log("token getallappointmet", token)
+    console.log('token getallappointmet', token);
     return this.http.get<any[]>(`${this.apiUrl}/admin/`, {
       headers: {
         Authorization: `${token}`,
-      }
+      },
     });
   }
 
@@ -84,15 +93,21 @@ export class RendezVousService {
   //   });
   // }
 
-  assignMechanicToAppointment(appointmentId: string,  mechanicId: string, authService: AuthService,): Observable<any> {
+  assignMechanicToAppointment(
+    appointmentId: string,
+    mechanicId: string,
+    authService: AuthService,
+  ): Observable<any> {
     const token = authService.getToken();
-    console.log("tpken assignMechanicAppointment", token)
-    return this.http.patch<any>(`${this.apiUrl}/addMechanicienApointment/${appointmentId}`,
+    console.log('tpken assignMechanicAppointment', token);
+    return this.http.patch<any>(
+      `${this.apiUrl}/addMechanicienApointment/${appointmentId}`,
       { mechanicien: mechanicId },
       {
-      headers: {
-        Authorization: `${token}`,
-      }
-    });
+        headers: {
+          Authorization: `${token}`,
+        },
+      },
+    );
   }
 }

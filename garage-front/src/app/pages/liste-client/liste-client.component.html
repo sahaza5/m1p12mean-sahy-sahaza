@@ -1,60 +1,91 @@
-<div class='dashboard'>
-    <app-navbar-left></app-navbar-left>
-    <div class='dashboard-app' id="dashboard-app">
-      <div class='dashboard-content'>
-        <div class='container'>
-          <div class='card mt-1'>
-            <div class='card-header'>
-              <h1>Liste des clients</h1>
-            </div>
-            <div class='card-body'>
-              <table class="table table-bordered table-hover">
-                <thead class="thead-dark">
-                    <tr>
-                      <th scope="col">Nom</th>
-                      <th scope="col">Prénom</th>
-                      <th scope="col">Pseudo</th>
-                      <th scope="col">Email</th>
-                      <th scope="col">Téléphone</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let client of clients" style="vertical-align: middle;">
-                    <th scope="row">{{client.name}}</th>
-                    <td>{{client.surname}}</td>
-                    <td>{{client.txt}}</td>
-                    <td>{{client.email}}</td>
-                    <td>{{client.phone}}</td>
-                  </tr>
-                </tbody>
-              </table>
+<div class="dashboard">
+  <app-navbar-left></app-navbar-left>
+  <div class="dashboard-app" id="dashboard-app">
+    <div class="dashboard-content">
+      <div class="container">
+        <div class="card mt-1">
+          <div
+            class="card-header d-flex justify-content-between align-items-center"
+          >
+            <h1>Liste des clients</h1>
+            <input
+              type="text"
+              (input)="filterClient()"
+              [(ngModel)]="searchItem"
+              class="form-control w-25"
+              placeholder="Rechercher nom/prenom/pseudo..."
+            />
+          </div>
+          <div class="card-body">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Nom</th>
+                  <th scope="col">Prénom</th>
+                  <th scope="col">Pseudo</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Téléphone</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let client of slicedClients"
+                  style="vertical-align: middle"
+                >
+                  <th scope="row">{{ client.name }}</th>
+                  <td>{{ client.surname }}</td>
+                  <td>{{ client.txt }}</td>
+                  <td>{{ client.email }}</td>
+                  <td>{{ client.phone }}</td>
+                </tr>
+              </tbody>
+            </table>
 
-              <div class="d-flex justify-content-between align-items-center mt-3">
-                <!-- <span>Affichage de 5 - 5 sur 5</span> -->
-                <nav>
-                  <ul class="pagination cursor-pointer">
-                    <li class="page-item">
-                      <a class="page-link" aria-label="Précédent">
-                        <span aria-hidden="true">&laquo;</span>
-                      </a>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <!-- <span>Affichage de 5 - 5 sur 5</span> -->
+              <nav>
+                <ul class="pagination cursor-pointer">
+                  <li class="page-item">
+                    <a
+                      class="page-link"
+                      (click)="goToPage(currentPage - 1)"
+                      aria-label="Précédent"
+                    >
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <ng-container *ngFor="let page of pages">
+                    <li
+                      class="page-item"
+                      [ngClass]="{ active: page === currentPage }"
+                    >
+                      <a class="page-link" (click)="goToPage(page)">{{
+                        page
+                      }}</a>
                     </li>
-                    <li class="page-item">
+                  </ng-container>
+
+                  <!-- <li class="page-item">
                       <a class="page-link">1</a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link">2</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link" aria-label="Suivant">
-                        <span aria-hidden="true">&raquo;</span>
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
+                      <a class="page-link">2</a>
+                    </li> -->
+                  <li class="page-item">
+                    <a
+                      class="page-link"
+                      (click)="goToPage(currentPage + 1)"
+                      aria-label="Suivant"
+                    >
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>

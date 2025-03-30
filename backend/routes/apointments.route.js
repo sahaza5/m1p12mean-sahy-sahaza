@@ -51,7 +51,7 @@ routes.get("/:id", authentication, getApointmentById);
 //-------------CLIENT BOOKING APOINTMENT--------//
 routes.post(
   "/bookApointment/:userId/:vehicleId",
-  // authentication,
+  authentication,
   bookApointment
 );
 // routes.post("/bookApointment/:userId/:vehicleId", bookApointment);
@@ -60,22 +60,22 @@ routes.post(
 routes.patch(
   "/setApointment/:id",
   authentication,
-  // authorizationAdmin,
+  authorizationAdmin,
   updateApointment
 );
 // routes.patch("/setApointment/:id", updateApointment);
 
 //------------SET THE APOINTMENT TO A MECHANICIEN--------//
-routes.patch("/addMechanicienApointment/:id", addMechanicienToApointment);
-// routes.patch(
-//   "/addMechanicienApointment/:id",
-//   authentication,
-//   authorizationAdmin,
-//   addMechanicienToApointment
-// );
+// routes.patch("/addMechanicienApointment/:id", addMechanicienToApointment);
+routes.patch(
+  "/addMechanicienApointment/:id",
+  authentication,
+  authorizationAdmin,
+  addMechanicienToApointment
+);
 
 //---------CANCEL APOINTMENT------//
-// routes.patch("/cancelApointment/:id", authentication, cancelApointment);
-routes.patch("/cancelApointment/:id", cancelApointment);
+routes.patch("/cancelApointment/:id", authentication, cancelApointment);
+// routes.patch("/cancelApointment/:id", cancelApointment);
 
 module.exports = routes;

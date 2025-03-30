@@ -1,6 +1,5 @@
 <!-- <div class='dashboard'> -->
 <div class="dashboard-nav" id="dashboard-nav">
-
   <header>
     <a (click)="toggleMenu()" class="menu-toggle cursor-pointer"
       ><i class="fas fa-bars"></i></a
@@ -18,16 +17,20 @@
       Mes vehicules
     </a>
 
-    <a href="/liste-rendez-vous"
-      *ngIf="userData.userType==='CLIENT' || userData.userType === 'ADMIN'"
-      class="dashboard-nav-item">
+    <a
+      href="/liste-rendez-vous"
+      *ngIf="userData.userType === 'CLIENT' || userData.userType === 'ADMIN'"
+      class="dashboard-nav-item"
+    >
       <i class="fas fa-file-upload"></i>
       Mes rendez-vous
     </a>
 
-    <a href="/liste-mecanicien"
+    <a
+      href="/liste-mecanicien"
       *ngIf="userData.userType === 'ADMIN'"
-      class="dashboard-nav-item">
+      class="dashboard-nav-item"
+    >
       <i class="fas fa-file-upload"></i>
       Tout les employés
     </a>
@@ -39,7 +42,10 @@
       ><i class="fas fa-file-upload"></i> Liste client
     </a>
 
-    <a href="/liste-tache" class="dashboard-nav-item"  *ngIf="userData.userType == 'EMPLOYEE'"
+    <a
+      href="/liste-tache"
+      class="dashboard-nav-item"
+      *ngIf="userData.userType == 'EMPLOYEE'"
       ><i class="fas fa-user"></i>
       Mes tâches
     </a>
@@ -48,11 +54,6 @@
       ><i class="fas fa-user"></i>
       Profile
     </a>
-
-
-
-
-
 
     <!-- <div class='dashboard-nav-dropdown'><a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
 =======
@@ -105,18 +106,17 @@
       style="position: fixed; bottom: 40px; width: 280px"
     ></div>
     <a
-      href="#"
+      (click)="logOut()"
       class="dashboard-nav-item"
       style="position: fixed; bottom: 0; width: 280px"
       ><i class="fas fa-sign-out-alt"></i> Logout
     </a>
   </nav>
-        <!-- <a href="#" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings </a>
+  <!-- <a href="#" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings </a>
         <a href="/voir-profile" class="dashboard-nav-item"><i class="fas fa-user"></i> Profile </a>
         <div class="nav-item-divider" style="position: fixed; bottom: 40px; width: 280px;"></div>
         <a href="#" class="dashboard-nav-item" style="position: fixed; bottom: 0; width: 280px;"><i class="fas fa-sign-out-alt"></i> Logout </a>
     </nav> -->
-
 </div>
 <div class="dashboard-app">
   <header class="dashboard-toolbar" id="dashboard-toolbar">

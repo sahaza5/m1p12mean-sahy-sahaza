@@ -4,20 +4,22 @@ import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TaskService {
-
   private apiUrl = 'http://localhost:3000/api/tasks';
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+  ) {}
 
   // Récupérer toutes les tâches d'un mécanicien
   getTasks(authService: AuthService, mechanicId: string): Observable<any> {
     const token = authService.getToken();
-    console.log("token getTasks", token)
+    console.log('token getTasks', token);
     return this.http.get<any[]>(`${this.apiUrl}/mechanicien/${mechanicId}`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `${token}` },
     });
   }
 
@@ -27,7 +29,7 @@ export class TaskService {
     return this.http.patch<any>(
       `${this.apiUrl}/update/${taskId}`,
       { status: newStatus },
-      { headers: { Authorization: `Bearer ${token}` } }
+      { headers: { Authorization: `${token}` } },
     );
   }
 }

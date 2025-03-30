@@ -9,22 +9,24 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-liste-tache',
   imports: [NavbarLeftComponent, CommonModule],
   templateUrl: './liste-tache.component.html',
-  styleUrl: './liste-tache.component.css'
+  styleUrl: './liste-tache.component.css',
 })
 export class ListeTacheComponent {
   tasks: any[] = [];
   dropdownStates: { [taskId: string]: boolean } = {};
 
-  constructor(private taskService: TaskService, private authService: AuthService) {}
+  constructor(
+    private taskService: TaskService,
+    private authService: AuthService,
+  ) {}
 
   ngOnInit(): void {
     this.getTasksByMechanic();
   }
 
-
   toggleDropdown(taskId: string): void {
     // Ferme tous les dropdowns sauf celui sur lequel on a cliqué
-    Object.keys(this.dropdownStates).forEach(id => {
+    Object.keys(this.dropdownStates).forEach((id) => {
       if (id !== taskId) {
         this.dropdownStates[id] = false;
       }
@@ -40,11 +42,11 @@ export class ListeTacheComponent {
     this.taskService.getTasks(this.authService, mechanicId).subscribe(
       (response) => {
         this.tasks = response;
-        console.log("tasks", this.tasks)
+        console.log('tasks', this.tasks);
       },
       (error) => {
         console.error('Erreur lors de la récupération des tâches :', error);
-      }
+      },
     );
   }
 
@@ -52,17 +54,16 @@ export class ListeTacheComponent {
   updateTaskStatus(taskId: string, newStatus: string) {
     this.taskService.updateTaskStatus(taskId, newStatus).subscribe(
       () => {
-        this.tasks = this.tasks.map(task =>
-          task._id === taskId ? { ...task, status: newStatus } : task
-
+        this.tasks = this.tasks.map((task) =>
+          task._id === taskId ? { ...task, status: newStatus } : task,
         );
-        console.log("tasks", this.tasks)
-        console.log("newStatus", newStatus)
-        alert("Tâche mise à jour avec succès");
+        console.log('tasks', this.tasks);
+        console.log('newStatus', newStatus);
+        alert('Tâche mise à jour avec succès');
       },
       (error) => {
         console.error('Erreur lors de la mise à jour du statut :', error);
-      }
+      },
     );
   }
 }

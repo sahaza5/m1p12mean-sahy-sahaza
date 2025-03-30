@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environment/environment';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 
@@ -25,8 +29,13 @@ export class UsersService {
 
   updateUserProfile(userId: string, userData: any): Observable<any> {
     console.log('userdata, userid', userData, userId);
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `${localStorage.getItem('token')}`,
+    );
+
     return this.http
-      .patch(`${this.apiUrl}/setProfile/${userId}`, userData)
+      .patch(`${this.apiUrl}/setProfile/${userId}`, userData, { headers })
       .pipe(catchError(this.handleError));
   }
 

@@ -8,6 +8,7 @@ import {
   PathLocationStrategy,
 } from '@angular/common';
 import { UsersService } from '../../services/users.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar-left',
@@ -24,7 +25,10 @@ export class NavbarLeftComponent {
   // @ViewChild('dashboard', { static: true }) dashboard!: ElementRef;
   // mobileScreen: MediaQueryList = window.matchMedia("(max-width: 990px)");
 
-  constructor(private usersService: UsersService) {
+  constructor(
+    private usersService: UsersService,
+    private authService: AuthService,
+  ) {
     this.usersService.getUserProfile().subscribe(
       (userData) => {
         console.log('Données utilisateur récupérées navbar left:', userData);
@@ -37,6 +41,10 @@ export class NavbarLeftComponent {
         alert('Erreur lors de la récupération des données utilisateur');
       },
     );
+  }
+
+  logOut() {
+    this.authService.logout();
   }
 
   // ngOnInit(): void {
