@@ -35,7 +35,7 @@ export class UsersService {
     );
 
     return this.http
-      .patch(`${this.apiUrl}/setProfile/${userId}`, userData, { headers })
+      .patch(`${this.apiUrl}/setProfile/${userData._id}`, userData, { headers })
       .pipe(catchError(this.handleError));
   }
 
