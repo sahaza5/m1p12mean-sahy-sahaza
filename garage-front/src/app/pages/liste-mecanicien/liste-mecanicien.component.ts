@@ -82,7 +82,7 @@ export class ListeMecanicienComponent {
           (this.currentPage - 1) * 2,
           2 * this.currentPage,
         );
-        this.filterMecanicien();
+        // this.filterMecanicien();
       },
       (error) => {
         console.error(
