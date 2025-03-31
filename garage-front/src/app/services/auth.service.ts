@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { UserType } from './../models/UserType';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from '../../environment/environment';
 import jwtDecode from 'jwt-decode';
 import { Router } from '@angular/router';
@@ -11,11 +12,17 @@ import { Router } from '@angular/router';
 export class AuthService {
   //private apiUrl = 'http://localhost:3000/api/users';
   private apiUrl = `${environment.apiUrl}/users`;
+  isAuthenticated = false;
+  authSecretKey = 'token';
+  _token = ''
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-  ) {}
+  constructor(private http: HttpClient, private router: Router) {
+    this.isAuthenticated = !!localStorage.getItem(this.authSecretKey);
+  }
+
+  isAuthenticatedUser(): boolean {
+    return this.isAuthenticated;
+  }
 
   // Récupérer le token du localStorage
   getToken(): string | null {
@@ -66,6 +73,34 @@ export class AuthService {
   login(userData: any): Observable<any> {
     console.log('userData', userData);
     return this.http.post(`${this.apiUrl}/login`, userData);
+  }
+
+  getUserType(): Observable<any> {
+    console.log('Header is:', localStorage.getItem('token'));
+    return this.http
+      .get(`${this.apiUrl}/userData`, {
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`,
+        },
+      })
+      .pipe(catchError(this.handleError));
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // Une erreur côté client ou réseau s'est produite.
+      console.error("Une erreur s'est produite:", error.error.message);
+    } else {
+      // Le backend a renvoyé un code de réponse incorrect.
+      // Le corps de la réponse peut contenir des indices sur ce qui n'a pas fonctionné.
+      console.error(
+        `Backend returned code ${error.status}, ` + `body was: ${error.error}`,
+      );
+    }
+    // Renvoyer un Observable avec un message d'erreur convivial.
+    return throwError(
+      "Quelque chose s'est mal passé ; veuillez réessayer plus tard.",
+    );
   }
 
   // Déconnexion de l'utilisateur

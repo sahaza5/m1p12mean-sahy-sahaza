@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { AuthGuard } from './guards/auth.guard';
 
 
 
@@ -21,6 +22,6 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule
   ],
-
+  providers: [AuthGuard],
 })
 export class AppModuleModule { }

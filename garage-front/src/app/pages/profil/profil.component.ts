@@ -24,20 +24,9 @@ export class ProfilComponent {
   };
 
   constructor(
-    private route: ActivatedRoute,
-    private authService: AuthService,
     private usersService: UsersService,
     private router: Router,
   ) {
-    // Récupérer l'ID depuis les paramètres de l'URL
-    this.userId = this.authService.getUserId();
-    // this.route.params.subscribe((params) => {
-    //   if (params['id'] || this.userId) {
-    //     this.userId = params['id'];
-    //   } else {
-    //     alert('ID utilisateur not found');
-    //   }
-    // });
   }
 
   ngOnInit() {

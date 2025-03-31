@@ -97,12 +97,18 @@ export class HeaderComponent {
         // Redirection selon le rôle
          switch (this.userRole) {
           case 'CLIENT':
+            console.log("CLIENT")
+            this.authService.isAuthenticated = true
             this.router.navigate(['/liste-vehicule', { id: userId }]);
             break;
           case 'ADMIN':
+            console.log("ADMIN")
+            this.authService.isAuthenticated = true
             this.router.navigate(['/liste-rendez-vous', { id: userId }]);
             break;
           case 'EMPLOYEE':
+            console.log("EMPLOYEE")
+            this.authService.isAuthenticated = true
             this.router.navigate(['/liste-tache', { id: userId }]);
             break;
           default:
