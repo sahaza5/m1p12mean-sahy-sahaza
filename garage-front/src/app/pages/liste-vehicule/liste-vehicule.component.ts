@@ -18,7 +18,7 @@ import { AuthService } from '../../services/auth.service';
 export class ListeVehiculeComponent {
   userId = '';
   formData = new FormData();
-  formDataUpdate = new FormData();
+  // formDataUpdate = new FormData();
 
   userData = {
     name: '',
@@ -65,17 +65,13 @@ export class ListeVehiculeComponent {
 
   onFileChangeUpdate(event: any) {
     const file = event.target.files[0];
+
     if (file) {
       // const timestamp = new Date().toISOString().replace(/[-:.]/g, ""); // Supprime les caractères spéciaux
       // const fileExtension = file.name.split('.').pop(); // Récupère l'extension du fichier
       // const newFileName = `file_${timestamp}.${fileExtension}`; // Nouveau nom avec datetime
 
-      this.formDataUpdate.append('image', file);
-      // this.formDataUpdate.append('name', this.selectedVehicule.name);
-      // this.formDataUpdate.append(
-      //   'description',
-      //   this.selectedVehicule.description,
-      // );
+      this.formData.append('image', file);
 
       // const renamedFile = new File([file], newFileName, { type: file.type });
       // console.log("zasasa",renamedFile);
@@ -91,6 +87,7 @@ export class ListeVehiculeComponent {
       (response: any) => {
         console.log('ajout réussi', response);
         this.vehiculeData.push({ ...response });
+        this.formData = new FormData();
       },
       (error) => {
         this.formData = new FormData();
@@ -125,16 +122,18 @@ export class ListeVehiculeComponent {
 
   // Mettre à jour le véhicule sélectionné
   updateVehicule() {
-    this.formDataUpdate.append('name', this.selectedVehicule.name);
-    this.formDataUpdate.append(
-      'description',
-      this.selectedVehicule.description,
-    );
-    console.log(
-      'Selected car befor:',
-      this.selectedVehicule,
-      this.formDataUpdate,
-    );
+    console.log('select new vehicle:', this.selectedVehicule);
+
+    if (this.selectedVehicule.name && this.selectedVehicule.description) {
+      this.formData.append('name', this.selectedVehicule.name);
+      this.formData.append('description', this.selectedVehicule.description);
+    }
+    console.log('Form entries');
+    for (let pair of this.formData.entries()) {
+      console.log(pair[0] + ': ' + pair[1]);
+    }
+    // this.formDataUpdate.append('name', this.selectedVehicule?.name);
+    console.log('Selected car befor:', this.selectedVehicule, this.formData);
     if (!this.selectedVehicule._id) {
       alert('aucun vehicule selectionné !');
       return;
@@ -143,16 +142,16 @@ export class ListeVehiculeComponent {
     console.log('Updated vehicule', this.selectedVehicule);
 
     this.vehiculeService
-      .updateVehicule(this.selectedVehicule._id, this.formDataUpdate)
+      .updateVehicule(this.selectedVehicule._id, this.formData)
       .subscribe(
         (response) => {
-          this.formDataUpdate = new FormData();
           console.log(' Véhicule mis à jour avec succès:', response);
           alert('Véhicule mis à jour avec succès');
+          this.formData = new FormData();
           this.getVehicules(); // Rafraîchir la liste après mise à jour
         },
         (error) => {
-          this.formDataUpdate = new FormData();
+          this.formData = new FormData();
 
           console.error('Erreur lors de la mise à jour du véhicule :', error);
         },

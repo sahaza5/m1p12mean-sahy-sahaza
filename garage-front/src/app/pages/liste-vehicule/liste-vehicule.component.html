@@ -192,12 +192,14 @@
                             <div class="form-group">
                               <label for="first">Image du vehicule</label>
                               <input
+                                (change)="onFileChangeUpdate($event)"
                                 type="file"
                                 accept="image/*"
+                                name="image"
                                 class="form-control"
                                 placeholder=""
-                                id="vehiculeImage"
-                                (change)="onFileChangeUpdate($event)"
+                                id="first"
+                                required=""
                               />
                             </div>
                           </div>

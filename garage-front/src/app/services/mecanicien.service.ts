@@ -32,4 +32,17 @@ export class MecanicienService {
       { headers },
     );
   }
+
+  // Reactiver un mécanicien (changer son statut)
+  reactiverMecanicien(mecanicienId: string): Observable<any> {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      `${localStorage.getItem('token')}`,
+    );
+    return this.http.patch(
+      `${this.apiUrl}/reactivate/${mecanicienId}`,
+      {},
+      { headers },
+    );
+  }
 }

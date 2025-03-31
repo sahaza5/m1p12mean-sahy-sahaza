@@ -38,16 +38,37 @@
                   <td>{{ mecanicien.txt }}</td>
                   <td>{{ mecanicien.email }}</td>
                   <td>{{ mecanicien.phone }}</td>
-                  <td style="width: 200px; text-align: center">
-                    <button
-                      class="btn btn-danger btn-sm me-2"
-                      data-bs-toggle="modal"
-                      data-bs-target="#desactiverCompte"
-                      (click)="desactiverMecanicien(mecanicien)"
-                      [disabled]="mecanicien.status === 'Désactivé'"
-                    >
-                      <i class="fas fa-user-slash"></i> Désactiver compte
-                    </button>
+                  <td style="width: 200px">
+                    <div style="display: flex">
+                      <button
+                        class="btn btn-danger btn-sm me-2"
+                        data-bs-toggle="modal"
+                        *ngIf="mecanicien.status === 'ENABLE'"
+                        data-bs-target="#desactiverCompte"
+                        (click)="desactiverMecanicien(mecanicien)"
+                        [disabled]="mecanicien.status === 'DISABLE'"
+                      >
+                        <i
+                          class="fas fa-user-slash"
+                          style="font-size: smaller; margin-right: 4px"
+                        ></i>
+                        <span style="font-size: 8px">Désactiver</span>
+                      </button>
+                      <button
+                        *ngIf="mecanicien.status === 'DISABLE'"
+                        class="btn btn-success btn-sm me-2"
+                        data-bs-toggle="modal"
+                        data-bs-target="#reactiverCompte"
+                        (click)="reactiverMecanicien(mecanicien)"
+                        [disabled]="mecanicien.status === 'ENABLE'"
+                      >
+                        <i
+                          class="fas fa-user"
+                          style="font-size: smaller; margin-right: 4px"
+                        ></i>
+                        <span style="font-size: 8px">Activer compte</span>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               </tbody>

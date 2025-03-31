@@ -415,7 +415,7 @@ export class ListeRendezVousComponent implements OnInit {
         (response) => {
           console.log('Rendez-vous mis à jour avec succès:', response);
           alert('Rendez-vous mis à jour avec succès !');
-          this.getAppointments();
+          this.loadAppointments();
         },
         (error) =>
           console.error(
@@ -433,7 +433,7 @@ export class ListeRendezVousComponent implements OnInit {
         (response) => {
           console.log('Rendez-vous annulé avec succès :', response);
           alert('Votre rendez-vous a été annulé !');
-          this.getAppointments();
+          this.loadAppointments();
         },
         (error) => {
           console.error("Erreur lors de l'annulation du rendez-vous :", error);
@@ -480,7 +480,7 @@ export class ListeRendezVousComponent implements OnInit {
         (response) => {
           console.log('Mécanicien assigné avec succès :', response);
           alert('Mécanicien assigné !');
-          this.getAppointments();
+          this.loadAppointments();
         },
         (error) => {
           console.error("Erreur lors de l'assignation :", error);

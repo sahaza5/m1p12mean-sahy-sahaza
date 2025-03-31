@@ -27,7 +27,7 @@ routes.post(
 // routes.post("/register/:id", upload.single("image"), registerVehicule);
 
 //-----------UPDATE A VEHICULE--------//
-routes.patch("/:id", authentication, updateVehicule);
+routes.patch("/:id", authentication, upload.single("image"), updateVehicule);
 // routes.patch("/:id", upload.single("image"), updateVehicule);
 
 //----------GET VEHICULE BY ID------//

@@ -103,7 +103,27 @@ export class ListeMecanicienComponent {
       this.mecanicienService.desactiverMecanicien(mecanicien._id).subscribe(
         (response) => {
           alert('Compte désactivé avec succès.');
-          mecanicien.status = 'Désactivé'; // Mise à jour immédiate de l'UI
+          mecanicien.status = 'DISABLE'; // Mise à jour immédiate de l'UI
+        },
+        (error) => {
+          console.error('Erreur lors de la désactivation du compte :', error);
+          alert('Erreur lors de la désactivation.');
+        },
+      );
+    }
+  }
+
+  // Désactiver un mécanicien
+  reactiverMecanicien(mecanicien: any): void {
+    if (
+      confirm(
+        `Voulez-vous vraiment reactiver le compte de ${mecanicien.name} ?`,
+      )
+    ) {
+      this.mecanicienService.reactiverMecanicien(mecanicien._id).subscribe(
+        (response) => {
+          alert('Compte désactivé avec succès.');
+          mecanicien.status = 'ENABLE'; // Mise à jour immédiate de l'UI
         },
         (error) => {
           console.error('Erreur lors de la désactivation du compte :', error);
