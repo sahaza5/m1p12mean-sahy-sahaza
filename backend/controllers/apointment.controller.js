@@ -18,7 +18,8 @@ const getAllApointmentsForAdminRole = async (req, res) => {
     const apointments = await Apointments.find({})
       .populate("assignedTo")
       .populate("car")
-      .populate("belongsTo");
+      .populate("belongsTo")
+      .sort({ createdAt: -1 });
     console.log(apointments);
     return res.status(httpStatus.OK).send(apointments);
   } catch (error) {
@@ -48,7 +49,8 @@ const getAllApointmentsForResponsable = async (req, res) => {
     const apointments = await Apointments.find({ assignedTo: id })
       .populate("belongsTo", "-pswd")
       .populate("car")
-      .populate("assignedTo", "-pswd");
+      .populate("assignedTo", "-pswd")
+      .sort({ createdAt: -1 });
     console.log(apointments);
     return res.status(httpStatus.OK).send(apointments);
   } catch (error) {
@@ -99,7 +101,8 @@ const getAllApointmentForClient = async (req, res) => {
   try {
     const myApointment = await Apointments.find({ belongsTo: id })
       .populate("car")
-      .populate("assignedTo", "-pswd");
+      .populate("assignedTo", "-pswd")
+      .sort({ createdAt: -1 });
     if (!myApointment) {
       return res
         .status(httpStatus.BAD_REQUEST)
