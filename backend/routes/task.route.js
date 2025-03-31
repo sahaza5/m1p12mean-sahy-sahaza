@@ -19,7 +19,7 @@ routes.get("/", authentication, authorizationAdmin, getAllTasks);
 
 //-----GET TASK BY ID-----
 // routes.get("/:id", getTaskbyId);
-routes.get("/:id", authentication, getTaskbyId);
+routes.get("/:id", authentication, authorizationResponsable, getTaskbyId);
 
 //----GET TASK OF A MECHANICIEN------
 // routes.get("/mechanicien/:id", getTaskMechanicien);

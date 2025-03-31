@@ -60,7 +60,7 @@ routes.post(
 routes.patch(
   "/setApointment/:id",
   authentication,
-  authorizationAdmin,
+  // authorizationAdmin,
   updateApointment
 );
 // routes.patch("/setApointment/:id", updateApointment);
