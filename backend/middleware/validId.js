@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
+const httpStatus = require("http-status-codes");
 
-const isValidId = (req, res, id) => {
-  if (mongoose.isValidObjectId(id)) {
-    return res.status(httpStatus.BAD_REQUEST).json({ message: "Invalid id" });
-  }
+const isValidId = (id) => {
+  return mongoose.isValidObjectId(id);
 };
 
 module.exports = { isValidId };

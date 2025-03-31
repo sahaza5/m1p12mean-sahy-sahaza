@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const httpStatus = require("http-status-codes");
 const { Apointments } = require("../models/apointment.model");
 const { Tasks } = require("../models/task.model");
+const { isValidId } = require("../middleware/validId");
 
 //GET ALL MECHANICIEN
 const getAllMechanicien = async (req, res) => {
@@ -43,10 +44,8 @@ const getUserById = async (req, res) => {
   const { id } = req.params;
   console.log("User id is ", id);
 
-  const objId = mongoose.isValidObjectId(id);
-  if (!objId) {
-    // throw new Error("Invalid Id");
-    return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid ID" });
+  if (!isValidId(id)) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
   }
 
   try {
@@ -139,9 +138,8 @@ const addMechanicien = async (req, res) => {
 const disableMechanicien = async (req, res) => {
   const { id } = req.params;
   console.log("Delete mechanicien:", id);
-  const objId = mongoose.isValidObjectId(id);
-  if (!objId) {
-    return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid ID" });
+  if (!isValidId(id)) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
   }
   try {
     const deletedMechanicien = await Users.findByIdAndUpdate(

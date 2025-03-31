@@ -3,6 +3,7 @@ const { Vehicules } = require("../models/vehicule.model");
 const httpStatus = require("http-status-codes");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
+const { isValidId } = require("../middleware/validId");
 const multer = require("multer");
 
 //----------MULTER SETTING-------//
@@ -63,6 +64,9 @@ const updateVehicule = async (req, res) => {
   console.log("Update vehicule by id", req.params);
   const { id } = req.params;
   const { name, description } = req.body;
+  if (!isValidId(id)) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
+  }
   console.log("name,description", name, description);
   try {
     const updatedVehicule = await Vehicules.findByIdAndUpdate(
@@ -89,6 +93,9 @@ const registerVehicule = async (req, res) => {
   const { id } = req.params;
   const vehicle = { ...req.body };
   vehicle.image = req.file.filename;
+  if (!isValidId(id)) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
+  }
   try {
     const newRegister = await Vehicules.create({
       // customer: req.user.id,
@@ -109,6 +116,9 @@ const registerVehicule = async (req, res) => {
 const deleteVehicule = async (req, res) => {
   console.log("Delete a vehicule:", req.params.id);
   const { id } = req.params;
+  if (!isValidId(id)) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
+  }
   try {
     const deletedVehicule = await Vehicules.findByIdAndDelete({ _id: id });
     return res.status(httpStatus.OK).json(deletedVehicule);

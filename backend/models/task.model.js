@@ -11,7 +11,12 @@ const TaskSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: ["CREER", "EN ATTENTE", "EN COURS", "TERMINER"],
+      validate: {
+        validator: function (value) {
+          return ["CREER", "EN ATTENT", "EN COURS", "TERMINER"].includes(value);
+        },
+        message: (props) => `${props.value} is not a valid status!`,
+      },
       default: "CREER",
     },
     assignedTo: {

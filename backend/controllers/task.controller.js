@@ -1,6 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const httpStatus = require("http-status-codes");
 const { Tasks } = require("../models/task.model");
+const { isValidId } = require("../middleware/validId");
 const { Apointments } = require("../models/apointment.model");
 
 //--------GET ALL TASKS
@@ -19,6 +20,9 @@ const getAllTasks = async (req, res) => {
 //----------GET TASK BY ID
 const getTaskbyId = async (req, res) => {
   const { id } = req.params;
+  if (!isValidId(id)) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
+  }
   console.log("Get task by id ", id);
   try {
     const task = await Tasks.findById({ _id: id })
@@ -39,6 +43,9 @@ const getTaskbyId = async (req, res) => {
 const getTaskMechanicien = async (req, res) => {
   const { id } = req.params;
   console.log("Get task mechanicien with id:", id);
+  if (!isValidId(id)) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
+  }
   try {
     // const myTasks = await Tasks.find({ assignedTo: id }).populate("apointment");
     const myTasks = await Tasks.find({ assignedTo: id }).populate({
@@ -56,6 +63,9 @@ const updateTaskStatus = async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
   console.log("Update task status:", id, status);
+  if (!isValidId(id)) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
+  }
 
   try {
     const updatedTask = await Tasks.findByIdAndUpdate(

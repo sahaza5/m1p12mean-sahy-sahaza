@@ -43,7 +43,12 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       // enum: ["CLIENT", "ADMIN", "MECHANICIEN"],
-      enum: ["CLIENT", "EMPLOYEE", "ADMIN"],
+      validate: {
+        validator: function (value) {
+          return ["CLIENT", "ADMIN", "EMPLOYEE"].includes(value);
+        },
+        message: (props) => `${props.value} is not a valid user type!`,
+      },
     },
   },
   { timestamps: true }

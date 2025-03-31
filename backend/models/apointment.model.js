@@ -19,7 +19,13 @@ const ApointmentSchema = new mongoose.Schema(
       required: true,
       default: "PENDING",
       // enum: ["PENDING", "APPROVED", "DONE"],
-      enum: ["PENDING", "APPROVED", "DONE", "CANCELED"],
+      validate: {
+        validator: function (value) {
+          return ["PENDING", "APPROVED", "DONE", "CANCELED"].includes(value);
+        },
+        message: (props) =>
+          `${props.value} is not a valid status! Valid values are PENDING, APPROVED, DONE, CANCELED.`,
+      },
     },
     assignedTo: {
       type: mongoose.Schema.Types.ObjectId,

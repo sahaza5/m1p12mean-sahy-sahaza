@@ -18,13 +18,15 @@ export class RendezVousService {
     appointmentData: any,
     authService: AuthService,
   ): Observable<any> {
+    const token = authService.getToken();
+
     return this.http.post(
       `${this.apiUrl}/bookApointment/${userId}/${vehiculeId}`,
       appointmentData,
       {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
+        headers: {
+          Authorization: `${token}`,
+        },
       },
     );
   }
