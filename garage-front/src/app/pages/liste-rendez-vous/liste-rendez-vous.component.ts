@@ -70,13 +70,13 @@ export class ListeRendezVousComponent {
     this.filteredAppointments = this.appointments.filter((appointment) => {
       return (
         appointment.belongsTo?.name
-          .toLowerCase()
+          ?.toLowerCase()
           .includes(this.searchItem.toLowerCase()) ||
         appointment.belongsTo?.txt
-          .toLowerCase()
+          ?.toLowerCase()
           .includes(this.searchItem.toLowerCase()) ||
         appointment.car?.name
-          .toLowerCase()
+          ?.toLowerCase()
           .includes(this.searchItem.toLowerCase())
       );
     });

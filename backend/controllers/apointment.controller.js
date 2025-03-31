@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const httpStatus = require("http-status-codes");
+const { isValidId } = require("../middleware/validId");
 
 const { Apointments } = require("../models/apointment.model");
 // const { Users } = require("../models/users.model");
@@ -30,6 +31,8 @@ const getAllApointmentsForAdminRole = async (req, res) => {
 const getAllApointmentsForResponsable = async (req, res) => {
   const { id } = req.params;
   console.log("id is:", id);
+
+  isValidId(res, id);
   // console.log(
   //   "Get all apointments for responsable(mostly for mechanicien): ",
   //   req.user
@@ -61,13 +64,10 @@ const getAllApointmentsForResponsable = async (req, res) => {
 };
 
 //GET AN APOINTMENT BY ID
-const getApointmentById = async (req, res) => {
+const getApointmentById = async (req, res, next) => {
   const { id } = req.params;
   console.log("Get apointment by id ", id);
-  const objId = mongoose.isValidObjectId(id);
-  if (!objId) {
-    return res.status(httpStatus.BAD_REQUEST).json({ message: "Invalid id" });
-  }
+  isValidId(req, res, next, id);
   try {
     const myApointment = await Apointments.findById({ _id: id })
       .populate("car")
