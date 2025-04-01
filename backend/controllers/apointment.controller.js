@@ -125,7 +125,7 @@ const bookApointment = async (req, res) => {
   // ) {
   //   return res.status(httpStatus.BAD_REQUEST).json({ message: "Invalid id" });
   // }
-  if (!isValidId(userId) && !isValidId(vehicleId)) {
+  if (!isValidId(userId) || !isValidId(vehicleId)) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
   }
 
