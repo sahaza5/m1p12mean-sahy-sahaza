@@ -10,7 +10,8 @@
   <nav class="dashboard-nav-list">
     <a href="#" class="dashboard-nav-item"><i class="fas fa-home"></i> Home </a>
     <a
-      href="/liste-vehicule"
+      routerLink="/liste-vehicule"
+      [ngClass]="{ active: isActive('/liste-vehicule') }"
       *ngIf="userData?.userType == 'CLIENT'"
       class="dashboard-nav-item active"
       ><i class="fas fa-tachometer-alt"></i>
@@ -18,39 +19,46 @@
     </a>
 
     <a
-      href="/liste-rendez-vous"
+      routerLink="/liste-rendez-vous"
+      [ngClass]="{ active: isActive('/liste-rendez-vous') }"
       *ngIf="userData.userType === 'CLIENT' || userData.userType === 'ADMIN'"
       class="dashboard-nav-item"
     >
-      <i class="fas fa-file-upload"></i>
+      <i class="fas fa-calendar-check"></i>
       Mes rendez-vous
     </a>
 
     <a
-      href="/liste-mecanicien"
+      routerLink="/liste-mecanicien"
+      [ngClass]="{ active: isActive('/liste-mecanicien') }"
       *ngIf="userData.userType === 'ADMIN'"
       class="dashboard-nav-item"
     >
-      <i class="fas fa-file-upload"></i>
+      <i class="fas fa-user-cog"></i>
       Tout les employés
     </a>
 
     <a
-      href="/liste-client"
+      routerLink="/liste-client"
+      [ngClass]="{ active: isActive('/liste-client') }"
       *ngIf="userData.userType == 'ADMIN'"
       class="dashboard-nav-item"
-      ><i class="fas fa-file-upload"></i> Liste client
+      ><i class="fas fa-users"></i> Liste client
     </a>
 
     <a
-      href="/liste-tache"
+      routerLink="/liste-tache"
+      [ngClass]="{ active: isActive('/liste-tache') }"
       class="dashboard-nav-item"
       *ngIf="userData.userType == 'EMPLOYEE'"
-      ><i class="fas fa-user"></i>
+      ><i class="fas fa-tasks"></i>
       Mes tâches
     </a>
 
-    <a href="/voir-profile" class="dashboard-nav-item"
+    <a
+      routerLink="/voir-profile"
+      [ngClass]="{ active: isActive('/voir-profile') }"
+      class="dashboard-nav-item"
       ><i class="fas fa-user"></i>
       Profile
     </a>

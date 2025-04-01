@@ -9,6 +9,7 @@ import {
 } from '@angular/common';
 import { UsersService } from '../../services/users.service';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar-left',
@@ -28,6 +29,7 @@ export class NavbarLeftComponent {
   constructor(
     private usersService: UsersService,
     private authService: AuthService,
+    private router: Router
   ) {
     this.usersService.getUserProfile().subscribe(
       (userData) => {
@@ -41,6 +43,14 @@ export class NavbarLeftComponent {
         alert('Erreur lors de la récupération des données utilisateur');
       },
     );
+  }
+
+  // isActive(route: string): boolean {
+  //   return this.router.url === route;
+  // }
+
+  isActive(route: string): boolean {
+    return this.router.url.includes(route);
   }
 
   logOut() {

@@ -250,8 +250,14 @@ h1, .h1 {
     background: rgba(255, 255, 255, 0.04);
 }
 
-.active {
+/* .active {
     background: rgba(0, 0, 0, 0.1);
+} */
+
+.dashboard-nav-item.active {
+  background: rgba(255, 255, 255, 0.2);
+  font-weight: bold;
+  border-left: 4px solid #ffffff;
 }
 
 .dashboard-nav-dropdown {
@@ -452,3 +458,4 @@ h1, .h1 {
 .dashboard-nav.mobile-show {
     display: block;
 }
+
