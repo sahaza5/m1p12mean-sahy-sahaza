@@ -92,7 +92,11 @@ const registerVehicule = async (req, res) => {
   console.log("Register vehicule");
   const { id } = req.params;
   const vehicle = { ...req.body };
+  if (!req.file.filename) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: "Bad request" });
+  }
   vehicle.image = req.file.filename;
+
   if (!isValidId(id)) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
   }
