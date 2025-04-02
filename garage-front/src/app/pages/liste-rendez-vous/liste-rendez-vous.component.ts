@@ -251,6 +251,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { UsersService } from '../../services/users.service';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-liste-rendez-vous',
@@ -416,6 +417,20 @@ export class ListeRendezVousComponent implements OnInit {
           console.log('Rendez-vous mis à jour avec succès:', response);
           alert('Rendez-vous mis à jour avec succès !');
           this.loadAppointments();
+
+          let modal = document.getElementById('modifierRendezVous');
+          if (modal) {
+            let modalInstance = bootstrap.Modal.getInstance(modal);
+            modalInstance?.hide();
+          }
+          // SUPPRIMER L'OMBRE TRANSPARENTE ET RÉACTIVER LE SCROLL
+          const backdrop = document.querySelector('.modal-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+          document.body.classList.remove('modal-open');
+          document.body.style.overflow = ''; // Réactive le scroll si besoin
+
         },
         (error) =>
           console.error(

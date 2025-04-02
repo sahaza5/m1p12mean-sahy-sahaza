@@ -88,6 +88,24 @@ export class ListeVehiculeComponent {
         console.log('ajout réussi', response);
         this.vehiculeData.push({ ...response });
         this.formData = new FormData();
+
+        // Fermer le modal après ajout
+        const modalElement = document.getElementById('ajouterVehicule');
+        if (modalElement) {
+          const modalInstance = bootstrap.Modal.getInstance(modalElement);
+          if (modalInstance) {
+            modalInstance.hide();
+          }
+        }
+
+        // Supprimer l'ombre du modal et réactiver le scroll
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+          backdrop.remove();
+        }
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = ''; // Réactive le scroll si besoin
+
       },
       (error) => {
         this.formData = new FormData();
@@ -149,6 +167,23 @@ export class ListeVehiculeComponent {
           alert('Véhicule mis à jour avec succès');
           this.formData = new FormData();
           this.getVehicules(); // Rafraîchir la liste après mise à jour
+
+          // FERMER LE MODAL APRÈS LA MISE À JOUR
+          const modalElement = document.getElementById('modifierVehicule');
+          if (modalElement) {
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            if (modalInstance) {
+              modalInstance.hide();
+            }
+          }
+
+          // SUPPRIMER L'OMBRE TRANSPARENTE ET RÉACTIVER LE SCROLL
+          const backdrop = document.querySelector('.modal-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+          document.body.classList.remove('modal-open');
+          document.body.style.overflow = ''; // Réactive le scroll si besoin
         },
         (error) => {
           this.formData = new FormData();
