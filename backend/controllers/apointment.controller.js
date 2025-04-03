@@ -196,6 +196,14 @@ const addMechanicienToApointment = async (req, res) => {
     );
 
     //---------------CREATE THE TASK HERE------------//
+    const findThisApointmentInTask = await Tasks.find({ apointment: id });
+    if (findThisApointmentInTask) {
+      const updateTask = await Tasks.findOneAndUpdate(
+        { apointment: id },
+        { $set: { assignedTo: mechanicien } }
+      );
+      return res.status(httpStatus.OK).json({ addMechanicien, updateTask });
+    }
     const createTask = await Tasks.create({
       apointment: id,
       assignedTo: mechanicien,
