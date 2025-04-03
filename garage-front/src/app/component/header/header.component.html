@@ -22,18 +22,14 @@
     <div class="masthead-subheading">Welcome To Our Garage!</div>
     <div class="masthead-heading text-uppercase">Votre Garage de Confiance</div>
     <!-- Button to trigger modal -->
-    <a
-      class="btn btn-primary btn-xl text-uppercase rounded-pill shadow-lg px-5 py-3"
+
+    <a class="btn btn-primary btn-xl text-uppercase rounded-pill shadow-lg px-5 py-3"
       style="
         background: linear-gradient(to right, #4e73df, #224abe);
         border: none;
         transition: transform 0.3s ease-in-out;
       "
-      onmouseover="this.style.transform='scale(1.05)'"
-      onmouseout="this.style.transform='scale(1)'"
-      data-bs-toggle="modal"
-      data-bs-target="#loginModal"
-    >
+      (click)="handleAccess()">
       Accéder à votre espace
     </a>
 
@@ -58,21 +54,20 @@
                   name="email"
                   placeholder="Email"
                   required=""
-                  [(ngModel)]="userData.email"
+                  [(ngModel)]="userDataLogin.email"
+
+
                 />
                 <input
                   type="password"
                   name="pswd"
                   placeholder="Password"
                   required=""
-                  [(ngModel)]="userData.pswd"
+                  [(ngModel)]="userDataLogin.pswd"
                 />
 
                 <button>SE CONNECTER</button>
                 <div style="display: flex; flex-direction: column; gap: 0">
-                  <p style="padding: 0; margin: 0">
-                    Admin: <strong>admin&#64;gmail.com</strong>
-                  </p>
                   <p style="padding: 0; margin: 0">
                     Client: <strong>sahy&#64;gmail.com</strong>
                   </p>

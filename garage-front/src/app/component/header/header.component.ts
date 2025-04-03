@@ -17,6 +17,13 @@ export class HeaderComponent {
 
   userRole: string | null = ''; // Stocke le rôle de l'utilisateur
 
+  userDataLogin = {
+    txt: '',
+    email: 'admin@gmail.com',
+    userType: '',
+    pswd: '123',
+  };
+
   userData = {
     txt: '',
     email: '',
@@ -77,15 +84,61 @@ export class HeaderComponent {
     );
   }
 
+  handleAccess() {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      try {
+        // Décoder le token
+        const decodedToken: any = jwtDecode(token);
+        const userRole = decodedToken.userType;
+        const userId = localStorage.getItem('userId');
+
+        // Vérifier le rôle et rediriger
+        switch (userRole) {
+          case 'CLIENT':
+            this.router.navigate(['/liste-vehicule', { id: userId }]);
+            break;
+          case 'ADMIN':
+            this.router.navigate(['/liste-rendez-vous', { id: userId }]);
+            break;
+          case 'EMPLOYEE':
+            this.router.navigate(['/liste-tache', { id: userId }]);
+            break;
+          default:
+            console.error("Rôle inconnu !");
+            alert("Erreur : rôle utilisateur inconnu.");
+            return;
+        }
+      } catch (error) {
+        console.error("Erreur lors du décodage du token:", error);
+        alert("Session invalide, veuillez vous reconnecter.");
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        this.openLoginModal();
+      }
+    } else {
+      // Si aucun utilisateur n'est connecté, afficher la modal
+      this.openLoginModal();
+    }
+  }
+
+  // Fonction pour ouvrir la modal
+  openLoginModal() {
+    const loginModal = new bootstrap.Modal(document.getElementById('loginModal')!);
+    loginModal.show();
+  }
+
+
   login() {
 
-    console.log('userData', this.userData);
+    console.log('userData', this.userDataLogin);
 
-    this.authService.login(this.userData).subscribe(
+    this.authService.login(this.userDataLogin).subscribe(
       (response: any) => {
         const userId = response.user._id;
         const token = response.token;
-        this.userData = { ...response.user };
+        this.userDataLogin = { ...response.user };
         this.userRole = response.user.userType;
 
         localStorage.setItem('userId', userId);
