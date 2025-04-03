@@ -496,6 +496,21 @@ export class ListeRendezVousComponent implements OnInit {
           console.log('Mécanicien assigné avec succès :', response);
           alert('Mécanicien assigné !');
           this.loadAppointments();
+
+           // Fermer le modal après assignation
+          let modal = document.getElementById('ajoutMecanicien');
+          if (modal) {
+            let modalInstance = bootstrap.Modal.getInstance(modal);
+            modalInstance?.hide();
+          }
+
+          // Supprimer l'ombre transparente et réactiver le scroll
+          const backdrop = document.querySelector('.modal-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+          document.body.classList.remove('modal-open');
+          document.body.style.overflow = ''; // Réactive le scroll si besoin
         },
         (error) => {
           console.error("Erreur lors de l'assignation :", error);

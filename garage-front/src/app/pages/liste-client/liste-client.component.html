@@ -4,79 +4,57 @@
     <div class="dashboard-content">
       <div class="container">
         <div class="card mt-1">
-          <div
-            class="card-header d-flex justify-content-between align-items-center"
-          >
-            <h1>Liste des clients</h1>
+          <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <h1 class="text-center text-md-start">Liste des clients</h1>
             <input
               type="text"
               (input)="filterClient()"
               [(ngModel)]="searchItem"
-              class="form-control w-25"
-              placeholder="Rechercher nom/prenom/pseudo..."
+              class="form-control w-100 w-md-25 mt-2 mt-md-0"
+              placeholder="Rechercher nom/prénom/pseudo..."
             />
           </div>
-          <div class="card-body">
-            <table class="table table-bordered table-hover">
-              <thead class="thead-dark">
-                <tr>
-                  <th scope="col">Nom</th>
-                  <th scope="col">Prénom</th>
-                  <th scope="col">Pseudo</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Téléphone</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  *ngFor="let client of slicedClients"
-                  style="vertical-align: middle"
-                >
-                  <th scope="row">{{ client.name }}</th>
-                  <td>{{ client.surname }}</td>
-                  <td>{{ client.txt }}</td>
-                  <td>{{ client.email }}</td>
-                  <td>{{ client.phone }}</td>
-                </tr>
-              </tbody>
-            </table>
 
-            <div class="d-flex justify-content-between align-items-center mt-3">
-              <!-- <span>Affichage de 5 - 5 sur 5</span> -->
+          <div class="card-body">
+            <!-- Table responsive -->
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">Pseudo</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Téléphone</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let client of slicedClients" style="vertical-align: middle">
+                    <th scope="row">{{ client.name }}</th>
+                    <td>{{ client.surname }}</td>
+                    <td>{{ client.txt }}</td>
+                    <td>{{ client.email }}</td>
+                    <td>{{ client.phone }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
               <nav>
                 <ul class="pagination cursor-pointer">
                   <li class="page-item">
-                    <a
-                      class="page-link"
-                      (click)="goToPage(currentPage - 1)"
-                      aria-label="Précédent"
-                    >
+                    <a class="page-link" (click)="goToPage(currentPage - 1)" aria-label="Précédent">
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
                   <ng-container *ngFor="let page of pages">
-                    <li
-                      class="page-item"
-                      [ngClass]="{ active: page === currentPage }"
-                    >
-                      <a class="page-link" (click)="goToPage(page)">{{
-                        page
-                      }}</a>
+                    <li class="page-item" [ngClass]="{ active: page === currentPage }">
+                      <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
                     </li>
                   </ng-container>
-
-                  <!-- <li class="page-item">
-                      <a class="page-link">1</a>
-                    </li>
-                    <li class="page-item">
-                      <a class="page-link">2</a>
-                    </li> -->
                   <li class="page-item">
-                    <a
-                      class="page-link"
-                      (click)="goToPage(currentPage + 1)"
-                      aria-label="Suivant"
-                    >
+                    <a class="page-link" (click)="goToPage(currentPage + 1)" aria-label="Suivant">
                       <span aria-hidden="true">&raquo;</span>
                     </a>
                   </li>

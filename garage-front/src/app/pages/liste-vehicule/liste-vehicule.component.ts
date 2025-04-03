@@ -229,9 +229,28 @@ export class ListeVehiculeComponent {
             userId: this.userId,
             vehiculeId: this.selectedVehicule._id,
             appointmentData: this.appointmentData,
+
           });
           console.log('Rendez-vous pris avec succès:', response);
           alert('Rendez-vous pris avec succès !');
+
+          // FERMER LE MODAL APRÈS L'AJOUT DU RENDEZ-VOUS
+          const modalElement = document.getElementById('reparerVehicule');
+          if (modalElement) {
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            if (modalInstance) {
+              modalInstance.hide();
+            }
+          }
+
+          // SUPPRIMER L'OMBRE TRANSPARENTE ET RÉACTIVER LE SCROLL
+          const backdrop = document.querySelector('.modal-backdrop');
+          if (backdrop) {
+            backdrop.remove();
+          }
+          document.body.classList.remove('modal-open');
+          document.body.style.overflow = ''; // Réactive le scroll si besoin
+
           this.router.navigate(['/liste-rendez-vous', { id: this.userId }]);
 
           // const Modal = document.getElementById('loginModal');

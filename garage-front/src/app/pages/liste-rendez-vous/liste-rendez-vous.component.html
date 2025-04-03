@@ -1,304 +1,150 @@
-<div class="dashboard">
+<div class="dashboard container-fluid">
   <app-navbar-left></app-navbar-left>
-  <div class="dashboard-app" id="dashboard-app">
-    <div class="dashboard-content">
-      <div class="container">
-        <div class="card mt-1">
-          <div
-            class="card-header d-flex justify-content-between align-items-center"
-          >
-            <h1>Liste des rendez-vous</h1>
-            <input
-              type="text"
-              (input)="filterAppointments()"
-              [(ngModel)]="searchItem"
-              class="form-control w-25"
-              [placeholder]="placeholderText"
-            />
+  <div class="dashboard-app row">
+    <div class="dashboard-content col-lg-10 mx-auto">
+      <div class="container-fluid">
+        <div class="card mt-3">
+          <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
+            <h1 class="h4">Liste des rendez-vous</h1>
+            <input type="text" (input)="filterAppointments()" [(ngModel)]="searchItem"
+              class="form-control w-50 w-md-25" [placeholder]="placeholderText" />
           </div>
+
           <div class="card-body">
-            <table class="table table-bordered table-hover">
-              <thead class="thead-dark">
-                <tr>
-                  <th scope="col">Véhicule</th>
-                  <th
-                    *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'"
-                    scope="col"
-                  >
-                    Client
-                  </th>
-                  <th
-                    *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'"
-                    scope="col"
-                  >
-                    Phone
-                  </th>
-                  <th scope="col">Date</th>
-                  <th scope="col">Description</th>
-                  <th scope="col">Mecanicien</th>
-                  <th scope="col">Statut</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  *ngFor="let appointment of slicedAppointments"
-                  style="vertical-align: middle"
-                >
-                  <th scope="row">{{ appointment.car?.name }}</th>
-                  <td
-                    scope="row"
-                    *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'"
-                    scope="col"
-                  >
-                    {{
-                      appointment.belongsTo?.name || appointment.belongsTo?.txt
-                    }}
-                  </td>
-                  <td
-                    scope="row"
-                    *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'"
-                    scope="col"
-                  >
-                    {{ appointment.belongsTo?.phone || "--//--" }}
-                  </td>
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>Véhicule</th>
+                    <th *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'">Client</th>
+                    <th *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'">Phone</th>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Mécanicien</th>
+                    <th>Statut</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let appointment of slicedAppointments">
+                    <td>{{ appointment.car?.name }}</td>
+                    <td *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'">
+                      {{ appointment.belongsTo?.name || appointment.belongsTo?.txt }}
+                    </td>
+                    <td *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'">
+                      {{ appointment.belongsTo?.phone || "--//--" }}
+                    </td>
+                    <td>{{ appointment.date | date: "dd MMMM yyyy" }}</td>
+                    <td>{{ appointment.description }}</td>
+                    <td>
+                      {{ appointment.assignedTo?.name || "Non assigné" }}
+                    </td>
+                    <td class="text-center">
+                      <span class="badge p-2 w-100"
+                        [ngClass]="{
+                          'bg-warning': appointment.status === 'PENDING',
+                          'bg-danger': appointment.status === 'CANCELED',
+                          'bg-success': appointment.status === 'DONE',
+                          'bg-primary': appointment.status === 'APPROVED'
+                        }">
+                        {{ appointment?.status }}
+                      </span>
+                    </td>
+                    <td class="text-center">
+                      <button class="btn btn-warning btn-sm me-1"
+                        (click)="selectAppointmentForEdit(appointment)"
+                        data-bs-toggle="modal" data-bs-target="#modifierRendezVous"
+                        [disabled]="appointment?.status === 'CANCELED' || appointment?.status === 'DONE'">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button *ngIf="userRole === 'ADMIN'" class="btn btn-primary btn-sm me-1"
+                        data-bs-toggle="modal" data-bs-target="#ajoutMecanicien"
+                        (click)="openMechanicModal(appointment._id)"
+                        [disabled]="appointment?.status === 'CANCELED' || appointment?.status === 'DONE'">
+                        <i class="fas fa-check"></i>
+                      </button>
+                      <button class="btn btn-danger btn-sm"
+                        (click)="cancelAppointment(appointment)"
+                        [disabled]="appointment.status === 'CANCELED' || appointment.status === 'DONE'">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-                  <td>{{ appointment.date | date: "dd MMMM yyyy" }}</td>
-                  <td>{{ appointment.description }}</td>
-                  <!-- <td>{{ appointment.mecanicienName || 'Non assigné' }}</td> -->
-                  <td>
-                    {{
-                      appointment.assignedTo?.name ||
-                        appointment.assignedTo?.txt ||
-                        "Non assigné"
-                    }}
-                  </td>
-                  <td style="width: 120px; text-align: center">
-                    <span
-                      style="width: 100%"
-                      class="badge p-2"
-                      [ngClass]="{
-                        'bg-warning': appointment.status === 'PENDING',
-                        'bg-danger': appointment.status === 'CANCELED',
-                        'bg-success': appointment.status === 'DONE',
-                        'bg-primary': appointment.status === 'APPROVED',
-                      }"
-                    >
-                      {{ appointment?.status }}
-                    </span>
-                  </td>
-                  <td style="width: 150px; text-align: center">
-                    <!-- Bouton Modifier (Affiché pour tous) -->
-
-                    <!-- Boutons masqués si le statut est "CANCELED" -->
-                    <!-- Bouton Modifier -->
-                    <button
-                      class="btn btn-warning btn-sm me-2"
-                      (click)="selectAppointmentForEdit(appointment)"
-                      data-bs-toggle="modal"
-                      data-bs-target="#modifierRendezVous"
-                      [disabled]="
-                        appointment?.status === 'CANCELED' ||
-                        appointment?.status === 'DONE'
-                      "
-                    >
-                      <i class="fas fa-edit"></i>
-                    </button>
-
-                    <!-- Bouton Ajouter Mécanicien (Seulement pour Admin) -->
-                    <button
-                      *ngIf="userRole === 'ADMIN'"
-                      class="btn btn-primary btn-sm me-2"
-                      data-bs-toggle="modal"
-                      data-bs-target="#ajoutMecanicien"
-                      (click)="openMechanicModal(appointment._id)"
-                      [disabled]="
-                        appointment?.status === 'CANCELED' ||
-                        appointment?.status === 'DONE'
-                      "
-                    >
-                      <!-- vao novaina -->
-                      <i class="fas fa-check"></i>
-                    </button>
-
-                    <button
-                      class="btn btn-danger btn-sm me-2"
-                      (click)="cancelAppointment(appointment)"
-                      [disabled]="
-                        appointment.status === 'CANCELED' ||
-                        appointment.status === 'DONE'
-                      "
-                    >
-                      <i class="fas fa-times"></i>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <!-- <div class="d-flex justify-content-between align-items-center mt-3">
-                            <span>Affichage de {{ getStartIndex() + 1 }} - {{ getEndIndex() }} sur {{ items.length }}</span>
-                            <nav>
-                              <ul class="pagination">
-                                <li class="page-item" [class.disabled]="currentPage === 1">
-                                  <a class="page-link" (click)="previousPage()" aria-label="Précédent">
-                                    <span aria-hidden="true">&laquo;</span>
-                                  </a>
-                                </li>
-                                <li *ngFor="let page of totalPages; let i = index" class="page-item" [class.active]="currentPage === i + 1">
-                                  <a class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</a>
-                                </li>
-                                <li class="page-item" [class.disabled]="currentPage === totalPages.length">
-                                  <a class="page-link" (click)="nextPage()" aria-label="Suivant">
-                                    <span aria-hidden="true">&raquo;</span>
-                                  </a>
-                                </li>
-                              </ul>
-                            </nav>
-                          </div> -->
-            <div class="d-flex justify-content-between align-items-center mt-3">
-              <!-- <span>Affichage de 5 - 5 sur 5</span> -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
               <nav>
                 <ul class="pagination cursor-pointer">
                   <li class="page-item">
-                    <a
-                      class="page-link"
-                      (click)="goToPage(currentPage - 1)"
-                      aria-label="Précédent"
-                    >
+                    <a class="page-link" (click)="goToPage(currentPage - 1)" aria-label="Précédent">
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
                   <ng-container *ngFor="let page of pages">
-                    <li
-                      class="page-item"
-                      [ngClass]="{ active: page === currentPage }"
-                    >
-                      <a class="page-link" (click)="goToPage(page)">{{
-                        page
-                      }}</a>
+                    <li class="page-item" [ngClass]="{ active: page === currentPage }">
+                      <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
                     </li>
                   </ng-container>
-
-                  <!-- <li class="page-item">
-                    <a class="page-link">1</a>
-                  </li>
                   <li class="page-item">
-                    <a class="page-link">2</a>
-                  </li> -->
-                  <li class="page-item">
-                    <a
-                      class="page-link"
-                      (click)="goToPage(currentPage + 1)"
-                      aria-label="Suivant"
-                    >
+                    <a class="page-link" (click)="goToPage(currentPage + 1)" aria-label="Suivant">
                       <span aria-hidden="true">&raquo;</span>
                     </a>
                   </li>
                 </ul>
               </nav>
             </div>
-            <div
-              class="modal fade"
-              id="modifierRendezVous"
-              tabindex="-1"
-              aria-labelledby="modifierRendezVous"
-              aria-hidden="true"
-            >
+
+            <!-- Modal Modifier -->
+            <div class="modal fade" id="modifierRendezVous" tabindex="-1" aria-labelledby="modifierRendezVous" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="container p-4">
-                    <div class="text-muted mb-1">
-                      <h1>Modifier rendez-vous</h1>
-                    </div>
+                    <h1 class="h5 text-muted">Modifier rendez-vous</h1>
                     <form (submit)="updateAppointment()">
-                      <div class="row">
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <label for="first">Date de réparation</label>
-                            <input
-                              type="date"
-                              class="form-control"
-                              id="editDate"
-                              placeholder=""
-                              [(ngModel)]="selectedAppointment.date"
-                              name="date"
-                            />
-                          </div>
-                        </div>
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <label for="first">Description du problème</label>
-                            <textarea
-                              type="text"
-                              class="form-control"
-                              placeholder=""
-                              id="editDescription"
-                              rows="3"
-                              [(ngModel)]="selectedAppointment.description"
-                              name="description"
-                            ></textarea>
-                          </div>
-                        </div>
+                      <div class="mb-3">
+                        <label for="editDate">Date de réparation</label>
+                        <input type="date" class="form-control" id="editDate" [(ngModel)]="selectedAppointment.date" name="date" />
                       </div>
-
-                      <button type="submit" class="btn btn-primary mt-2">
-                        Enregistrer
-                      </button>
+                      <div class="mb-3">
+                        <label for="editDescription">Description du problème</label>
+                        <textarea class="form-control" id="editDescription" rows="3" [(ngModel)]="selectedAppointment.description" name="description"></textarea>
+                      </div>
+                      <button type="submit" class="btn btn-primary mt-2 w-100">Enregistrer</button>
                     </form>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <div
-        class="modal fade"
-        id="ajoutMecanicien"
-        tabindex="-1"
-        aria-labelledby="ajoutMecanicien"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="container p-4">
-              <div class="text-muted mb-1">
-                <h1>Ajouter un mécanicien</h1>
-              </div>
-              <form (submit)="assignMechanic()">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <label for="mecanicien">Mécanicien</label>
-                      <select
-                        class="form-control"
-                        id="mecanicien"
-                        [(ngModel)]="selectedMechanicId"
-                        name="mechanic"
-                      >
-                        <ng-container *ngFor="let mechanic of mechanics">
-                          <option
-                            [value]="mechanic._id"
-                            *ngIf="mechanic.status === 'ENABLE'"
-                          >
-                            {{ mechanic.txt }} - {{ mechanic.name }}
-                          </option>
-                        </ng-container>
-                      </select>
-                    </div>
+            <!-- Modal Ajouter Mécanicien -->
+            <div class="modal fade" id="ajoutMecanicien" tabindex="-1" aria-labelledby="ajoutMecanicien" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="container p-4">
+                    <h1 class="h5 text-muted">Ajouter un mécanicien</h1>
+                    <form (submit)="assignMechanic()">
+                      <div class="mb-3">
+                        <label for="mecanicien">Mécanicien</label>
+                        <select class="form-control" id="mecanicien" [(ngModel)]="selectedMechanicId" name="mechanic">
+                          <ng-container *ngFor="let mechanic of mechanics">
+                            <option [value]="mechanic._id" *ngIf="mechanic.status === 'ENABLE'">
+                              {{ mechanic.txt }} - {{ mechanic.name }}
+                            </option>
+                          </ng-container>
+                        </select>
+                      </div>
+                      <button type="submit" class="btn btn-primary mt-2 w-100">Ajouter</button>
+                    </form>
                   </div>
                 </div>
-                <div>
-                  <button type="submit" class="btn btn-primary mt-2">
-                    Ajouter
-                  </button>
-                </div>
-              </form>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+          </div> <!-- Fin card-body -->
+        </div> <!-- Fin card -->
+      </div> <!-- Fin container-fluid -->
+    </div> <!-- Fin dashboard-content -->
+  </div> <!-- Fin dashboard-app -->
 </div>
