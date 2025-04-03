@@ -2,8 +2,6 @@ const mongoose = require("mongoose");
 const httpStatus = require("http-status-codes");
 const { isValidId } = require("../middleware/validId");
 const { Apointments } = require("../models/apointment.model");
-const { Repairs } = require("../models/repair.model");
-const { Vehicules } = require("../models/vehicule.model");
 const { Tasks } = require("../models/task.model");
 
 //---------------GET ALL APOINTMENTS SPECIFIC FOR ADMIN-------//
