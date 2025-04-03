@@ -8,11 +8,6 @@ const UserSchema = new mongoose.Schema(
       minlength: 3,
       maxlength: 20,
     },
-    // address: {
-    //   type: String,
-    //   minlength: 3,
-    //   maxlength: 20,
-    // },
     phone: {
       type: String,
       length: 12,
@@ -42,7 +37,6 @@ const UserSchema = new mongoose.Schema(
     userType: {
       type: String,
       required: true,
-      // enum: ["CLIENT", "ADMIN", "MECHANICIEN"],
       validate: {
         validator: function (value) {
           return ["CLIENT", "ADMIN", "EMPLOYEE"].includes(value);

@@ -1,18 +1,13 @@
 const mongoose = require("mongoose");
 const httpStatus = require("http-status-codes");
 const { isValidId } = require("../middleware/validId");
-
 const { Apointments } = require("../models/apointment.model");
-// const { Users } = require("../models/users.model");
 const { Repairs } = require("../models/repair.model");
 const { Vehicules } = require("../models/vehicule.model");
 const { Tasks } = require("../models/task.model");
 
 //---------------GET ALL APOINTMENTS SPECIFIC FOR ADMIN-------//
 const getAllApointmentsForAdminRole = async (req, res) => {
-  // console.log("Get all apointments for admin: ", req.user);
-  //   const { mechanicien, belongsTo } = req.params;
-
   try {
     //IN CASE IT WANTS ALL APOINTMENTS
     const apointments = await Apointments.find({})
@@ -34,17 +29,7 @@ const getAllApointmentsForResponsable = async (req, res) => {
   console.log("id is:", id);
 
   isValidId(res, id);
-  // console.log(
-  //   "Get all apointments for responsable(mostly for mechanicien): ",
-  //   req.user
-  // );
-  // if (req.user.role === "MECHANICIEN" || req.user.role === "ADMIN") {
-  // if (
-  //   userType.toUpperCase() === "EMPLOYEE" ||
-  //   userType.toUpperCase() === "ADMIN"
-  // ) {
-  // const ied = new mongoose.Types.ObjectId(id);
-  // console.log(ied);
+
   try {
     const apointments = await Apointments.find({ assignedTo: id })
       .populate("belongsTo", "-pswd")
@@ -56,13 +41,6 @@ const getAllApointmentsForResponsable = async (req, res) => {
   } catch (error) {
     res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
   }
-  // }
-  //--------IN CASE HE IS TRYING TO GET FOR ANOTHER MECHANICIEN
-  // else {
-  //   return res
-  //     .status(httpStatus.UNAUTHORIZED)
-  //     .send({ message: "Unauthorized access" });
-  // }
 };
 
 //GET AN APOINTMENT BY ID
@@ -119,12 +97,7 @@ const bookApointment = async (req, res) => {
   const { userId, vehicleId } = req.params;
   console.log("Book an apointment for car:");
   const { description, date } = req.body;
-  // if (
-  //   !mongoose.isValidObjectId(userId) ||
-  //   !mongoose.isValidObjectId(vehicleId)
-  // ) {
-  //   return res.status(httpStatus.BAD_REQUEST).json({ message: "Invalid id" });
-  // }
+
   if (!isValidId(userId) || !isValidId(vehicleId)) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
   }
@@ -135,16 +108,8 @@ const bookApointment = async (req, res) => {
       date: new Date(date),
       belongsTo: userId,
       car: vehicleId,
-      // carName: vehicleName,
     });
 
-    // const updateVehicule = await Vehicules.findOneAndUpdate(
-    //   { _id: car },
-    //   { $set: { repairStatus: "WAITING APOINTMENT" } },
-    //   { new: true }
-    // );
-
-    // const newRepair = await Repairs.create({ apointment: booking._id });
     return res.status(httpStatus.CREATED).json(booking);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
@@ -155,10 +120,7 @@ const bookApointment = async (req, res) => {
 const cancelApointment = async (req, res) => {
   const { id } = req.params;
   console.log("Cancel apointment:", id);
-  // const objId = mongoose.isValidObjectId(id);
-  // if (!objId) {
-  //   return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
-  // }
+
   if (!isValidId(id)) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid id" });
   }
@@ -188,7 +150,7 @@ const cancelApointment = async (req, res) => {
 //------UPDATE/SET APOINTMENT-------
 const updateApointment = async (req, res) => {
   console.log("Update the apointment");
-  // const { date, status } = req.body;
+
   const { date, description } = req.body;
 
   const { id } = req.params;
@@ -204,8 +166,7 @@ const updateApointment = async (req, res) => {
       {
         $set: {
           description: description && description,
-          // status: status && status,
-          // assignedTo: assignedTo && assignedTo,
+
           date: date && new Date(date),
         },
       },
@@ -223,10 +184,6 @@ const addMechanicienToApointment = async (req, res) => {
   const { id } = req.params;
   console.log("Add mechanicien to an apointmentId:", id);
 
-  // const validId = mongoose.isValidObjectId(id);
-  // if (!validId) {
-  //   return res.status(httpStatus.BAD_REQUEST).send({ message: "Invalid ID" });
-  // }
   const { mechanicien } = req.body;
 
   if (!isValidId(id) && !isValidId(mechanicien)) {
@@ -251,8 +208,6 @@ const addMechanicienToApointment = async (req, res) => {
     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
   }
 };
-
-//67cf2e9f5879087651b841ea
 
 module.exports = {
   getAllApointmentsForAdminRole,

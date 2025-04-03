@@ -16,15 +16,6 @@ const myStorage = multer.diskStorage({
   },
 });
 
-// const fileFilter = (req, file, cb) => {
-//   const allowedFileTypes = ["image/jpeg", "image/jpg", "image/png"];
-//   if (allowedFileTypes.includes(file.mimeType)) {
-//     cb(null, true);
-//   } else {
-//     cb(null, false);
-//   }
-// };
-
 let upload = multer({ storage: myStorage });
 
 //---------------------------------------//
@@ -41,15 +32,10 @@ const getAllVehiculesForClient = async (req, res) => {
     return res.status(httpStatus.BAD_REQUEST).json({ message: error.message });
   }
 };
-//67db2bb77d0f43c267e0857c
+
 const getVehiculeById = async (req, res) => {
   console.log("Get vehicule by id ");
   try {
-    // const vehicules = await Vehicules.find({
-    //   // customer: req.params.id,
-    //   _id: req.user.id,
-    // }).populate("customer");
-    // console.log(vehicules);
     const vehicules = await Vehicules.find({
       // customer: req.params.id,
       _id: req.params.id,
@@ -102,14 +88,12 @@ const registerVehicule = async (req, res) => {
   }
   try {
     const newRegister = await Vehicules.create({
-      // customer: req.user.id,
       customer: id,
       name: vehicle.name,
       image: vehicle.image,
       description: vehicle.description,
     });
-    //     // Populate the customer field
-    //     const populatedVehicle = await Vehicle.findById(newVehicle._id).populate('customer');
+
     return res.status(httpStatus.OK).json(newRegister);
   } catch (error) {
     console.log(error.message);

@@ -152,14 +152,6 @@ const disableMechanicien = async (req, res) => {
         .status(httpStatus.BAD_REQUEST)
         .send({ message: "User not found" });
     }
-    // const apointmentOfThisOne = await Apointments.find({
-    //   assignedTo: id,
-    //   status: { $ne: "DONE" },
-    // });
-
-    // console.log("Apointment:", apointmentOfThisOne);
-
-    // if (apointmentOfThisOne.length) {(
 
     const deleteApointments = await Apointments.updateMany(
       { assignedTo: id, status: { $ne: "DONE" } },
@@ -171,13 +163,7 @@ const disableMechanicien = async (req, res) => {
     const deleteNotTerminatedTask = await Tasks.deleteMany({
       assignedTo: id,
     });
-    // if (!deleteApointment) {
-    //   return res.status(httpStatus.BAD_REQUEST).send({
-    //     message: "Something went wrong while updating the apointment",
-    //   });
-    // }
-    // return res.status(httpStatus.OK).json(deletedMechanicien);
-    // }
+
     console.log(deleteApointments);
     return res.status(httpStatus.OK).json(deletedMechanicien);
   } catch (error) {
@@ -208,8 +194,6 @@ const login = async (req, res) => {
         .send({ message: "Your account has been disabled" });
     }
 
-    //IF USER ROLE IS CLIENT THEN PROCEED
-    // if (userCredentials.role === "CLIENT") {
     const token = jwt.sign(
       {
         id: userCredentials._id,
@@ -223,36 +207,10 @@ const login = async (req, res) => {
     console.log("Token is ", token);
 
     return res.status(httpStatus.OK).send({ user: userCredentials, token });
-    // }
-
-    //IF THE USER IS NOT A CLIENT
-    // return res
-    //   .status(httpStatus.UNAUTHORIZED)
-    //   .send({ message: "Unauthorized access" });
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
   }
 };
-
-// const setPassword = async (req, res) => {
-//   const { password } = req.body;
-//   if (!password.trim()) {
-//     return res
-//       .status(httpStatus.BAD_REQUEST)
-//       .send({ message: "Please new password" });
-//   }
-//   try {
-//     const newPassword = await Users.findOneAndUpdate(
-//       { _id: req.user.id },
-//       { $set: { password } },
-//       { new: true }
-//     );
-
-//     return res.status(httpStatus.OK).json(newPassword);
-//   } catch (error) {
-//     return res.status(httpStatus.BAD_REQUEST).send({ message: error.message });
-//   }
-// };
 
 const setProfile = async (req, res) => {
   const { pswd, name, surname, txt, email, phone } = req.body;
@@ -309,15 +267,13 @@ const reactivateAccount = async (req, res) => {
 };
 
 module.exports = {
-  // getAllUsers,
   reactivateAccount,
   getAllMechanicien,
   getUserById,
   register,
   addMechanicien,
   login,
-  // clientLogin,
-  // setPassword,
+
   setProfile,
   disableMechanicien,
   getAllClient,

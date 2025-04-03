@@ -14,15 +14,12 @@ const {
 } = require("../middleware/authorization");
 
 //-----GET ALL TASKS-----
-// routes.get("/", getAllTasks);
 routes.get("/", authentication, authorizationAdmin, getAllTasks);
 
 //-----GET TASK BY ID-----
-// routes.get("/:id", getTaskbyId);
 routes.get("/:id", authentication, authorizationResponsable, getTaskbyId);
 
 //----GET TASK OF A MECHANICIEN------
-// routes.get("/mechanicien/:id", getTaskMechanicien);
 routes.get(
   "/mechanicien/:id",
   authentication,
@@ -31,7 +28,6 @@ routes.get(
 );
 
 //----SET/UPDATE TASK STATUS---------
-// routes.patch("/update/:id", updateTaskStatus);
 routes.patch(
   "/update/:id",
   authentication,

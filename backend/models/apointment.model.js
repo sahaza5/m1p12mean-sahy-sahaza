@@ -18,7 +18,6 @@ const ApointmentSchema = new mongoose.Schema(
       type: String,
       required: true,
       default: "PENDING",
-      // enum: ["PENDING", "APPROVED", "DONE"],
       validate: {
         validator: function (value) {
           return ["PENDING", "APPROVED", "DONE", "CANCELED"].includes(value);
@@ -37,9 +36,7 @@ const ApointmentSchema = new mongoose.Schema(
       ref: "Vehicules",
       required: true,
     },
-    // carName: {
-    //   type: String,
-    // },
+
     belongsTo: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
@@ -49,14 +46,6 @@ const ApointmentSchema = new mongoose.Schema(
       type: Date,
       required: false,
     },
-    // remarks: {
-    //   type: String,
-    //   required: false,
-    // },
-    // image: {
-    //   type: String,
-    //   required: false,
-    // },
   },
   { timestamps: true }
 );

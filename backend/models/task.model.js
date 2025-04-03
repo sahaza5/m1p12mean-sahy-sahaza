@@ -6,7 +6,6 @@ const TaskSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Apointments",
       required: "true",
-      // type: String,
     },
     status: {
       type: String,

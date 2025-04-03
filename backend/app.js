@@ -4,11 +4,8 @@ const cors = require("cors");
 const connectDB = require("./dbConnect/dbConnect");
 const app = express();
 const userRoutes = require("./routes/users.route");
-// const adminRoute = require("./routes/admin.route");
 const apointmentRoute = require("./routes/apointments.route");
 const vehiculeRoute = require("./routes/car.route");
-// const repairRoute = require("./routes/repair.route");
-// const paymentRoute = require("./routes/payment.route");
 const taskRoute = require("./routes/task.route");
 
 app.use(express.json());
@@ -20,12 +17,9 @@ const serverPort = process.env.SERVER_PORT || 5000;
 const mongodbPort = process.env.MONGODB_PORT;
 
 app.use("/api/users/", userRoutes);
-// app.use("/api/responsable", adminRoute);
 app.use("/api/apointments", apointmentRoute);
 app.use("/api/vehicule", vehiculeRoute);
 app.use("/api/tasks", taskRoute);
-// app.use("/api/repair", repairRoute);
-// app.use("/api/payment", paymentRoute);
 
 //STARTING THE SERVER
 const start = async () => {
