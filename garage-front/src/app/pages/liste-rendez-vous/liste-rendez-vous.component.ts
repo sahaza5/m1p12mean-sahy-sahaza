@@ -1,5 +1,3 @@
-
-
 import { Component, OnInit } from '@angular/core';
 import { NavbarLeftComponent } from '../../component/navbar-left/navbar-left.component';
 import { RendezVousService } from '../../services/rendez-vous.service';
@@ -21,6 +19,7 @@ export class ListeRendezVousComponent implements OnInit {
   userId: string | null = null;
   userRole: string | null = null;
   appointments: any[] = [];
+
   filteredAppointments: any[] = [];
   placeholderText = '';
   searchItem = '';
@@ -30,7 +29,7 @@ export class ListeRendezVousComponent implements OnInit {
   totalPages: number = 0;
   selectedAppointment: any = { _id: '', date: '', description: '' };
   mechanics: any[] = [];
-
+  loading = false;
   selectedMechanicId: string = '';
   selectedAppointmentId: string = '';
 
@@ -162,6 +161,7 @@ export class ListeRendezVousComponent implements OnInit {
       alert('Aucun rendez-vous sélectionné !');
       return;
     }
+    this.loading = true;
 
     this.rendezVousService
       .updateAppointment(
@@ -174,6 +174,7 @@ export class ListeRendezVousComponent implements OnInit {
           console.log('Rendez-vous mis à jour avec succès:', response);
           alert('Rendez-vous mis à jour avec succès !');
           this.loadAppointments();
+          this.loading = false;
 
           let modal = document.getElementById('modifierRendezVous');
           if (modal) {
@@ -187,27 +188,32 @@ export class ListeRendezVousComponent implements OnInit {
           }
           document.body.classList.remove('modal-open');
           document.body.style.overflow = ''; // Réactive le scroll si besoin
-
         },
-        (error) =>
+        (error) => {
+          this.loading = false;
+
           console.error(
             'Erreur lors de la mise à jour du rendez-vous :',
             error,
-          ),
+          );
+        },
       );
   }
 
   cancelAppointment(appointment: any): void {
     if (confirm('Voulez-vous vraiment annuler ce rendez-vous ?')) {
       appointment.status = 'ANNULÉ';
-
+      this.loading = true;
       this.rendezVousService.cancelAppointment(appointment._id).subscribe(
         (response) => {
           console.log('Rendez-vous annulé avec succès :', response);
           alert('Votre rendez-vous a été annulé !');
           this.loadAppointments();
+          this.loading = false;
         },
         (error) => {
+          this.loading = false;
+
           console.error("Erreur lors de l'annulation du rendez-vous :", error);
           alert("Une erreur s'est produite lors de l'annulation.");
         },
@@ -242,6 +248,8 @@ export class ListeRendezVousComponent implements OnInit {
       return;
     }
 
+    this.loading = true;
+
     this.rendezVousService
       .assignMechanicToAppointment(
         this.selectedAppointmentId,
@@ -253,8 +261,9 @@ export class ListeRendezVousComponent implements OnInit {
           console.log('Mécanicien assigné avec succès :', response);
           alert('Mécanicien assigné !');
           this.loadAppointments();
+          this.loading = false;
 
-           // Fermer le modal après assignation
+          // Fermer le modal après assignation
           let modal = document.getElementById('ajoutMecanicien');
           if (modal) {
             let modalInstance = bootstrap.Modal.getInstance(modal);
@@ -270,6 +279,8 @@ export class ListeRendezVousComponent implements OnInit {
           document.body.style.overflow = ''; // Réactive le scroll si besoin
         },
         (error) => {
+          this.loading = false;
+
           console.error("Erreur lors de l'assignation :", error);
           alert("Erreur lors de l'assignation du mécanicien.");
         },

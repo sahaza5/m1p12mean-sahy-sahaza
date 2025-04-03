@@ -4,10 +4,17 @@
     <div class="dashboard-content col-lg-10 mx-auto">
       <div class="container-fluid">
         <div class="card mt-3">
-          <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
+          <div
+            class="card-header d-flex flex-wrap justify-content-between align-items-center"
+          >
             <h1 class="h4">Liste des rendez-vous</h1>
-            <input type="text" (input)="filterAppointments()" [(ngModel)]="searchItem"
-              class="form-control w-50 w-md-25" [placeholder]="placeholderText" />
+            <input
+              type="text"
+              (input)="filterAppointments()"
+              [(ngModel)]="searchItem"
+              class="form-control w-50 w-md-25"
+              [placeholder]="placeholderText"
+            />
           </div>
 
           <div class="card-body">
@@ -16,8 +23,12 @@
                 <thead class="thead-dark">
                   <tr>
                     <th>Véhicule</th>
-                    <th *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'">Client</th>
-                    <th *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'">Phone</th>
+                    <th *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'">
+                      Client
+                    </th>
+                    <th *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'">
+                      Phone
+                    </th>
                     <th>Date</th>
                     <th>Description</th>
                     <th>Mécanicien</th>
@@ -29,7 +40,10 @@
                   <tr *ngFor="let appointment of slicedAppointments">
                     <td>{{ appointment.car?.name }}</td>
                     <td *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'">
-                      {{ appointment.belongsTo?.name || appointment.belongsTo?.txt }}
+                      {{
+                        appointment.belongsTo?.name ||
+                          appointment.belongsTo?.txt
+                      }}
                     </td>
                     <td *ngIf="userRole === 'ADMIN' || userRole === 'EMPLOYEE'">
                       {{ appointment.belongsTo?.phone || "--//--" }}
@@ -40,32 +54,55 @@
                       {{ appointment.assignedTo?.name || "Non assigné" }}
                     </td>
                     <td class="text-center">
-                      <span class="badge p-2 w-100"
+                      <span
+                        class="badge p-2 w-100"
                         [ngClass]="{
                           'bg-warning': appointment.status === 'PENDING',
                           'bg-danger': appointment.status === 'CANCELED',
                           'bg-success': appointment.status === 'DONE',
-                          'bg-primary': appointment.status === 'APPROVED'
-                        }">
+                          'bg-primary': appointment.status === 'APPROVED',
+                        }"
+                      >
                         {{ appointment?.status }}
                       </span>
                     </td>
                     <td class="text-center">
-                      <button class="btn btn-warning btn-sm me-1"
+                      <button
+                        class="btn btn-warning btn-sm me-1"
                         (click)="selectAppointmentForEdit(appointment)"
-                        data-bs-toggle="modal" data-bs-target="#modifierRendezVous"
-                        [disabled]="appointment?.status === 'CANCELED' || appointment?.status === 'DONE'">
+                        data-bs-toggle="modal"
+                        data-bs-target="#modifierRendezVous"
+                        [disabled]="
+                          appointment?.status === 'CANCELED' ||
+                          appointment?.status === 'DONE' ||
+                          loading
+                        "
+                      >
                         <i class="fas fa-edit"></i>
                       </button>
-                      <button *ngIf="userRole === 'ADMIN'" class="btn btn-primary btn-sm me-1"
-                        data-bs-toggle="modal" data-bs-target="#ajoutMecanicien"
+                      <button
+                        *ngIf="userRole === 'ADMIN'"
+                        class="btn btn-primary btn-sm me-1"
+                        data-bs-toggle="modal"
+                        data-bs-target="#ajoutMecanicien"
                         (click)="openMechanicModal(appointment._id)"
-                        [disabled]="appointment?.status === 'CANCELED' || appointment?.status === 'DONE'">
+                        [disabled]="
+                          appointment?.status === 'CANCELED' ||
+                          appointment?.status === 'DONE' ||
+                          loading
+                        "
+                      >
                         <i class="fas fa-check"></i>
                       </button>
-                      <button class="btn btn-danger btn-sm"
+                      <button
+                        class="btn btn-danger btn-sm"
                         (click)="cancelAppointment(appointment)"
-                        [disabled]="appointment.status === 'CANCELED' || appointment.status === 'DONE'">
+                        [disabled]="
+                          appointment.status === 'CANCELED' ||
+                          appointment.status === 'DONE' ||
+                          loading
+                        "
+                      >
                         <i class="fas fa-times"></i>
                       </button>
                     </td>
@@ -74,21 +111,36 @@
               </table>
             </div>
 
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3">
+            <div
+              class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3"
+            >
               <nav>
                 <ul class="pagination cursor-pointer">
                   <li class="page-item">
-                    <a class="page-link" (click)="goToPage(currentPage - 1)" aria-label="Précédent">
+                    <a
+                      class="page-link"
+                      (click)="goToPage(currentPage - 1)"
+                      aria-label="Précédent"
+                    >
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
                   <ng-container *ngFor="let page of pages">
-                    <li class="page-item" [ngClass]="{ active: page === currentPage }">
-                      <a class="page-link" (click)="goToPage(page)">{{ page }}</a>
+                    <li
+                      class="page-item"
+                      [ngClass]="{ active: page === currentPage }"
+                    >
+                      <a class="page-link" (click)="goToPage(page)">{{
+                        page
+                      }}</a>
                     </li>
                   </ng-container>
                   <li class="page-item">
-                    <a class="page-link" (click)="goToPage(currentPage + 1)" aria-label="Suivant">
+                    <a
+                      class="page-link"
+                      (click)="goToPage(currentPage + 1)"
+                      aria-label="Suivant"
+                    >
                       <span aria-hidden="true">&raquo;</span>
                     </a>
                   </li>
@@ -97,7 +149,13 @@
             </div>
 
             <!-- Modal Modifier -->
-            <div class="modal fade" id="modifierRendezVous" tabindex="-1" aria-labelledby="modifierRendezVous" aria-hidden="true">
+            <div
+              class="modal fade"
+              id="modifierRendezVous"
+              tabindex="-1"
+              aria-labelledby="modifierRendezVous"
+              aria-hidden="true"
+            >
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="container p-4">
@@ -105,13 +163,33 @@
                     <form (submit)="updateAppointment()">
                       <div class="mb-3">
                         <label for="editDate">Date de réparation</label>
-                        <input type="date" class="form-control" id="editDate" [(ngModel)]="selectedAppointment.date" name="date" />
+                        <input
+                          type="date"
+                          class="form-control"
+                          id="editDate"
+                          [(ngModel)]="selectedAppointment.date"
+                          name="date"
+                        />
                       </div>
                       <div class="mb-3">
-                        <label for="editDescription">Description du problème</label>
-                        <textarea class="form-control" id="editDescription" rows="3" [(ngModel)]="selectedAppointment.description" name="description"></textarea>
+                        <label for="editDescription"
+                          >Description du problème</label
+                        >
+                        <textarea
+                          class="form-control"
+                          id="editDescription"
+                          rows="3"
+                          [(ngModel)]="selectedAppointment.description"
+                          name="description"
+                        ></textarea>
                       </div>
-                      <button type="submit" class="btn btn-primary mt-2 w-100">Enregistrer</button>
+                      <button
+                        [disabled]="loading"
+                        type="submit"
+                        class="btn btn-primary mt-2 w-100"
+                      >
+                        Enregistrer
+                      </button>
                     </form>
                   </div>
                 </div>
@@ -119,7 +197,13 @@
             </div>
 
             <!-- Modal Ajouter Mécanicien -->
-            <div class="modal fade" id="ajoutMecanicien" tabindex="-1" aria-labelledby="ajoutMecanicien" aria-hidden="true">
+            <div
+              class="modal fade"
+              id="ajoutMecanicien"
+              tabindex="-1"
+              aria-labelledby="ajoutMecanicien"
+              aria-hidden="true"
+            >
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="container p-4">
@@ -127,24 +211,38 @@
                     <form (submit)="assignMechanic()">
                       <div class="mb-3">
                         <label for="mecanicien">Mécanicien</label>
-                        <select class="form-control" id="mecanicien" [(ngModel)]="selectedMechanicId" name="mechanic">
+                        <select
+                          class="form-control"
+                          id="mecanicien"
+                          [(ngModel)]="selectedMechanicId"
+                          name="mechanic"
+                        >
                           <ng-container *ngFor="let mechanic of mechanics">
-                            <option [value]="mechanic._id" *ngIf="mechanic.status === 'ENABLE'">
+                            <option
+                              [value]="mechanic._id"
+                              *ngIf="mechanic.status === 'ENABLE'"
+                            >
                               {{ mechanic.txt }} - {{ mechanic.name }}
                             </option>
                           </ng-container>
                         </select>
                       </div>
-                      <button type="submit" class="btn btn-primary mt-2 w-100">Ajouter</button>
+                      <button type="submit" class="btn btn-primary mt-2 w-100">
+                        Ajouter
+                      </button>
                     </form>
                   </div>
                 </div>
               </div>
             </div>
-
-          </div> <!-- Fin card-body -->
-        </div> <!-- Fin card -->
-      </div> <!-- Fin container-fluid -->
-    </div> <!-- Fin dashboard-content -->
-  </div> <!-- Fin dashboard-app -->
+          </div>
+          <!-- Fin card-body -->
+        </div>
+        <!-- Fin card -->
+      </div>
+      <!-- Fin container-fluid -->
+    </div>
+    <!-- Fin dashboard-content -->
+  </div>
+  <!-- Fin dashboard-app -->
 </div>

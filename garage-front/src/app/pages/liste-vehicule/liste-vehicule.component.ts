@@ -17,6 +17,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class ListeVehiculeComponent {
   userId = '';
+  loading = false;
   formData = new FormData();
   // formDataUpdate = new FormData();
 
@@ -48,38 +49,32 @@ export class ListeVehiculeComponent {
   onFileChange(event: any) {
     const file = event.target.files[0];
     if (file) {
-
-
       this.formData.append('name', this.userData.name);
       this.formData.append('description', this.userData.description);
       this.formData.append('image', file);
 
-
       this.userData.image = file;
     }
-
   }
 
   onFileChangeUpdate(event: any) {
     const file = event.target.files[0];
 
     if (file) {
-
-
       this.formData.append('image', file);
-
-
     }
-
   }
 
   onSubmit() {
     console.log('===========>', this.formData);
+    this.loading = true;
+
     this.vehiculeService.addVehicule(this.userId, this.formData).subscribe(
       (response: any) => {
         console.log('ajout réussi', response);
         this.vehiculeData.push({ ...response });
         this.formData = new FormData();
+        this.loading = false;
 
         // Fermer le modal après ajout
         const modalElement = document.getElementById('ajouterVehicule');
@@ -97,9 +92,10 @@ export class ListeVehiculeComponent {
         }
         document.body.classList.remove('modal-open');
         document.body.style.overflow = ''; // Réactive le scroll si besoin
-
       },
       (error) => {
+        this.loading = false;
+
         this.formData = new FormData();
         console.error('Erreur lors de la mise à jour du véhicule :', error);
       },
@@ -133,6 +129,7 @@ export class ListeVehiculeComponent {
   // Mettre à jour le véhicule sélectionné
   updateVehicule() {
     console.log('select new vehicle:', this.selectedVehicule);
+    this.loading = true;
 
     if (this.selectedVehicule.name && this.selectedVehicule.description) {
       this.formData.append('name', this.selectedVehicule.name);
@@ -159,6 +156,7 @@ export class ListeVehiculeComponent {
           alert('Véhicule mis à jour avec succès');
           this.formData = new FormData();
           this.getVehicules(); // Rafraîchir la liste après mise à jour
+          this.loading = false;
 
           // FERMER LE MODAL APRÈS LA MISE À JOUR
           const modalElement = document.getElementById('modifierVehicule');
@@ -179,6 +177,7 @@ export class ListeVehiculeComponent {
         },
         (error) => {
           this.formData = new FormData();
+          this.loading = false;
 
           console.error('Erreur lors de la mise à jour du véhicule :', error);
         },
@@ -194,6 +193,7 @@ export class ListeVehiculeComponent {
 
   // Prendre un rendez-vous pour réparation
   addAppointment() {
+    this.loading = true;
     console.log('here');
 
     console.log('_id: ', this.selectedVehicule._id);
@@ -221,8 +221,9 @@ export class ListeVehiculeComponent {
             userId: this.userId,
             vehiculeId: this.selectedVehicule._id,
             appointmentData: this.appointmentData,
-
           });
+          this.loading = false;
+
           console.log('Rendez-vous pris avec succès:', response);
           alert('Rendez-vous pris avec succès !');
 
@@ -244,10 +245,10 @@ export class ListeVehiculeComponent {
           document.body.style.overflow = ''; // Réactive le scroll si besoin
 
           this.router.navigate(['/liste-rendez-vous', { id: this.userId }]);
-
-
         },
         (error) => {
+          this.loading = false;
+
           console.error('Erreur lors de la prise de rendez-vous :', error);
         },
       );
