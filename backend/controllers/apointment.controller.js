@@ -196,7 +196,7 @@ const addMechanicienToApointment = async (req, res) => {
     );
 
     //---------------CREATE THE TASK HERE------------//
-    const findThisApointmentInTask = await Tasks.find({ apointment: id });
+    const findThisApointmentInTask = await Tasks.findOne({ apointment: id });
     if (findThisApointmentInTask) {
       const updateTask = await Tasks.findOneAndUpdate(
         { apointment: id },
