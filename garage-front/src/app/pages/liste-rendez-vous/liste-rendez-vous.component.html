@@ -1,13 +1,18 @@
 <div class="dashboard container-fluid">
   <app-navbar-left></app-navbar-left>
-  <div class="dashboard-app row">
-    <div class="dashboard-content col-lg-10 mx-auto">
-      <div class="container-fluid">
+  <div class="dashboard-app row" id="dashboard-app">
+    <div class="dashboard-content ">
+      <div class="container">
         <div class="card mt-3">
-          <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
-            <h1 class="h4">Liste des rendez-vous</h1>
-            <input type="text" (input)="filterAppointments()" [(ngModel)]="searchItem"
-              class="form-control w-50 w-md-25" [placeholder]="placeholderText" />
+          <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <h1 class="text-center text-md-start">Liste des rendez-vous</h1>
+            <input
+              type="text"
+              (input)="filterAppointments()"
+              [(ngModel)]="searchItem"
+              class="form-control w-50 w-md-25"
+              [placeholder]="placeholderText"
+            />
           </div>
 
           <div class="card-body">
