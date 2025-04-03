@@ -48,37 +48,29 @@ export class ListeVehiculeComponent {
   onFileChange(event: any) {
     const file = event.target.files[0];
     if (file) {
-      // const timestamp = new Date().toISOString().replace(/[-:.]/g, ""); // Supprime les caractères spéciaux
-      // const fileExtension = file.name.split('.').pop(); // Récupère l'extension du fichier
-      // const newFileName = `file_${timestamp}.${fileExtension}`; // Nouveau nom avec datetime
+
 
       this.formData.append('name', this.userData.name);
       this.formData.append('description', this.userData.description);
       this.formData.append('image', file);
 
-      // const renamedFile = new File([file], newFileName, { type: file.type });
-      // console.log("zasasa",renamedFile);
+
       this.userData.image = file;
     }
-    // console.log("zasasa",this.userData)
+
   }
 
   onFileChangeUpdate(event: any) {
     const file = event.target.files[0];
 
     if (file) {
-      // const timestamp = new Date().toISOString().replace(/[-:.]/g, ""); // Supprime les caractères spéciaux
-      // const fileExtension = file.name.split('.').pop(); // Récupère l'extension du fichier
-      // const newFileName = `file_${timestamp}.${fileExtension}`; // Nouveau nom avec datetime
+
 
       this.formData.append('image', file);
 
-      // const renamedFile = new File([file], newFileName, { type: file.type });
-      // console.log("zasasa",renamedFile);
-      // this.userData.image = file;
+
     }
 
-    // console.log("zasasa",this.userData)
   }
 
   onSubmit() {
@@ -253,22 +245,7 @@ export class ListeVehiculeComponent {
 
           this.router.navigate(['/liste-rendez-vous', { id: this.userId }]);
 
-          // const Modal = document.getElementById('loginModal');
-          // if (Modal) {
-          //   const modal = bootstrap.Modal.getInstance(Modal);
-          //   if (modal) {
-          //     modal.hide();
 
-          //     Modal.classList.remove('show');
-          //     document.body.style.cssText = '';
-          //     document.body.classList.replace('modal-open', 'modal-close');
-
-          //     const backdrop = document.querySelector('.modal-backdrop');
-          //     if (backdrop) {
-          //       backdrop.remove();
-          //     }
-          //   }
-          // }
         },
         (error) => {
           console.error('Erreur lors de la prise de rendez-vous :', error);

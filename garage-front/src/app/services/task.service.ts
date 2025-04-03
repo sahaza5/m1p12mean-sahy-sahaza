@@ -8,7 +8,7 @@ import { environment } from '../../environment/environment';
   providedIn: 'root',
 })
 export class TaskService {
-  // private apiUrl = 'http://localhost:3000/api/tasks';
+
   private apiUrl = `${environment.apiUrl}/tasks`;
 
   constructor(

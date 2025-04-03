@@ -22,9 +22,7 @@ export class NavbarLeftComponent {
     userType: '',
     _id: '',
   };
-  // @ViewChild('dashboardNav', { static: true }) dashboardNav!: ElementRef;
-  // @ViewChild('dashboard', { static: true }) dashboard!: ElementRef;
-  // mobileScreen: MediaQueryList = window.matchMedia("(max-width: 990px)");
+
 
   constructor(
     private usersService: UsersService,
@@ -45,9 +43,7 @@ export class NavbarLeftComponent {
     );
   }
 
-  // isActive(route: string): boolean {
-  //   return this.router.url === route;
-  // }
+
 
   isActive(route: string): boolean {
     return this.router.url.includes(route);
@@ -57,39 +53,6 @@ export class NavbarLeftComponent {
     this.authService.logout();
   }
 
-  // ngOnInit(): void {
-  // [routerLink]="['/liste-rendez-vous', userData._id]"
-  //   // Gérer le clic sur les éléments du menu déroulant
-  //   const dropdownToggles = document.querySelectorAll('.dashboard-nav-dropdown-toggle');
-  //   dropdownToggles.forEach(toggle => {
-  //     this.renderer.listen(toggle, 'click', () => {
-  //       const dropdown = toggle.closest('.dashboard-nav-dropdown');
-  //       if (dropdown) {
-  //         dropdown.classList.toggle('show');
-  //         dropdown.querySelectorAll('.dashboard-nav-dropdown').forEach(child => {
-  //           child.classList.remove('show');
-  //         });
-  //       }
-  //       toggle.parentElement?.parentElement?.querySelectorAll('.dashboard-nav-dropdown').forEach(sibling => {
-  //         if (sibling !== dropdown) {
-  //           sibling.classList.remove('show');
-  //         }
-  //       });
-  //     });
-  //   });
-
-  //   // Gérer le clic sur le bouton menu
-  //   const menuToggle = document.querySelector('.menu-toggle');
-  //   if (menuToggle) {
-  //     this.renderer.listen(menuToggle, 'click', () => {
-  //       if (this.mobileScreen.matches) {
-  //         this.dashboardNav.nativeElement.classList.toggle('mobile-show');
-  //       } else {
-  //         this.dashboard.nativeElement.classList.toggle('dashboard-compact');
-  //       }
-  //     });
-  //   }
-  // }
 
   toggleMenu() {
     const dashboardNav = document.getElementById('dashboard-nav');

@@ -118,31 +118,6 @@ export class HeaderComponent {
         }
 
 
-        // const userRole = response.user.userType
-
-        // localStorage.setItem('userId', userId);
-        // localStorage.setItem('token', token);
-        // console.log(token)
-        // console.log("Token décodé:", userRole);  // Ajoute ce log pour vérifier
-
-        //  // Redirection selon le rôle
-        //  switch (userRole) {
-        //   case 'CLIENT':
-        //     this.router.navigate(['/liste-vehicule', { id: userId }]);
-        //     break;
-        //   case 'ADMIN':
-        //     this.router.navigate(['/liste-rendez-vous', { id: userId }]);
-        //     break;
-        //   case 'EMPLOYEE':
-        //     this.router.navigate(['/liste-tache', { id: userId }]);
-        //     break;
-        //   default:
-        //     console.error("Rôle inconnu !");
-        //     alert("Erreur : rôle utilisateur inconnu.");
-        //     return;
-        // }
-
-
         // Récupérer la modal de login
         const loginModal = document.getElementById('loginModal');
         if (loginModal) {
@@ -205,12 +180,7 @@ export class HeaderComponent {
     // Réduire la navbar au scroll
     window.addEventListener('scroll', navbarShrink);
 
-    //  Activate Bootstrap scrollspy on the main nav element
-    // Le problème peut venir de plusieurs choses:
-    // 1. L'import de bootstrap n'est peut-être pas correct - il faudrait utiliser:
-    //    import * as bootstrap from 'bootstrap';
-    // 2. Il faut s'assurer que bootstrap est bien installé via npm
-    // 3. La syntaxe de ScrollSpy a changé dans Bootstrap 5
+
 
     const mainNav = document.body.querySelector('#mainNav');
     if (mainNav) {

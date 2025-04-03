@@ -54,8 +54,7 @@ export class UsersService {
       // Une erreur côté client ou réseau s'est produite.
       console.error("Une erreur s'est produite:", error.error.message);
     } else {
-      // Le backend a renvoyé un code de réponse incorrect.
-      // Le corps de la réponse peut contenir des indices sur ce qui n'a pas fonctionné.
+
       console.error(
         `Backend returned code ${error.status}, ` + `body was: ${error.error}`,
       );

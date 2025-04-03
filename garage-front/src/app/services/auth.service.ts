@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  //private apiUrl = 'http://localhost:3000/api/users';
+
   private apiUrl = `${environment.apiUrl}/users`;
   isAuthenticated = false;
   authSecretKey = 'token';
@@ -27,10 +27,10 @@ export class AuthService {
   // Récupérer le token du localStorage
   getToken(): string | null {
     const token = localStorage.getItem('token');
-    console.log('Token dans localStorage:', token); // Ajoute ce log pour vérifier
+    console.log('Token dans localStorage:', token);
     return token;
 
-    //return localStorage.getItem('token');
+
   }
 
   // Décoder le token pour récupérer l'ID utilisateur
@@ -41,7 +41,7 @@ export class AuthService {
     try {
       const myToken = token.split(' ');
       const decodedToken: any = jwtDecode(myToken[1]);
-      console.log('Token décodé:', decodedToken); // Ajoute ce log pour vérifier
+      console.log('Token décodé:', decodedToken);
       console.log(decodedToken.id);
       return decodedToken.id || '';
     } catch (error) {
@@ -58,7 +58,7 @@ export class AuthService {
       const myToken = token.split(' ');
 
       const decodedToken: any = jwtDecode(myToken[1]);
-      return decodedToken.userType || null; // Assurez-vous que le backend envoie bien le rôle dans le token
+      return decodedToken.userType || null;
     } catch (error) {
       console.error('Erreur lors du décodage du token:', error);
       return null;
@@ -91,8 +91,7 @@ export class AuthService {
       // Une erreur côté client ou réseau s'est produite.
       console.error("Une erreur s'est produite:", error.error.message);
     } else {
-      // Le backend a renvoyé un code de réponse incorrect.
-      // Le corps de la réponse peut contenir des indices sur ce qui n'a pas fonctionné.
+
       console.error(
         `Backend returned code ${error.status}, ` + `body was: ${error.error}`,
       );
@@ -111,6 +110,4 @@ export class AuthService {
   }
 }
 
-// function jwtDecode(token: string): any {
-//   throw new Error('Function not implemented.');
-// }
+

@@ -23,7 +23,5 @@ export class ClientService {
     });
   }
 
-  // getClientById(id: number) {
-  //   return this.http.get(`${this.apiUrl}/clients/${id}`);
-  // }
+
 }

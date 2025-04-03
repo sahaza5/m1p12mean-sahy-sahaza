@@ -141,18 +141,7 @@ body {
   transition: transform calc(var(--d) * 2) var(--e),
     -webkit-transform calc(var(--d) * 2) var(--e);
 }
-/* .d_card:nth-child(1):before {
-  background-image: url(https://images.unsplash.com/photo-1581017601156-b4e8e53df291?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2734&q=80);
-}
-.d_card:nth-child(2):before {
-  background-image: url(https://images.unsplash.com/photo-1581014023865-4209099f2b71?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2734&q=80);
-}
-.d_card:nth-child(3):before {
-  background-image: url(https://images.unsplash.com/photo-1580842579866-b985411b5bd2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80);
-}
-.d_card:nth-child(4):before {
-  background-image: url(https://images.unsplash.com/photo-1580986475035-f0778c60f5ae?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjc5NjV9&auto=format&fit=crop&w=633&q=80);
-} */
+
 
 .content {
   position: relative;

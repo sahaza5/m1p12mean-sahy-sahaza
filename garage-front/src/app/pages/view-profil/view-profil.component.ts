@@ -16,14 +16,7 @@ export class ViewProfilComponent {
   userData: any;
 
   constructor(private route: ActivatedRoute, private usersService: UsersService, private router: Router) {
-    // // Récupérer l'ID depuis les paramètres de l'URL
-    // this.route.params.subscribe(params => {
-    //   if (params['id']) {
-    //     this.userId = params['id'];
-    //   } else {
-    //     alert('ID utilisateur not found');
-    //   }
-    // });
+
   }
 
   ngOnInit() {
