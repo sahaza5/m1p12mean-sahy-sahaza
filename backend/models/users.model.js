@@ -2,22 +2,47 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
   {
-    username: {
+    txt: {
       type: String,
       required: true,
       minlength: 3,
       maxlength: 20,
     },
-    password: {
+    phone: {
+      type: String,
+      length: 12,
+    },
+    pswd: {
       type: String,
       required: true,
       minlength: 3,
       maxlength: 20,
     },
-    role: {
+    email: {
       type: String,
       required: true,
-      enum: ["CLIENT", "ADMIN", "MECHANICIEN"],
+      unique: true,
+    },
+    name: {
+      type: String,
+    },
+    surname: {
+      type: String,
+    },
+    status: {
+      type: String,
+      enum: ["ENABLE", "DISABLE"],
+      default: "ENABLE",
+    },
+    userType: {
+      type: String,
+      required: true,
+      validate: {
+        validator: function (value) {
+          return ["CLIENT", "ADMIN", "EMPLOYEE"].includes(value);
+        },
+        message: (props) => `${props.value} is not a valid user type!`,
+      },
     },
   },
   { timestamps: true }

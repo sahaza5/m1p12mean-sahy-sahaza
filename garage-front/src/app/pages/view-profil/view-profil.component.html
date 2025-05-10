@@ -1,0 +1,85 @@
+<div class='dashboard'>
+  <app-navbar-left></app-navbar-left>
+  <div class='dashboard-app' id="dashboard-app">
+    <div class='dashboard-content'>
+      <div class="container py-4">
+        <div class='card mt-1 shadow-sm' style="max-width: 800px; margin: 0 auto;">
+          <div class='card-header bg-light text-dark py-3'>
+            <h1 class="h3 mb-0">Votre Profile</h1>
+          </div>
+          <div class='card-body text-end d-flex align-items-center border-bottom pb-3'>
+            <img src="../../../assets/images/user.jpg" alt="" class="me-3 rounded-circle border border-primary" style="width: 80px; height: 80px; object-fit: cover;">
+            <h2 class="mb-0 text-primary">{{ userData?.name }} <small class="text-muted">{{ userData?.txt }}</small></h2>
+          </div>
+          <div class='card-body pt-4'>
+            <div class="container">
+              <form >
+                <div class="row g-4">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="fw-bold text-secondary">Nom:</label>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      <label class="text-dark">{{ userData?.name }}</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="fw-bold text-secondary">Prénom:</label>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      <label class="text-dark">{{ userData?.surname }}</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="fw-bold text-secondary">Pseudo:</label>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      <label class="text-dark">{{ userData?.txt }}</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="fw-bold text-secondary">Email:</label>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      <label class="text-dark">{{ userData?.email }}</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="fw-bold text-secondary">Téléphone:</label>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      <label class="text-dark">{{ userData?.phone }}</label>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-end mt-5">
+
+                    <button (click)="redirect(userData?._id)" class="btn btn-primary px-4 py-2 rounded-pill hover-shadow"><i class="fas fa-edit me-2"></i>Modifier le profil</button>
+                  </div>
+
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>

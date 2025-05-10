@@ -1,0 +1,86 @@
+<!-- <div class='dashboard'> -->
+<div class="dashboard-nav" id="dashboard-nav">
+  <header>
+    <a (click)="toggleMenu()" class="menu-toggle cursor-pointer"
+      ><i class="fas fa-bars"></i></a
+    ><a href="#" class="brand-logo">
+      <span>GARAGE</span>
+    </a>
+  </header>
+  <nav class="dashboard-nav-list">
+    <a href="#" class="dashboard-nav-item"><i class="fas fa-home"></i> Home </a>
+    <a
+      routerLink="/liste-vehicule"
+      [ngClass]="{ active: isActive('/liste-vehicule') }"
+      *ngIf="userData?.userType == 'CLIENT'"
+      class="dashboard-nav-item active"
+      ><i class="fas fa-tachometer-alt"></i>
+      Mes vehicules
+    </a>
+
+    <a
+      routerLink="/liste-rendez-vous"
+      [ngClass]="{ active: isActive('/liste-rendez-vous') }"
+      *ngIf="userData.userType === 'CLIENT' || userData.userType === 'ADMIN'"
+      class="dashboard-nav-item"
+    >
+      <i class="fas fa-calendar-check"></i>
+      Mes rendez-vous
+    </a>
+
+    <a
+      routerLink="/liste-mecanicien"
+      [ngClass]="{ active: isActive('/liste-mecanicien') }"
+      *ngIf="userData.userType === 'ADMIN'"
+      class="dashboard-nav-item"
+    >
+      <i class="fas fa-user-cog"></i>
+      Tout les employés
+    </a>
+
+    <a
+      routerLink="/liste-client"
+      [ngClass]="{ active: isActive('/liste-client') }"
+      *ngIf="userData.userType == 'ADMIN'"
+      class="dashboard-nav-item"
+      ><i class="fas fa-users"></i> Liste client
+    </a>
+
+    <a
+      routerLink="/liste-tache"
+      [ngClass]="{ active: isActive('/liste-tache') }"
+      class="dashboard-nav-item"
+      *ngIf="userData.userType == 'EMPLOYEE'"
+      ><i class="fas fa-tasks"></i>
+      Mes tâches
+    </a>
+
+    <a
+      routerLink="/voir-profile"
+      [ngClass]="{ active: isActive('/voir-profile') }"
+      class="dashboard-nav-item"
+      ><i class="fas fa-user"></i>
+      Profile
+    </a>
+
+
+    <div
+      class="nav-item-divider"
+      style="position: fixed; bottom: 40px; width: 280px"
+    ></div>
+    <a
+      (click)="logOut()"
+      class="dashboard-nav-item"
+      style="position: fixed; bottom: 0; width: 280px"
+      ><i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+  </nav>
+
+</div>
+<div class="dashboard-app">
+  <header class="dashboard-toolbar" id="dashboard-toolbar">
+    <a (click)="toggleMenu()" class="menu-toggle cursor-pointer"
+      ><i class="fas fa-bars"></i
+    ></a>
+  </header>
+</div>

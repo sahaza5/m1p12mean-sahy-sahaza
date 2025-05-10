@@ -6,20 +6,92 @@ How to run the backend locally with mongoDB Compass?
 -Go to the backend folder
 -Make sure all packages are installed by writting npm i or npm install
 -Make sure your mongoDB is running and mongoDB Compass connected
--Create a mock data of admin in the user collection of garage database(anontanio za raha ts azo eto) in mongoDB compass,
-example:{
-"username":"admin",
-"password":"123",
-}
+
 -Write npm run start
--Test the API on postman or insomnia by using the following port
-+++++To get all users as a get request:http://localhost:3000/api/users
 
-+++++To user by id as a get request:http://localhost:3000/api/users/12344556 (user id here)
-
-+++++To login as admin as a post request:http://localhost:3000/api/admin/login/
-In the body,write json username and password, for example
++++++To login as a POST request:http://localhost:3000/api/login
+In the body,write json email and pswd, for example
 {
-"username":"admin",
-"password":"123"
-}
+"email":"test@gmail.com",
+"pswd":"123"
+},return an object of {user,token}
+
++++++To register a client as a POST request:http://localhost:3000/api/users/register
+In the body,write json email,pswd,userType,txt, for example
+{
+"email":"test@gmail.com",
+"pswd":"123",
+"txt":"test",
+"userType:"client"
+},return an object of {user,token}
+
+-Test the API on postman or insomnia by using the following port
+
+++++Get all mechanicien as a GET request
+http://localhost:3000/api/users/
+
+++++Get all clients as a GET request
+http://localhost:3000/api/users/client
+
+++++Get a single user of a client id as a GET request
+http://localhost:3000/api/users/1231(id:user Id)
+
+++++Set user profile as a PATCH request
+http://localhost:3000/api/users/setProfile/id23124123123(userid), the body is {pswd?,name?,surname?,txt?,email?,phone?}
+
+++++Reactivate account of an user as a PATCH request
+http://localhost:3000/api/users/reactivate/id(12124134123)
+
+++++Register a car as POST request
+http://localhost:3000/api/vehicule/register/werqwe(id:user id), body field are name, description,image. NB: CREATE A FOLDER CALLED images IN YOUR BACKEND FIRST!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+++++Get all vehicules of a client id as a GET request
+http://localhost:3000/api/vehicule/1234552(id:userID)
+
+++++Get vehicule by id as a GET request
+http://localhost:3000/api/vehicule/1234552(id: vehicule id)
+
+++++Update a vehicule by id as a PATCH request
+http://localhost:3000/api/vehicule/1234552(id: vehicule id), the body can be {name?,description?,image?}
+
+++++Book apointment as a POST request
+http://localhost:3000/api/apointments/bookApointment/userId(67db2bb77d0f43c267e0857c)/vehicleId(12123234234), body is {description, date}
+
+++++Get all apointments as a GET request
+http://localhost:3000/api/apointments/admin/
+
+++++Get all apointment for client as a GET request
+http://localhost:3000/api/apointments/client/id(user id 67db2bb77d0f43c267e0857c)
+
+++++Get all apointment for mechanicien as a GET request
+http://localhost:3000/api/apointments/mechanicien/id(mechanicien id 67db2bb77d0f43c267e0857c)
+
+++++Get apointment by id as a GET request
+http://localhost:3000/api/apointments/apointmentId67dc6c0ef4ae6fac83e96bba
+
+++++Set/update apointment
+http://localhost:3000/api/apointments/setApointment/id(apointmentid67dc7e53d6de0ece5e7607c6), The body is {description?,date?}
+
+++++Add mechanicien to apointment
+http://localhost:3000/api/apointments/addMechanicien/id(apointmentid67dc7e53d6de0ece5e7607c6),body{mechanicien:Mechanicien ID!!!!!!!!!!!!}
+
+++++Cancel
+http://localhost:3000/api/apointments/cancelApointment/apointmentId(67dc7e53d6de0ece5e7607c6)
+
+++++Disable employee/user
+http://localhost:3000/api/users/disable/mechanicien/mechanicienID(67db4ed73aec33c9441ae5ef)
+
+++++Reactivate employee/user
+http://localhost:3000/api/users/reactivate/mechanicienID(67db4ed73aec33c9441ae5ef)
+
+++++Get all tasks as a GET request
+http://localhost:3000/api/tasks
+
+++++Get task by id as a GET request
+http://localhost:3000/api/tasks/taskId67dde4585f7b2eb8c5a21c10
+
+++++Get task of a mechanicien as GET request
+http://localhost:3000/api/tasks/mechanicien/mechanicienId67db4ed73aec33c9441ae5ef
+
+++++Update task as a PATCH request
+http://localhost:3000/api/tasks/update/taskId67dde4585f7b2eb8c5a21c10, the body is {status}:["CREER", "EN ATTENTE", "EN COURS", "TERMINER"]
